@@ -18,7 +18,7 @@ drop table if exists meets.location;
 
 create table if not exists meets.emaildomain
 (
-    idDomain     int not null,
+    idDomain     int not null AUTO_INCREMENT,
     domainName   varchar(64) not null unique,
     primary key (idDomain)
 )ENGINE=InnoDB;
@@ -29,7 +29,7 @@ create table if not exists meets.emaildomain
 
 create table if not exists meets.emailcontact
 (
-	idAddress	 int not null,
+	idAddress	 int not null AUTO_INCREMENT,
     idDomain     int not null,
     contact		 varchar(255) not null,
     primary key  (idAddress),
@@ -42,7 +42,7 @@ create table if not exists meets.emailcontact
 
 create table if not exists meets.location
 (
-    idLoc   	 int not null,
+    idLoc   	 int not null AUTO_INCREMENT,
     postalCode	 int not null,
     locName		 varchar(45) not null,
 	primary key  (idLoc)
@@ -54,7 +54,7 @@ create table if not exists meets.location
 
 create table if not exists meets.category
 (
-    idCategory   int not null,
+    idCategory   int not null AUTO_INCREMENT,
 	categoryName varchar(45) not null,
 	primary key  (idCategory)
 )ENGINE=InnoDB;
@@ -65,7 +65,7 @@ create table if not exists meets.category
 
 create table if not exists meets.member
 (
-    idMember     int not null,
+    idMember     int not null AUTO_INCREMENT,
     username     varchar(30) not null unique,
 	preName      varchar(45),
 	surName      varchar(45),
@@ -81,7 +81,7 @@ create table if not exists meets.member
 
 create table if not exists meets.meeting
 (
-    idMeeting    	int not null,
+    idMeeting    	int not null AUTO_INCREMENT,
     meetingName  	varchar(30) not null,
 	meetingDesc  	varchar(255),
 	category     	int not null,
@@ -102,7 +102,7 @@ create table if not exists meets.meeting
 
 create table if not exists meets.meet
 (
-    idMeet       int not null,
+    idMeet       int not null AUTO_INCREMENT,
     idMember	 int not null,
     idMeeting	 int not null,
 	primary key  (idMeet),
