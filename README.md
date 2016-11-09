@@ -1,9 +1,6 @@
-+# Meets
-+
-+Git in Eclipse hinzufügen
-+          -> Help 
-+          -> Eclipse Marketplace 
-+          -> Find: "git" 
-+          -> Install: Gonsole 1.3 
-+          
-+          -> Open Perspective (Right on the top - left button from "Java" and "Debug")
+# Meets
+
+Our Software Engineering Project
+
+Read our Blog: https://themeetsblog.wordpress.com/
+What are the reqirements?: http://dhbwse2016.pbworks.com/w/page/111618952/Schedule
