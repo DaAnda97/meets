@@ -5,10 +5,14 @@ import javax.servlet.annotation.WebServlet;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.data.Container;
+import com.vaadin.server.ClassResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.PasswordField;
@@ -28,48 +32,54 @@ public class MyUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-    	final HorizontalLayout mainLayout = new HorizontalLayout();
+    	final VerticalLayout mainLayout = new VerticalLayout();
+    	mainLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+    	
+        final ClassResource logo = new ClassResource("/images/logo.png");
     	
     	//Login
         final VerticalLayout loginLayout = new VerticalLayout();
-        final Label login = new Label("Please enter your user name and your password:");
-        final TextField name = new TextField("user name");
-        final PasswordField password = new PasswordField("password");
+        loginLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+        final TextField name = new TextField("Benutzername");
+        final PasswordField password = new PasswordField("Passwort");
 
         Button loginButton = new Button("Login");
         loginButton.addClickListener( e -> {
         	if (name.getValue().equals("Andi") && password.getValue().equals("1234")){
-        		loginLayout.addComponent(new Label("Hi Andi. You are logged in!"));
+        		loginLayout.addComponent(new Label("Hi, Andi. Du bist eingeloggt"));
         	}
         	else{
-        		loginLayout.addComponent(new Label("Faild. Retry!"));
+        		loginLayout.addComponent(new Label("Gescheitert!"));
         	}
         });
         
-        loginLayout.addComponents(login, name, password, loginButton);
-        loginLayout.setMargin(true);
+        loginLayout.addComponents(name, password, loginButton);
+        loginLayout.setSizeFull();
         loginLayout.setSpacing(true);
         
         
         //Register
         final VerticalLayout registerLayout = new VerticalLayout();
-        final Label register = new Label("Please enter your user name and your password:");
-        final TextField registerName = new TextField("user name");
-        final TextField registerMail = new TextField("e-Mail");
-        final PasswordField registerPassword = new PasswordField("password");
-        final PasswordField controlRegisterPassword = new PasswordField("password again");
+        final Label register = new Label("Registrieren");
+        final TextField registerName = new TextField("Benutzername");
+        final TextField registerMail = new TextField("E-Mail");
+        final PasswordField registerPassword = new PasswordField("Passwort");
+        final PasswordField controlRegisterPassword = new PasswordField("Passwort wiederholen");
 
-        Button registerButton = new Button("Register");
+        Button registerButton = new Button("Registrieren");
         registerButton.addClickListener( e -> {
-        	registerLayout.addComponent(new Label("Registered!"));
+        	registerLayout.addComponent(new Label("Registrieren!"));
         });
         
         registerLayout.addComponents(register, registerName, registerMail, registerPassword, controlRegisterPassword, registerButton);
         registerLayout.setMargin(true);
         registerLayout.setSpacing(true);
         
-        mainLayout.addComponent(loginLayout);
-        mainLayout.addComponent(registerLayout);
+        Button switchButton = new Button("Noch nicht registriert?");
+        
+        mainLayout.addComponents(new Image(null,logo), loginLayout, switchButton);
+        mainLayout.setSizeFull();
+        
         this.setContent(mainLayout);
     }
 
