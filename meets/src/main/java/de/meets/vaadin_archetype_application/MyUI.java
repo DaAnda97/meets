@@ -4,10 +4,14 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.data.Container;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -24,22 +28,49 @@ public class MyUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        final VerticalLayout layout = new VerticalLayout();
-        
-        final TextField name = new TextField();
-        name.setCaption("Type your name here: ");
+    	final HorizontalLayout mainLayout = new HorizontalLayout();
+    	
+    	//Login
+        final VerticalLayout loginLayout = new VerticalLayout();
+        final Label login = new Label("Please enter your user name and your password:");
+        final TextField name = new TextField("user name");
+        final PasswordField password = new PasswordField("password");
 
-        Button button = new Button("Click Me");
-        button.addClickListener( e -> {
-            layout.addComponent(new Label("Hi " + name.getValue() 
-                    + ". Thank Andi, it works!"));
+        Button loginButton = new Button("Login");
+        loginButton.addClickListener( e -> {
+        	if (name.getValue().equals("Andi") && password.getValue().equals("1234")){
+        		loginLayout.addComponent(new Label("Hi Andi. You are logged in!"));
+        	}
+        	else{
+        		loginLayout.addComponent(new Label("Faild. Retry!"));
+        	}
         });
         
-        layout.addComponents(name, button);
-        layout.setMargin(true);
-        layout.setSpacing(true);
+        loginLayout.addComponents(login, name, password, loginButton);
+        loginLayout.setMargin(true);
+        loginLayout.setSpacing(true);
         
-        setContent(layout);
+        
+        //Register
+        final VerticalLayout registerLayout = new VerticalLayout();
+        final Label register = new Label("Please enter your user name and your password:");
+        final TextField registerName = new TextField("user name");
+        final TextField registerMail = new TextField("e-Mail");
+        final PasswordField registerPassword = new PasswordField("password");
+        final PasswordField controlRegisterPassword = new PasswordField("password again");
+
+        Button registerButton = new Button("Register");
+        registerButton.addClickListener( e -> {
+        	registerLayout.addComponent(new Label("Registered!"));
+        });
+        
+        registerLayout.addComponents(register, registerName, registerMail, registerPassword, controlRegisterPassword, registerButton);
+        registerLayout.setMargin(true);
+        registerLayout.setSpacing(true);
+        
+        mainLayout.addComponent(loginLayout);
+        mainLayout.addComponent(registerLayout);
+        this.setContent(mainLayout);
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
