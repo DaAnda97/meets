@@ -44,6 +44,7 @@
 	</dependencyManagement>
 
 	<dependencies>
+	
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
@@ -66,16 +67,20 @@
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-themes</artifactId>
 		</dependency>
-		<dependency>
-        	<groupId>com.vaadin</groupId>
-        	<artifactId>vaadin-cdi</artifactId>
-        	<version>[replaceable]LATEST</version>
-   		</dependency>
-    	<dependency>
-        	<groupId>javax.enterprise</groupId>
-        	<artifactId>cdi-api</artifactId>
-        	<version>[replaceable]1.2</version>
-    	</dependency>
+		
+<!-- https://mvnrepository.com/artifact/info.cukes/cucumber-picocontainer -->
+<dependency>
+    <groupId>info.cukes</groupId>
+    <artifactId>cucumber-picocontainer</artifactId>
+    <version>1.2.5</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/info.cukes/cucumber-junit -->
+<dependency>
+    <groupId>info.cukes</groupId>
+    <artifactId>cucumber-junit</artifactId>
+    <version>1.2.5</version>
+</dependency>
+
 	</dependencies>
 
 	<build>
