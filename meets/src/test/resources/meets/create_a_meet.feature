@@ -12,11 +12,11 @@ Feature: create a meet
 		Then display message that the meet has been successfully created
 		And show the created meet
 		
-	Scenario: meet creation failed
+	Scenario: meet created with errors
 		Given I am logged into the System
 		When I press the new button for a new meet
 		And I fail to fill all fields with correct data
-		Then Display error message
+		Then display error message
 		And user has to fill out wrong fields again
 		
 		

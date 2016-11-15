@@ -18,7 +18,7 @@ Feature: register
 		Given I am not logged into the System
 		When I press the register button
 		And I fail to fill all fields with correct data
-		Then Display error message
+		Then display error message
 		
 		
 	
