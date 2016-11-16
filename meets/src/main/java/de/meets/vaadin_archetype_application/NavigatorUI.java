@@ -1,7 +1,11 @@
 package de.meets.vaadin_archetype_application;
 
+import javax.servlet.annotation.WebServlet;
+
+import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
 
 /**
@@ -23,12 +27,18 @@ public class NavigatorUI extends UI {
         navigator = new Navigator(this, this);
 
         // Create and register the views
-        navigator.addView("Login", new Login());
-        navigator.addView(MAINVIEW, new Register());
+        navigator.addView("Login", Login.class);
+        navigator.addView("Register", Register.class);
         
         navigator.navigateTo("Login");
     }
+    
+    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
+    @VaadinServletConfiguration(ui = NavigatorUI.class, productionMode = false)
+    public static class MyUIServlet extends VaadinServlet {
+    }
 }
+
 //@Theme("mytheme")
 //public class MyUI extends UI {
 //

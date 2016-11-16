@@ -67,20 +67,18 @@
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-themes</artifactId>
 		</dependency>
-		
-<!-- https://mvnrepository.com/artifact/info.cukes/cucumber-picocontainer -->
-<dependency>
-    <groupId>info.cukes</groupId>
-    <artifactId>cucumber-picocontainer</artifactId>
-    <version>1.2.5</version>
-</dependency>
-<!-- https://mvnrepository.com/artifact/info.cukes/cucumber-junit -->
-<dependency>
-    <groupId>info.cukes</groupId>
-    <artifactId>cucumber-junit</artifactId>
-    <version>1.2.5</version>
-</dependency>
-
+		<!-- https://mvnrepository.com/artifact/info.cukes/cucumber-picocontainer -->
+		<dependency>
+		    <groupId>info.cukes</groupId>
+		    <artifactId>cucumber-picocontainer</artifactId>
+		    <version>1.2.5</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/info.cukes/cucumber-junit -->
+		<dependency>
+		    <groupId>info.cukes</groupId>
+		    <artifactId>cucumber-junit</artifactId>
+		    <version>1.2.5</version>
+		</dependency>
 	</dependencies>
 
 	<build>
