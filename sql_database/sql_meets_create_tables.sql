@@ -1,14 +1,14 @@
 -- ---------------------------------
 -- Author: Sebastian Luther
--- Date:   11-07-2016
+-- Date:   17-11-2016
 -- ---------------------------------
 
 
 drop table if exists meets.meet;
+drop table if exists meets.meeting;
 drop table if exists meets.member;
 drop table if exists meets.emailcontact;
 drop table if exists meets.emaildomain;
-drop table if exists meets.meeting;
 drop table if exists meets.category;
 drop table if exists meets.location;
 
@@ -71,6 +71,7 @@ create table if not exists meets.member
 	surName      varchar(45),
     memberPW     binary(32) not null,
     memberMAIL   int not null,
+	created		 datetime default NOW() not null,
     primary key  (idMember),
     foreign key  (memberMAIL) references meets.emailcontact(idAddress)
 )ENGINE=InnoDB;
@@ -85,15 +86,17 @@ create table if not exists meets.meeting
     meetingName  	varchar(30) not null,
 	meetingDesc  	varchar(255),
 	category     	int not null,
-	meetingDate  	date not null,
-    meetingTime  	time not null,
-    meetingCreated	time not null,
+	maxMembers		int not null,
+	meetingDateTime	datetime not null,
+    meetingCreated	datetime default NOW() not null,
 	locMeeting	 	int,
 	locCreated	 	int,
+	meetingOwner 	int not null,
 	primary key 	(idMeeting),
 	foreign key 	(category) references meets.category(idCategory),
 	foreign key 	(locMeeting) references meets.location(idLoc),
-	foreign key 	(locCreated) references meets.location(idLoc)
+	foreign key 	(locCreated) references meets.location(idLoc),
+	foreign key 	(meetingOwner) references meets.member(idMember)
 )ENGINE=InnoDB;
 
 -- ---------------------------------

@@ -5,26 +5,36 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class SQLDatabase {
+public abstract class SQLDatabase {
 
-	// initial database constants
-	// Note: You have to use the correct USERNAME and the correct PASSWORD that it works!
-	//----------------------------------------------------------------------------------------------------
-	//--- IMPORTANT: BEFORE you PUSH your recent changes DELTE the VALUE of the USERNAME and PASSWORD! ---
-	//----------------------------------------------------------------------------------------------------
-    private static final String DATABASE_DRIVER = "com.mysql.jdbc.Driver";
-    private static final String DATABASE_URL = "jdbc:mysql://noixesdevel.de:3306/meets";
-    private static final String USERNAME = "username";
-    private static final String PASSWORD = "password";
-    private static final String MAX_POOL = "250";
+	// declare database constants
+	private static final String DATABASE_DRIVER;
+    private static final String DATABASE_URL;
+    private static final String USERNAME;
+    private static final String PASSWORD;
+    private static final String MAX_POOL;
 	
     // declare connection object
-    private Connection connection;
+    private static Connection connection;
     // declare properties object
-    private Properties properties;
+    private static Properties properties;
+    
+    // initial database connection constants
+    static {
+    	String[] properties = new ConfigReader().getConfigValues();
+    	
+    	DATABASE_DRIVER = properties[0];
+        DATABASE_URL = properties[1];
+        USERNAME = properties[2];
+        PASSWORD = properties[3];
+        MAX_POOL = "250";
+    }
+    
+    // private constructor
+    private SQLDatabase() {}
     
     // create properties
-    private Properties getProperties() {
+    private static Properties getProperties() {
         if (properties == null) {
             properties = new Properties();
             properties.setProperty("user", USERNAME);
@@ -35,7 +45,7 @@ public class SQLDatabase {
     }
     
     // connect to database and return connection
-    public Connection connect() {
+    public static Connection connect() {
         if (connection == null) {
             try {
                 Class.forName(DATABASE_DRIVER);
@@ -48,7 +58,7 @@ public class SQLDatabase {
     }
 
     // disconnect database
-    public void disconnect() {
+    public static void disconnect() {
         if (connection != null) {
             try {
                 connection.close();
