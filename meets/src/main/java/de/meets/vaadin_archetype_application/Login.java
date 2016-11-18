@@ -11,6 +11,8 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import de.meets.djbc.SQLDatabaseAgent;
+
 
 public class Login extends VerticalLayout implements View{
 	
@@ -24,7 +26,9 @@ public class Login extends VerticalLayout implements View{
 
         Button loginButton = new Button("Login");
         loginButton.addClickListener( e -> {
-        	getUI().getNavigator().navigateTo("ShowUser");
+        	if (SQLDatabaseAgent.getInstance().checkLogin(name.getValue(), password.getValue())){
+        		getUI().getNavigator().navigateTo("ShowUser");
+        	}
         });
         
         Button switchButton = new Button("Noch nicht registriert?");
