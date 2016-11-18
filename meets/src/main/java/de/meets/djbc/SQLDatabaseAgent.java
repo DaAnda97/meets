@@ -47,6 +47,30 @@ public class SQLDatabaseAgent {
 		}
 	}
 	
+	// check mail and password
+	public boolean checkLogin( String mail, String password ) {
+		// SQL select result
+		String[] mailParts = mail.split("@");
+		
+		ResultSet result = this.executeSQL(
+				"SELECT DISTINCT idMember\n"
+				+ "FROM member\n"
+				+ "INNER JOIN emailcontact ON member.memberMAIL = emailcontact.idAddress\n"
+				+ "INNER JOIN emaildomain ON emaildomain.idDomain = emailcontact.idDomain\n"
+				+ "WHERE emaildomain.domainName = \"" +mailParts[1] +"\"\n"
+				+ "AND emailcontact.contact = \"" +mailParts[0] +"\"\n"
+				+ "AND member.memberPW = cast(\"" +password +"\" as binary(32));"
+			);
+		if ( result != null )
+			return true;
+		else 
+			return false;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println( SQLDatabaseAgent.getInstance().checkLogin( "bgriffin0@google.com.br", "9yZ3qod" ) );
+	}
+	
 	// get all categories
 	public HashMap<Integer, String> getCategories() {	
 		

@@ -71,7 +71,7 @@ create table if not exists meets.member
 	surName      varchar(45),
     memberPW     binary(32) not null,
     memberMAIL   int not null,
-	created		 datetime default NOW() not null,
+	created		 timestamp default current_timestamp,
     primary key  (idMember),
     foreign key  (memberMAIL) references meets.emailcontact(idAddress)
 )ENGINE=InnoDB;
@@ -88,7 +88,7 @@ create table if not exists meets.meeting
 	category     	int not null,
 	maxMembers		int not null,
 	meetingDateTime	datetime not null,
-    meetingCreated	datetime default NOW() not null,
+    meetingCreated	timestamp default current_timestamp,
 	locMeeting	 	int,
 	locCreated	 	int,
 	meetingOwner 	int not null,
