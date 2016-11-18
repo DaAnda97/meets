@@ -29,6 +29,7 @@ public class NavigatorUI extends UI {
         // Create and register the views
         navigator.addView("Login", Login.class);
         navigator.addView("Register", Register.class);
+        navigator.addView("ShowUser", ShowUser.class);
         
         navigator.navigateTo("Login");
     }
@@ -38,32 +39,3 @@ public class NavigatorUI extends UI {
     public static class MyUIServlet extends VaadinServlet {
     }
 }
-
-//@Theme("mytheme")
-//public class MyUI extends UI {
-//
-//    @Override
-//    protected void init(VaadinRequest vaadinRequest) {
-//    	final VerticalLayout mainLayout = new VerticalLayout();
-//    	mainLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-//    	new Navigator(this, mainLayout);
-//    	ClassBasedViewProvider cbvp = new ClassBasedViewProvider("Test", Register.class);
-//    	getUI().getNavigator().addProvider(cbvp);
-//    	
-//    	ClassBasedViewProvider cbvp2 = new ClassBasedViewProvider("", TestTest.class);
-//    	getUI().getNavigator().addProvider(cbvp2);
-//        
-//    	
-//
-//        
-//        mainLayout.setSizeFull();
-//        
-//        
-//        this.setContent(mainLayout);
-//    }
-//
-//    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
-//    @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
-//    public static class MyUIServlet extends VaadinServlet {
-//    }
-//}

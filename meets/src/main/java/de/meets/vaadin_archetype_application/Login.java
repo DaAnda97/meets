@@ -17,26 +17,24 @@ public class Login extends VerticalLayout implements View{
 	@Override
 	public void enter(ViewChangeEvent event) {
         
-        ClassResource logo = new ClassResource("/images/logo.png");
+//        ClassResource logo = new ClassResource("/images/logo.png");
+		Label login = new Label("Anmelden");
         TextField name = new TextField("Benutzername");
         PasswordField password = new PasswordField("Passwort");
 
         Button loginButton = new Button("Login");
         loginButton.addClickListener( e -> {
-        	if (name.getValue().equals("Andi") && password.getValue().equals("1234")){
-        		this.addComponent(new Label("Hi, Andi. Du bist eingeloggt"));
-        	}
-        	else{
-        		this.addComponent(new Label("Gescheitert!"));
-        	}
+        	getUI().getNavigator().navigateTo("ShowUser");
         });
         
         Button switchButton = new Button("Noch nicht registriert?");
         switchButton.addClickListener(listener -> getUI().getNavigator().navigateTo("Register"));
         
-        this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        this.addComponents(new Image(null,logo), name, password, loginButton, switchButton);
-        this.setSizeFull();
+//        this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+//        this.addComponents(new Image(null,logo), name, password, loginButton, switchButton);
+        this.addComponents(login, name, password, loginButton, switchButton);
+//        this.setSizeFull();
+        this.setMargin(true);
         this.setSpacing(true);
 	}
 

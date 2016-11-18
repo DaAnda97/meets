@@ -22,11 +22,13 @@ public class Register extends VerticalLayout implements View{
 
 	    Button registerButton = new Button("Registrieren");
 	    registerButton.addClickListener( e -> {
-	    	this.addComponent(new Label("Registrieren!"));
-	    	
+	    	getUI().getNavigator().navigateTo("ShowUser");
 	    });
 	    
-	    this.addComponents(register, registerName, registerMail, registerPassword, controlRegisterPassword, registerButton);
+	    Button switchButton = new Button("Zum Login");
+        switchButton.addClickListener(listener -> getUI().getNavigator().navigateTo("Login"));
+	    
+	    this.addComponents(register, registerName, registerMail, registerPassword, controlRegisterPassword, registerButton, switchButton);
 	    this.setMargin(true);
 	    this.setSpacing(true);
 	}
