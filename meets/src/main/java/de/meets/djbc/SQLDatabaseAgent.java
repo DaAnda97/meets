@@ -1,6 +1,7 @@
 package de.meets.djbc;
 
 import java.sql.Connection;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,7 +20,7 @@ public class SQLDatabaseAgent {
 		this.connection = SQLDatabase.connect();
 	}
 	
-	// get SQL agent
+	// get SQL agent instance
 	public static SQLDatabaseAgent getInstance() {
 		if ( AGENT == null ) {
 			AGENT = new SQLDatabaseAgent();
@@ -65,10 +66,6 @@ public class SQLDatabaseAgent {
 			return true;
 		else 
 			return false;
-	}
-	
-	public static void main(String[] args) {
-		System.out.println( SQLDatabaseAgent.getInstance().checkLogin( "bgriffin0@google.com.br", "9yZ3qod" ) );
 	}
 	
 	// get all categories

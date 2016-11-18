@@ -51,7 +51,9 @@ public abstract class SQLDatabase {
                 Class.forName(DATABASE_DRIVER);
                 connection = DriverManager.getConnection(DATABASE_URL, getProperties());
             } catch (ClassNotFoundException | SQLException e) {
+            	System.out.println("----- SQLDatabase connect failure -----");
                 e.printStackTrace();
+            	System.out.println("----- SQLDatabase connect failure -----");
             }
         }
         return connection;
@@ -64,7 +66,9 @@ public abstract class SQLDatabase {
                 connection.close();
                 connection = null;
             } catch (SQLException e) {
+            	System.out.println("----- SQLDatabase disconnect failure -----");
                 e.printStackTrace();
+            	System.out.println("----- SQLDatabase disconnect failure -----");
             }
         }//if
     }

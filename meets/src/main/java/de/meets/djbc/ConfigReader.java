@@ -39,8 +39,10 @@ public class ConfigReader {
 				System.out.println("Properties file not found!");
 			}
 		} catch (IOException e) {
+        	System.out.println("----- ConfigReader input failure -----");
 			e.printStackTrace();
-		}//catch
+        	System.out.println("----- ConfigReader input failure -----");
+        }//catch
 	
 		return null;
 	}
