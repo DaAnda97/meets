@@ -1,7 +1,6 @@
 package de.meets.djbc;
 
 import java.sql.Connection;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -62,10 +61,18 @@ public class SQLDatabaseAgent {
 				+ "AND emailcontact.contact = \"" +mailParts[0] +"\"\n"
 				+ "AND member.memberPW = cast(\"" +password +"\" as binary(32));"
 			);
-		if ( result != null )
-			return true;
-		else 
-			return false;
+		try {
+			if ( result.next() ) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (SQLException e) {
+        	System.out.println("----- SQLDatabaseAgent checkLogin failure -----");
+			e.printStackTrace();
+        	System.out.println("----- SQLDatabaseAgent checkLogin failure -----");
+        	return false;
+		} 
 	}
 	
 	// get all categories
@@ -84,7 +91,9 @@ public class SQLDatabaseAgent {
 	    	return categories;
 		} catch (SQLException e) {
 			// failure
+        	System.out.println("----- SQLDatabaseAgent getCategories failure -----");
 			e.printStackTrace();
+        	System.out.println("----- SQLDatabaseAgent getCategories failure -----");
 			return null;
 		}    	
 	}
