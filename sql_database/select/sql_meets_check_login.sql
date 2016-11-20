@@ -9,5 +9,4 @@ SELECT DISTINCT idMember
 FROM member
 INNER JOIN emaildomain 	ON member.mailDomain = emaildomain.idDomain
 WHERE emaildomain.domainName = @domin
-AND member.mailContact = @contact
 AND member.memberPW = @password;
