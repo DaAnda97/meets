@@ -4,32 +4,50 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 public class ShowUser extends VerticalLayout implements View{
-	
 	@Override
 	public void enter(ViewChangeEvent event) {
-
-	    Label message = new Label("Du bist jetzt angemeldet!");
-//	    TextField registerName = new TextField("Benutzername");
-//	    TextField registerMail = new TextField("E-Mail");
-//	    PasswordField registerPassword = new PasswordField("Passwort");
-//	    PasswordField controlRegisterPassword = new PasswordField("Passwort wiederholen");
-//
-//	    Button registerButton = new Button("Registrieren");
-//	    registerButton.addClickListener( e -> {
-//	    	this.addComponent(new Label("Registrieren!"));
-//	    	
-//	    });
-//	    
-//	    Button switchButton = new Button("Zum Login");
-//        switchButton.addClickListener(listener -> getUI().getNavigator().navigateTo("Login"));
-//	    
-//	    this.addComponents(register, registerName, registerMail, registerPassword, controlRegisterPassword, registerButton, switchButton);
-	    this.addComponent(message);
+	    Label message = new Label("Deine Angaben:");
+	    
+	    TextField name = new TextField("Benutzername");
+	    name.setValue("Dein Benutzername");
+	    name.setEnabled(false);
+	    
+	    TextField email = new TextField("E-Mail");
+	    email.setValue("Deine Mail");
+	    email.setEnabled(false);
+	    
+	    Button edit = new Button("Bearbeiten");
+	    Button saveChanges = new Button("Speichern");
+	    Button removeChanges = new Button("Abbrechen");
+	    
+	    edit.addClickListener(e -> {
+	    	name.setEnabled(true);
+	    	email.setEnabled(true);
+	   		this.removeComponent(edit);
+	   		this.addComponents(saveChanges, removeChanges);
+	    });
+	    
+	    saveChanges.addClickListener(e -> {
+	    	name.setEnabled(false);
+	    	email.setEnabled(false);
+	   		this.addComponent(edit);
+	   		this.removeComponent(saveChanges);
+	   		this.removeComponent(removeChanges);
+	    });
+	    
+	    removeChanges.addClickListener(e -> {
+	    	name.setEnabled(false);
+	    	email.setEnabled(false);
+	   		this.addComponent(edit);
+	   		this.removeComponent(saveChanges);
+	   		this.removeComponent(removeChanges);
+	    });
+	    
+	    this.addComponents(message, name, email, edit);
 	    this.setMargin(true);
 	    this.setSpacing(true);
 	}
