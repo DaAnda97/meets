@@ -9,7 +9,13 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import de.meets.assets.Member;
+import de.meets.djbc.SQLDatabaseAgent;
+
 public class ShowUser extends HorizontalLayout implements View{
+	SQLDatabaseAgent sqlDatabaseAgent = NavigatorUI.SQL_DATABASE_AGENT;
+	Member member;
+	
 	VerticalLayout informationPanel = new VerticalLayout();
 	Label message = new Label("Deine Angaben:");
 	TextField name = new TextField("Benutzername");

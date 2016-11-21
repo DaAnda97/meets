@@ -12,6 +12,7 @@ import de.meets.djbc.SQLDatabaseAgent;
 
 
 public class Login extends VerticalLayout implements View{
+	SQLDatabaseAgent sqlDatabaseAgent = NavigatorUI.SQL_DATABASE_AGENT;
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -25,7 +26,7 @@ public class Login extends VerticalLayout implements View{
         loginButton.addClickListener( e -> {
         	if (isValidEmailAddress(email.getValue())){
         		login.setCaption("E-Mail valide!");
-        		if (SQLDatabaseAgent.getInstance().checkLogin(email.getValue(), password.getValue())){
+        		if (sqlDatabaseAgent.checkLogin(email.getValue(), password.getValue())){
             		getUI().getNavigator().navigateTo("ShowUser");
             	}
         	} else {

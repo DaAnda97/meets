@@ -9,7 +9,12 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import de.meets.assets.Member;
+import de.meets.djbc.SQLDatabaseAgent;
+
 public class Register extends VerticalLayout implements View{
+	SQLDatabaseAgent sqlDatabaseAgent = NavigatorUI.SQL_DATABASE_AGENT;
+	Member member;
 	
 	@Override
 	public void enter(ViewChangeEvent event) {

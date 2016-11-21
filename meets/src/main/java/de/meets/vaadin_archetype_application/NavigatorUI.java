@@ -8,6 +8,8 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
 
+import de.meets.djbc.SQLDatabaseAgent;
+
 /**
  * This UI is the application entry point. A UI may either represent a browser window 
  * (or tab) or some part of a html page where a Vaadin application is embedded.
@@ -18,6 +20,7 @@ import com.vaadin.ui.UI;
 public class NavigatorUI extends UI {
     Navigator navigator;
     protected static final String MAINVIEW = "main";
+    protected static final SQLDatabaseAgent SQL_DATABASE_AGENT = SQLDatabaseAgent.getInstance();
 
     @Override
     protected void init(VaadinRequest request) {
