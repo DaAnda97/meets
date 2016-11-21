@@ -1,115 +1,101 @@
 -- ---------------------------------
 -- Author: Sebastian Luther
--- Date:   17-11-2016
+-- Date:   20-11-2016
 -- ---------------------------------
 
-
-drop table if exists meets.meet;
-drop table if exists meets.meeting;
-drop table if exists meets.member;
-drop table if exists meets.emailcontact;
-drop table if exists meets.emaildomain;
-drop table if exists meets.category;
-drop table if exists meets.location;
+DROP TABLE IF EXISTS meets.meet;
+DROP TABLE IF EXISTS meets.meeting;
+DROP TABLE IF EXISTS meets.member;
+DROP TABLE IF EXISTS meets.emaildomain;
+DROP TABLE IF EXISTS meets.category;
+DROP TABLE IF EXISTS meets.location;
 
 -- ---------------------------------
 -- Table 'Meets'.'EMailDomain'
 -- ---------------------------------
 
-create table if not exists meets.emaildomain
+CREATE TABLE IF NOT EXISTS meets.emaildomain
 (
-    idDomain     int not null AUTO_INCREMENT,
-    domainName   varchar(64) not null unique,
-    primary key (idDomain)
-)ENGINE=InnoDB;
-
--- ---------------------------------
--- Table 'Meets'.'EMailContact'
--- ---------------------------------
-
-create table if not exists meets.emailcontact
-(
-	idAddress	 int not null AUTO_INCREMENT,
-    idDomain     int not null,
-    contact		 varchar(255) not null,
-    primary key  (idAddress),
-    foreign key  (idDomain) references meets.emaildomain(idDomain)
-)ENGINE=InnoDB;
+    idDomain     INT NOT NULL AUTO_INCREMENT,
+    domainName   VARCHAR(64) NOT NULL UNIQUE,
+    PRIMARY KEY (idDomain)
+)ENGINE=INNODB;
 
 -- ---------------------------------
 -- Table 'Meets'.'Location'
 -- ---------------------------------
 
-create table if not exists meets.location
+CREATE TABLE IF NOT EXISTS meets.location
 (
-    idLoc   	 int not null AUTO_INCREMENT,
-    postalCode	 int not null,
-    locName		 varchar(45) not null,
-	primary key  (idLoc)
-)ENGINE=InnoDB;
+    idLoc   	 INT NOT NULL AUTO_INCREMENT,
+    postalCode	 INT NOT NULL,
+    locName		 VARCHAR(45) NOT NULL,
+	PRIMARY KEY  (idLoc)
+)ENGINE=INNODB;
 
 -- ---------------------------------
 -- Table 'Meets'.'Category'
 -- ---------------------------------
 
-create table if not exists meets.category
+CREATE TABLE IF NOT EXISTS meets.category
 (
-    idCategory   int not null AUTO_INCREMENT,
-	categoryName varchar(45) not null,
-	primary key  (idCategory)
-)ENGINE=InnoDB;
+    idCategory   INT NOT NULL AUTO_INCREMENT,
+	categoryName VARCHAR(45) NOT NULL UNIQUE,
+	PRIMARY KEY  (idCategory)
+)ENGINE=INNODB;
 
 -- ---------------------------------
 -- Table 'Meets'.'Member'
 -- ---------------------------------
 
-create table if not exists meets.member
+CREATE TABLE IF NOT EXISTS meets.member
 (
-    idMember     int not null AUTO_INCREMENT,
-    username     varchar(30) not null unique,
-	preName      varchar(45),
-	surName      varchar(45),
-    memberPW     binary(32) not null,
-    memberMAIL   int not null,
-	created		 timestamp default current_timestamp,
-    primary key  (idMember),
-    foreign key  (memberMAIL) references meets.emailcontact(idAddress)
-)ENGINE=InnoDB;
+    idMember     INT NOT NULL AUTO_INCREMENT,
+    username     VARCHAR(30) NOT NULL UNIQUE,
+	preName      VARCHAR(45),
+	surName      VARCHAR(45),
+    memberPW     BINARY(32) NOT NULL,
+	mailContact	 VARCHAR(255) NOT NULL,
+    mailDomain   INT NOT NULL,
+	created		 TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY  (idMember),
+    FOREIGN KEY  (mailDomain) REFERENCES meets.emaildomain(idDomain)
+)ENGINE=INNODB;
 
 -- ---------------------------------
 -- Table 'Meets'.'Meeting'
 -- ---------------------------------
 
-create table if not exists meets.meeting
+CREATE TABLE IF NOT EXISTS meets.meeting
 (
-    idMeeting    	int not null AUTO_INCREMENT,
-    meetingName  	varchar(30) not null,
-	meetingDesc  	varchar(255),
-	category     	int not null,
-	maxMembers		int not null,
-	meetingDateTime	datetime not null,
-    meetingCreated	timestamp default current_timestamp,
-	locMeeting	 	int,
-	locCreated	 	int,
-	meetingOwner 	int not null,
-	primary key 	(idMeeting),
-	foreign key 	(category) references meets.category(idCategory),
-	foreign key 	(locMeeting) references meets.location(idLoc),
-	foreign key 	(locCreated) references meets.location(idLoc),
-	foreign key 	(meetingOwner) references meets.member(idMember)
-)ENGINE=InnoDB;
+    idMeeting    	INT NOT NULL AUTO_INCREMENT,
+    meetingName  	VARCHAR(30) NOT NULL,
+	meetingDesc  	VARCHAR(255),
+	category     	INT NOT NULL,
+	maxMembers		INT NOT NULL,
+	meetingDateTime	DATETIME NOT NULL,
+    meetingCreated	TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	locMeeting	 	INT,
+	locCreated	 	INT,
+	meetingOwner 	INT NOT NULL,
+	PRIMARY KEY 	(idMeeting),
+	FOREIGN KEY 	(category) REFERENCES meets.category(idCategory),
+	FOREIGN KEY 	(locMeeting) REFERENCES meets.location(idLoc),
+	FOREIGN KEY 	(locCreated) REFERENCES meets.location(idLoc),
+	FOREIGN KEY 	(meetingOwner) REFERENCES meets.member(idMember)
+)ENGINE=INNODB;
 
 -- ---------------------------------
 -- Table 'Meets'.'Meet' | Member-Meeting
 -- ---------------------------------
 
-create table if not exists meets.meet
+CREATE TABLE IF NOT EXISTS meets.meet
 (
-    idMeet       int not null AUTO_INCREMENT,
-    idMember	 int not null,
-    idMeeting	 int not null,
-	primary key  (idMeet),
-	foreign key  (idMember) references meets.member(idMember),
-	foreign key  (idMeeting) references meets.meeting(idMeeting)
-)ENGINE=InnoDB;
+    idMeet       INT NOT NULL AUTO_INCREMENT,
+    idMember	 INT NOT NULL,
+    idMeeting	 INT NOT NULL,
+	PRIMARY KEY  (idMeet),
+	FOREIGN KEY  (idMember) REFERENCES meets.member(idMember),
+	FOREIGN KEY  (idMeeting) REFERENCES meets.meeting(idMeeting)
+)ENGINE=INNODB;
 
