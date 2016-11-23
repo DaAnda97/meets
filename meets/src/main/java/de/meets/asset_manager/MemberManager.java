@@ -1,4 +1,4 @@
-package de.meets.assetManager;
+package de.meets.asset_manager;
 
 import javax.persistence.NoResultException;
 
@@ -8,12 +8,12 @@ import org.hibernate.Transaction;
 
 import de.meets.assets.Member;
 
-public final class ManagerMember extends ManagerAsset<Member> {
+public final class MemberManager extends AssetManager<Member> {
 
-	public ManagerMember() {
+	public MemberManager() {
 		super("Member");
 	}
-	
+
 	// check if login is correct
 	public Member get( String email, String password ) {	
 		Session session = this.getFactory().openSession();

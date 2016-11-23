@@ -27,7 +27,7 @@ public class Member {
 	@Column(name = "email")
 	private String email;
 	
-	@ManyToMany(cascade = {CascadeType.ALL})
+	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 	@JoinTable(name="meet", 
 				joinColumns={@JoinColumn(name="memberID")}, 
 				inverseJoinColumns={@JoinColumn(name="meetingID")})
@@ -40,7 +40,7 @@ public class Member {
 	@Column(name = "created")
 	private Timestamp created;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "meetingOwner")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "meetingOwner")
 	private List<Meeting> ownMeetings;
 	
 	// constructors
@@ -118,6 +118,14 @@ public class Member {
 	}
 	public void setOwnMeetings(List<Meeting> ownMeetings) {
 		this.ownMeetings = ownMeetings;
+	}
+
+	public List<Meeting> getMeetings() {
+		return meetings;
+	}
+
+	public void setMeetings(List<Meeting> meetings) {
+		this.meetings = meetings;
 	}
 	
 }

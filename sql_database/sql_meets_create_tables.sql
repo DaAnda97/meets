@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS meets.member
 	lastName       VARCHAR(45),
 	password	   VARCHAR(256) NOT NULL,
 	email		   VARCHAR(320) NOT NULL UNIQUE,
-    memberLocation INT,
+    memberLocation INT NOT NULL,
 	created		   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY    (memberID),
 	FOREIGN KEY	   (memberLocation) REFERENCES meets.location(locationID)

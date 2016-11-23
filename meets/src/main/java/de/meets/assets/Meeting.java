@@ -35,11 +35,11 @@ public class Meeting {
 	@JoinColumn(name = "meetingLocation", nullable = true)
 	private Location meetingLocation;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "meetingOwner", nullable = false)
 	private Member meetingOwner;
 
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "meetings")
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "meetings")
 	private List<Member> members;
 	
 	@Column(name = "maxMembers")

@@ -1,4 +1,4 @@
-package de.meets.assetManager;
+package de.meets.asset_manager;
 
 import java.util.Iterator;
 import java.util.List;
@@ -13,13 +13,13 @@ import org.hibernate.Transaction;
 import de.meets.hibernate.HibernateInit;
 
 
-public abstract class ManagerAsset<E> {
+public abstract class AssetManager<E> {
 
 	private SessionFactory factory;
 	private String table;
 	
 	// constructor
-	public ManagerAsset( String table ) {
+	public AssetManager( String table ) {
 		if ( factory == null ) {
 			factory = HibernateInit.getInstance();
 		}
