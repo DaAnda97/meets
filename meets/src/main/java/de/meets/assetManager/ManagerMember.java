@@ -1,4 +1,4 @@
-package de.meets.database;
+package de.meets.assetManager;
 
 import javax.persistence.NoResultException;
 

@@ -1,4 +1,4 @@
-package de.meets.database;
+package de.meets.hibernate;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,7 +53,8 @@ public class HibernateInit {
 	}
 	
 	public static void tearDown() {
-		
+		if ( factory.isOpen() )
+			factory.close();
 	}
 
 }

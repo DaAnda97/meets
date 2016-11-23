@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS meets.member
     username       VARCHAR(30) NOT NULL UNIQUE,
 	firstName      VARCHAR(45),
 	lastName       VARCHAR(45),
-	password	   VARBINARY(32) NOT NULL,
+	password	   VARCHAR(256) NOT NULL,
 	email		   VARCHAR(320) NOT NULL UNIQUE,
     memberLocation INT,
 	created		   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

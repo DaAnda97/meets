@@ -23,7 +23,7 @@ public class Location {
 	private List<Meeting> meetingLocations;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "createdLocation")
-	private List<Meeting> createdLocations;
+	private List<Meeting> meetingLocationsCreated;
 	
 	// constructors
 	public Location() {}
@@ -62,29 +62,29 @@ public class Location {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public List<Member> getMemberLocations() {
-		return this.memberLocations;
+		return memberLocations;
 	}
-	
+
 	public void setMemberLocations(List<Member> memberLocations) {
 		this.memberLocations = memberLocations;
 	}
-	
+
 	public List<Meeting> getMeetingLocations() {
-		return this.meetingLocations;
+		return meetingLocations;
 	}
-	
+
 	public void setMeetingLocations(List<Meeting> meetingLocations) {
 		this.meetingLocations = meetingLocations;
 	}
-	
-	public List<Meeting> getMeetingCreateds() {
-		return this.createdLocations;
+
+	public List<Meeting> getMeetingLocationsCreated() {
+		return meetingLocationsCreated;
 	}
-	
-	public void setMeetingCreateds(List<Meeting> meetingCreated) {
-		this.createdLocations = meetingCreated;
+
+	public void setMeetingLocationsCreated(List<Meeting> meetingLocationsCreated) {
+		this.meetingLocationsCreated = meetingLocationsCreated;
 	}
 
 }

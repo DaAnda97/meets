@@ -32,7 +32,7 @@ public class Meeting {
 	private Time meetingTime;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "meetingLocation", nullable = false)
+	@JoinColumn(name = "meetingLocation", nullable = true)
 	private Location meetingLocation;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

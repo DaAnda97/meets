@@ -1,4 +1,4 @@
-package de.meets.database;
+package de.meets.assetManager;
 
 import java.util.Iterator;
 import java.util.List;
@@ -9,6 +9,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
+import de.meets.hibernate.HibernateInit;
 
 
 public abstract class ManagerAsset<E> {
