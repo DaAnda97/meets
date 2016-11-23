@@ -1,6 +1,7 @@
 package de.meets.vaadin_archetype_application;
 
 import com.vaadin.navigator.View;
+
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
@@ -10,10 +11,8 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import de.meets.assets.Member;
-import de.meets.djbc.SQLDatabaseAgent;
 
 public class Register extends VerticalLayout implements View{
-	SQLDatabaseAgent sqlDatabaseAgent = NavigatorUI.SQL_DATABASE_AGENT;
 	Member member;
 	
 	@Override

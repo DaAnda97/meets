@@ -1,40 +1,56 @@
 package de.meets.assets;
 
-import java.util.HashMap;
+import java.util.List;
 
-import de.meets.djbc.SQLDatabaseAgent;
+import javax.persistence.*;
 
-public abstract class Category {
+@Entity
+@Table(name = "category")
+public class Category {
+	
+	@Id @Column(name = "categoryID")
+	private int id;
+	
+	@Column(name = "name")
+	private String name;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "meetingCategory")
+	private List<Meeting> meetings;
+	
+	// constructors
+	public Category() {}
+	
+	public Category(int id) {
+		this.id = id;
+	}
+	public Category(int id, String name) {
+		this.id = id;
+		this.name = name;
+	}
 
-	private static HashMap<Integer, String> categories;
+	// getters and setters
+	public int getId() {
+		return id;
+	}
 
-	static {
-		load();	
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
-	public static String getCategory( int id ) {
-		if ( categories != null ) 
-			return categories.get(id);
-		else
-			return null;
-	}
-
-	public static Integer[] getIDs() {
-		return categories.keySet().toArray(new Integer[0]);
+	public List<Meeting> getMeetings() {
+		return this.meetings;
 	}
 	
-	private static void load() {
-		categories = new HashMap<Integer, String>();	
-		SQLDatabaseAgent agent = SQLDatabaseAgent.getInstance();
-		categories = agent.getCategories();	
-	}
-	
-	public static boolean reload() {
-		load();	
-		if ( categories != null ) 
-			return true;
-		else 
-			return false;
+	public void setMeetings(List<Meeting> meetings) {
+		this.meetings = meetings;
 	}
 	
 }

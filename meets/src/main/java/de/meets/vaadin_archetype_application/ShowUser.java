@@ -1,6 +1,7 @@
 package de.meets.vaadin_archetype_application;
 
 import com.vaadin.navigator.View;
+
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -10,10 +11,9 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
 import de.meets.assets.Member;
-import de.meets.djbc.SQLDatabaseAgent;
 
 public class ShowUser extends HorizontalLayout implements View{
-	SQLDatabaseAgent sqlDatabaseAgent = NavigatorUI.SQL_DATABASE_AGENT;
+	
 	Member member;
 	
 	VerticalLayout informationPanel = new VerticalLayout();

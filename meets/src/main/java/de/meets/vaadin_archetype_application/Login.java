@@ -2,17 +2,16 @@ package de.meets.vaadin_archetype_application;
 
 
 import com.vaadin.navigator.View;
+
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import de.meets.djbc.SQLDatabaseAgent;
 
 
 public class Login extends VerticalLayout implements View{
-	SQLDatabaseAgent sqlDatabaseAgent = NavigatorUI.SQL_DATABASE_AGENT;
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -26,7 +25,7 @@ public class Login extends VerticalLayout implements View{
         loginButton.addClickListener( e -> {
         	if (isValidEmailAddress(email.getValue())){
         		login.setCaption("E-Mail valide!");
-        		if (sqlDatabaseAgent.checkLogin(email.getValue(), password.getValue())){
+        		if ( true ){
             		getUI().getNavigator().navigateTo("ShowUser");
             	}
         	} else {

@@ -2,13 +2,13 @@ package de.meets.vaadin_archetype_application;
 
 import javax.servlet.annotation.WebServlet;
 
+
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
 
-import de.meets.djbc.SQLDatabaseAgent;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window 
@@ -20,7 +20,7 @@ import de.meets.djbc.SQLDatabaseAgent;
 public class NavigatorUI extends UI {
     Navigator navigator;
     protected static final String MAINVIEW = "main";
-    protected static final SQLDatabaseAgent SQL_DATABASE_AGENT = SQLDatabaseAgent.getInstance();
+    
 
     @Override
     protected void init(VaadinRequest request) {
