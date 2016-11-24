@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS meets.meeting
 	meetingOwner 	INT NOT NULL,
     maxMembers		INT NOT NULL,
     createdTime		TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	createdLocation	INT,
+	createdLocation	INT NOT NULL,
 	PRIMARY KEY 	(meetingID),
 	FOREIGN KEY 	(meetingCategory) REFERENCES meets.category(categoryID),
 	FOREIGN KEY 	(meetingLocation) REFERENCES meets.location(locationID),
