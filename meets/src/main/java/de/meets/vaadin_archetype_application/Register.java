@@ -43,13 +43,14 @@ public class Register extends VerticalLayout implements View{
 	    			Member member = new Member(0, usernameValue, null, null, passwordValue, 
 	    									emailValue, new Location(1), null, null);
 	    			memberManager.add(member);
+	    			NavigatorUI.setRegistratedMember(member);
+	    			getUI().getNavigator().navigateTo("ShowUser");
 	    		} else {
 	    			register.setValue("Bitte geben Sie eine gültige E-Mail Adresse ein!");
 	    		}
 	    	} else {
 	    		register.setValue("Ihre Passwörter stimmen nicht überein");
 	    	}
-//	    	getUI().getNavigator().navigateTo("ShowUser");
 	    });
 	    
         switchButton.addClickListener(listener -> getUI().getNavigator().navigateTo("Login"));

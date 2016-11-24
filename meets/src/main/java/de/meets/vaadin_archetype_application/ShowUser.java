@@ -1,7 +1,6 @@
 package de.meets.vaadin_archetype_application;
 
 import com.vaadin.navigator.View;
-
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -10,9 +9,11 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Member;
 
 public class ShowUser extends HorizontalLayout implements View{
+	MemberManager memberManager = new MemberManager();
 	Member member = NavigatorUI.getRegistratedMember();
 	
 	VerticalLayout informationPanel = new VerticalLayout();
@@ -33,11 +34,13 @@ public class ShowUser extends HorizontalLayout implements View{
     PasswordField passwordNewConfirm = new PasswordField("Bestätige neues Passwort");
     Button confirmNewPassoword = new Button("Bestätigen");
     
+    Button deliteUser = new Button("Bnutzer löschen!");
+    
     
 	@Override
 	public void enter(ViewChangeEvent event) {
 		//-------------------- INFORMATION - PANEL --------------------------
-	    //Angaben durch Informationen zu angemedeten Benutzer ersetzen
+	    //Ort Informationen zu angemedeten Benutzer ersetzen
 	    name.setValue(member.getUsername());
 	    email.setValue(member.getEmail());
 	    location.setValue("Dein Ort");
@@ -69,17 +72,23 @@ public class ShowUser extends HorizontalLayout implements View{
 	    
 	    //------------------------ MAIN - PANEL ---------------------------
 	    
-	    this.addComponents(informationPanel, passwordPanel);
+	    deliteUser.addClickListener(e -> {
+	    	memberManager.delete(member);
+	    	getUI().getNavigator().navigateTo("Login");
+	    });
+	    
+	    this.addComponents(informationPanel, passwordPanel, deliteUser);
 	    this.setMargin(true);
 	    this.setSpacing(true);
 	}
 
 	private void saveChanges() {
-		String nameValue = name.getValue();
-		String emailValue = email.getValue();
-		String locationValue = location.getValue();
+		member.setUsername(name.getValue());
+		member.setEmail(email.getValue());
+		String locationValue = location.getValue(); //TODO Location ändern
+		memberManager.alter(member);
 		
-		//TODO Methodenaufruf an SQLAgent, der Änderungen speichert
+		message.setValue("Änderungen gespeichert!");
 	}
 
 	private void changeToViewMode() {
@@ -100,15 +109,21 @@ public class ShowUser extends HorizontalLayout implements View{
 	}
 
 	private void confirmNewPassoword() {
-		String oldPassword = name.getValue();
-		String newPassword = email.getValue();
-		String newPasswordConfirm = location.getValue();
+		String oldPassword = passwordOld.getValue();
+		String newPassword = passwordNew.getValue();
+		String newPasswordConfirm = passwordNewConfirm.getValue();
 		
-		if (newPassword.equals(newPasswordConfirm)){
-			//TODO Stimmt altesPasswort -> speichern
-			
+		if (member.getPassword().equals(oldPassword)){
+			if (newPassword.equals(newPasswordConfirm)){
+				changePassword.setValue("Passwort geändert!");
+				member.setPassword(newPassword);
+				memberManager.alter(member);
+				
+			} else {
+				changePassword.setValue("Neue Passwörter stimmen nicht überein!");
+			}
 		} else {
-			//TODO Fehlermeldung
+			changePassword.setValue("Falsches Passwort!");
 		}
 		
 		passwordOld.setValue("");
