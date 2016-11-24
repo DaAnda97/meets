@@ -4,6 +4,8 @@ import javax.servlet.annotation.WebServlet;
 
 
 
+
+import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
@@ -26,7 +28,7 @@ public class NavigatorUI extends UI {
 
 	@Override
     protected void init(VaadinRequest request) {
-        getPage().setTitle("Navigation Example");
+        getPage().setTitle("Meets");
 
         // Create a navigator to control the views
         navigator = new Navigator(this, this);
@@ -42,7 +44,6 @@ public class NavigatorUI extends UI {
 	public static Member getRegistratedMember() {
 		return registratedMember;
 	}
-	
 	
 	public static void setRegistratedMember(Member registratedMember) {
 		NavigatorUI.registratedMember = registratedMember;
