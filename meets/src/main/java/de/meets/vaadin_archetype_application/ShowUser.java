@@ -13,8 +13,7 @@ import com.vaadin.ui.VerticalLayout;
 import de.meets.assets.Member;
 
 public class ShowUser extends HorizontalLayout implements View{
-	
-	Member member;
+	Member member = NavigatorUI.getRegistratedMember();
 	
 	VerticalLayout informationPanel = new VerticalLayout();
 	Label message = new Label("Deine Angaben:");
@@ -26,7 +25,6 @@ public class ShowUser extends HorizontalLayout implements View{
     Button edit = new Button("Bearbeiten");
     Button saveChanges = new Button("Speichern");
     Button removeChanges = new Button("Abbrechen");
-	
     
     VerticalLayout passwordPanel = new VerticalLayout();
     Label changePassword = new Label("Passwort ändern:");
@@ -40,8 +38,8 @@ public class ShowUser extends HorizontalLayout implements View{
 	public void enter(ViewChangeEvent event) {
 		//-------------------- INFORMATION - PANEL --------------------------
 	    //Angaben durch Informationen zu angemedeten Benutzer ersetzen
-	    name.setValue("Dein Benutzername");
-	    email.setValue("Deine Mail");
+	    name.setValue(member.getUsername());
+	    email.setValue(member.getEmail());
 	    location.setValue("Dein Ort");
 	    
 	    changeToViewMode();

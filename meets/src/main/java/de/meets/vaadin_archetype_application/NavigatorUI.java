@@ -3,11 +3,14 @@ package de.meets.vaadin_archetype_application;
 import javax.servlet.annotation.WebServlet;
 
 
+
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
+
+import de.meets.assets.Member;
 
 
 /**
@@ -19,10 +22,9 @@ import com.vaadin.ui.UI;
  */
 public class NavigatorUI extends UI {
     Navigator navigator;
-    protected static final String MAINVIEW = "main";
-    
+    protected static Member registratedMember = null;
 
-    @Override
+	@Override
     protected void init(VaadinRequest request) {
         getPage().setTitle("Navigation Example");
 
@@ -36,9 +38,18 @@ public class NavigatorUI extends UI {
         
         navigator.navigateTo("Login");
     }
+
+	public static Member getRegistratedMember() {
+		return registratedMember;
+	}
+	
+	
+	public static void setRegistratedMember(Member registratedMember) {
+		NavigatorUI.registratedMember = registratedMember;
+	}
     
-    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
+
+	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = NavigatorUI.class, productionMode = false)
-    public static class MyUIServlet extends VaadinServlet {
-    }
+    public static class MyUIServlet extends VaadinServlet {}
 }
