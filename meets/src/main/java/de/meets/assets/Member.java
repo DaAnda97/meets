@@ -9,38 +9,50 @@ import javax.persistence.*;
 @Table(name = "member")
 public class Member {
 
-	@Id @Column(name = "memberID")
+	// member table
+	public static final String MEMBER_TABLE = "Member";
+	public static final String MEMBER_ID = "memberID";
+	public static final String MEMBER_USERNAME = "username";
+	public static final String MEMBER_FIRST_NAME = "firstName";
+	public static final String MEMBER_LAST_NAME = "lastName";
+	public static final String MEMBER_PASSWORD = "password";
+	public static final String MEMBER_EMAIL = "email";
+	public static final String MEMBER_LOCATION = "memberLocation";
+	public static final String MEMBER_CREATED = "created";
+	
+	// define member fields/columns
+	@Id @Column(name = MEMBER_ID)
 	private int id;
 	
-	@Column(name = "username")
+	@Column(name = MEMBER_USERNAME)
 	private String username;
 	
-	@Column(name = "firstName")
+	@Column(name = MEMBER_FIRST_NAME)
 	private String firstName;
 	
-	@Column(name = "lastName")
+	@Column(name = MEMBER_LAST_NAME)
 	private String lastName;
 	
-	@Column(name = "password")
+	@Column(name = MEMBER_PASSWORD)
 	private String password;
 	
-	@Column(name = "email")
+	@Column(name = MEMBER_EMAIL)
 	private String email;
 	
 	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
 	@JoinTable(name="meet", 
-				joinColumns={@JoinColumn(name="memberID")}, 
-				inverseJoinColumns={@JoinColumn(name="meetingID")})
+				joinColumns={@JoinColumn(name=Member.MEMBER_ID)}, 
+				inverseJoinColumns={@JoinColumn(name=Meeting.MEETING_ID)})
 	private List<Meeting> meetings;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "memberLocation", nullable = false)
+	@JoinColumn(name = MEMBER_LOCATION, nullable = false)
 	private Location memberLocation;
 	
-	@Column(name = "created")
+	@Column(name = MEMBER_CREATED)
 	private Timestamp created;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "meetingOwner")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = Meeting.MEETING_OWNER)
 	private List<Meeting> ownMeetings;
 	
 	// constructors
@@ -68,54 +80,71 @@ public class Member {
 	public int getId() {
 		return id;
 	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
+	
 	public String getUsername() {
 		return username;
 	}
+	
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
 	public String getFirstName() {
 		return firstName;
 	}
+	
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
+	
 	public String getLastName() {
 		return lastName;
 	}
+	
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	
 	public String getPassword() {
 		return password;
 	}
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	public String getEmail() {
 		return email;
 	}
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
 	public Location getMemberLocation() {
 		return memberLocation;
 	}
+	
 	public void setMemberLocation(Location memberLocation) {
 		this.memberLocation = memberLocation;
 	}
+	
 	public Timestamp getCreated() {
 		return created;
 	}
+	
 	public void setCreated(Timestamp created) {
 		this.created = created;
 	}
+	
 	public List<Meeting> getOwnMeetings() {
 		return ownMeetings;
 	}
+	
 	public void setOwnMeetings(List<Meeting> ownMeetings) {
 		this.ownMeetings = ownMeetings;
 	}

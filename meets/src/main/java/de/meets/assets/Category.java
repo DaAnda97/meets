@@ -8,10 +8,16 @@ import javax.persistence.*;
 @Table(name = "category")
 public class Category {
 	
-	@Id @Column(name = "categoryID")
+	// category table
+	public static final String CATEGORY_TABLE = "category";
+	public static final String CATEGORY_ID = "categoryID";
+	public static final String CATEGORY_NAME = "name";
+	
+	// define category fields/columns	
+	@Id @Column(name = CATEGORY_ID)
 	private int id;
 	
-	@Column(name = "name")
+	@Column(name = CATEGORY_NAME)
 	private String name;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "meetingCategory")

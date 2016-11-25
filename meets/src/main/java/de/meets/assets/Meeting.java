@@ -11,45 +11,60 @@ import javax.persistence.*;
 @Table(name = "meeting")
 public class Meeting {
 
-	@Id @Column(name = "meetingID")
+	// meeting table
+	public static final String MEETING_TABLE = "meeting";
+	public static final String MEETING_ID = "meetingID";
+	public static final String MEETING_NAME = "name";
+	public static final String MEETING_DESCRIPTION = "description";
+	public static final String MEETING_CATEGORY = "meetingCategory";
+	public static final String MEETING_DATE = "meetingDate";
+	public static final String MEETING_TIME = "meetingTime";
+	public static final String MEETING_LOCATION = "meetingLocation";
+	public static final String MEETING_OWNER = "meetingOwner";
+	public static final String MEETING_MAX_MEMBERS = "maxMembers";
+	public static final String MEETING_CREATED_TIME = "createdTime";
+	public static final String MEETING_CREATED_LOCATION = "createdLocation";
+	
+	// define meeting fields/columns
+	@Id @Column(name = MEETING_ID)
 	private int id;
 	
-	@Column(name = "name")
+	@Column(name = MEETING_NAME)
 	private String name;
 	
-	@Column(name = "description")
+	@Column(name = MEETING_DESCRIPTION)
 	private String description;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "meetingCategory", nullable = false)
+	@JoinColumn(name = MEETING_CATEGORY, nullable = false)
 	private Category meetingCategory;
 	
 	@Temporal(TemporalType.DATE)
-	@Column(name = "meetingDate")
+	@Column(name = MEETING_DATE)
 	private Date meetingDate;
 	
-	@Column(name = "meetingTime")
+	@Column(name = MEETING_TIME)
 	private Time meetingTime;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "meetingLocation", nullable = true)
+	@JoinColumn(name = MEETING_LOCATION, nullable = true)
 	private Location meetingLocation;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "meetingOwner", nullable = false)
+	@JoinColumn(name = MEETING_OWNER, nullable = false)
 	private Member meetingOwner;
 
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "meetings")
 	private List<Member> members;
 	
-	@Column(name = "maxMembers")
+	@Column(name = MEETING_MAX_MEMBERS)
 	private int maxMembers;
 	
-	@Column(name = "createdTime")
+	@Column(name = MEETING_CREATED_TIME)
 	private Timestamp createdTime;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "createdLocation", nullable = false)
+	@JoinColumn(name = MEETING_CREATED_LOCATION, nullable = false)
 	private Location createdLocation;
 
 	// constructors

@@ -31,7 +31,7 @@ public class Login extends VerticalLayout implements View{
         	
         	if (isValidEmailAddress(emailValue)){
         		login.setCaption("E-Mail valide!");
-        		Member member = memberManager.get(emailValue, passwordValue);
+        		Member member = memberManager.checkLogin(emailValue, passwordValue);
         		if (member != null){
         			NavigatorUI.setRegistratedMember(member);
             		getUI().getNavigator().navigateTo("ShowUser");

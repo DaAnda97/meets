@@ -11,66 +11,29 @@ import de.meets.assets.Member;
 public final class MemberManager extends AssetManager<Member> {
 
 	public MemberManager() {
-		super("Member");
+		super(Member.MEMBER_TABLE);
 	}
 	
 	@Override
 	public int add( Member asset ) {
 		asset.setUsername( asset.getUsername().toLowerCase() );
 		asset.setEmail( asset.getEmail().toLowerCase() );
+		
 		return super.add(asset);
 	}
 	
-	// check if username exists already
-	public boolean existsUsername( String username ) {
-		long count = this.count("username", username.toLowerCase());
-		
-		if ( count == 0L ) {
-			// username NOT exists
-			return false;
-		} else {
-			// username exists
-			return true;
-		}
-	}
-
-	// check if email exists already
-	public boolean existsEMail( String email ) {
-		long count = this.count("email", email.toLowerCase());
-		
-		if ( count == 0L ) {
-			// username NOT exists
-			return false;
-		} else {
-			// username exists
-			return true;
-		}
+	// check if username is already in use
+	public boolean checkUsername( String username ) {
+		return this.exists( Member.MEMBER_USERNAME, username.toLowerCase() );
 	}
 	
-	private long count( String column, String value ) {
-		Session session = this.getFactory().openSession();
-		Transaction tx = null;
-		long count = 0;
-		
-		try {
-			tx = session.beginTransaction();
-			count = (long) session.createQuery("SELECT COUNT(*) FROM Member m WHERE m." +column +"='" +value +"'")
-					.getSingleResult();
-			tx.commit();			
-		} catch ( HibernateException e ) {
-			if ( tx != null ) {
-				tx.rollback();
-			}
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		
-		return count;
+	// check if email is already in use
+	public boolean checkEMail( String email ) {
+		return this.exists( Member.MEMBER_EMAIL, email.toLowerCase() );
 	}
 	
 	// check if login is correct
-	public Member get( String email, String password ) {	
+	public Member checkLogin( String email, String password ) {	
 		Session session = this.getFactory().openSession();
 		Transaction tx = null;
 		Member member = null;
@@ -95,6 +58,30 @@ public final class MemberManager extends AssetManager<Member> {
 			session.close();
 		}
 		return member;
+	}
+
+	@Override
+	public Member get(int id) {
+		Session session = this.getFactory().openSession();
+		Transaction tx = null;
+		Member asset = null;
+		
+		try {
+			tx = session.beginTransaction();
+			asset = session.get(Member.class, id);
+			tx.commit();			
+		} catch ( NoResultException e ) {
+			// record not found
+			return null;
+		} catch ( HibernateException e ) {
+			if ( tx != null ) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return asset;
 	}	
 
 }

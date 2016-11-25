@@ -3,6 +3,8 @@ package de.meets.hibernate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -14,6 +16,7 @@ public class HibernateInit {
 
 	private static SessionFactory factory;
 	private static ServiceRegistry registry;
+	private static CriteriaBuilder criteria;
 	
 	private HibernateInit() {}
 	
@@ -26,6 +29,17 @@ public class HibernateInit {
 			}
 		}//if
 		return factory;
+	}
+	
+	public static CriteriaBuilder getCriteriaInstance() {
+		if ( criteria == null ) {
+			try {
+				setUp();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}//if
+		return criteria;
 	}
 	
 	private static void setUp() throws Exception {
@@ -43,6 +57,7 @@ public class HibernateInit {
 				.applySettings(config.getProperties())
 				.build();
 		factory = config.buildSessionFactory(registry);
+		criteria = factory.getCriteriaBuilder();
 	}
 	
 	private static void createHibernateClasses( Configuration configuration ) {

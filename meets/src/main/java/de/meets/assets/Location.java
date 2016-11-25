@@ -1,29 +1,38 @@
 package de.meets.assets;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "location")
 public class Location {
 
-	@Id @Column(name = "locationID")
+	// location table
+	public static final String LOCATION_TABLE = "Location";
+	public static final String LOCATION_ID = "locationID";
+	public static final String LOCATION_POSTAL_CODE = "postalCode";
+	public static final String LOCATION_NAME = "name";
+	
+	// define location fields/columns
+	@Id @Column(name = LOCATION_ID)
 	private int id;
 	
-	@Column(name = "postalCode")
+	@Column(name = LOCATION_POSTAL_CODE)
 	private int postalCode;
 	
-	@Column(name = "name")
+	@Column(name = LOCATION_NAME)
 	private String name;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "memberLocation")
-	private List<Member> memberLocations;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = Member.MEMBER_LOCATION)
+	private Set<Member> memberLocations = new HashSet<Member>();
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "meetingLocation")
-	private List<Meeting> meetingLocations;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = Meeting.MEETING_LOCATION)
+	private Set<Meeting> meetingLocations =  new HashSet<Meeting>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "createdLocation")
-	private List<Meeting> meetingLocationsCreated;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = Meeting.MEETING_CREATED_LOCATION)
+	private Set<Meeting> meetingLocationsCreated =  new HashSet<Meeting>();
 	
 	// constructors
 	public Location() {}
@@ -63,27 +72,27 @@ public class Location {
 		this.name = name;
 	}
 
-	public List<Member> getMemberLocations() {
+	public Set<Member> getMemberLocations() {
 		return memberLocations;
 	}
 
-	public void setMemberLocations(List<Member> memberLocations) {
+	public void setMemberLocations(Set<Member> memberLocations) {
 		this.memberLocations = memberLocations;
 	}
 
-	public List<Meeting> getMeetingLocations() {
+	public Set<Meeting> getMeetingLocations() {
 		return meetingLocations;
 	}
 
-	public void setMeetingLocations(List<Meeting> meetingLocations) {
+	public void setMeetingLocations(Set<Meeting> meetingLocations) {
 		this.meetingLocations = meetingLocations;
 	}
 
-	public List<Meeting> getMeetingLocationsCreated() {
+	public Set<Meeting> getMeetingLocationsCreated() {
 		return meetingLocationsCreated;
 	}
 
-	public void setMeetingLocationsCreated(List<Meeting> meetingLocationsCreated) {
+	public void setMeetingLocationsCreated(Set<Meeting> meetingLocationsCreated) {
 		this.meetingLocationsCreated = meetingLocationsCreated;
 	}
 
