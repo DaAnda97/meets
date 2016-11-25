@@ -20,7 +20,7 @@ public class ShowUser extends HorizontalLayout implements View{
 	Label message = new Label("Deine Angaben:");
 	TextField name = new TextField("Benutzername");
 	TextField email = new TextField("E-Mail");
-	TextField location = new TextField("Ort");
+//	TextField location = new TextField("Ort");
 	
 	HorizontalLayout buttonPanel = new HorizontalLayout();
     Button edit = new Button("Bearbeiten");
@@ -34,7 +34,7 @@ public class ShowUser extends HorizontalLayout implements View{
     PasswordField passwordNewConfirm = new PasswordField("Bestätige neues Passwort");
     Button confirmNewPassoword = new Button("Bestätigen");
     
-    Button deliteUser = new Button("Bnutzer löschen!");
+    Button deliteUser = new Button("Benutzer löschen!");
     
     
 	@Override
@@ -43,7 +43,7 @@ public class ShowUser extends HorizontalLayout implements View{
 	    //Ort Informationen zu angemedeten Benutzer ersetzen
 	    name.setValue(member.getUsername());
 	    email.setValue(member.getEmail());
-	    location.setValue("Dein Ort");
+//	    location.setValue("Dein Ort");
 	    
 	    changeToViewMode();
 	    
@@ -60,7 +60,7 @@ public class ShowUser extends HorizontalLayout implements View{
 	    });
 	    buttonPanel.addComponent(edit);
 	    
-	    informationPanel.addComponents(message, name, email, location, buttonPanel);
+	    informationPanel.addComponents(message, name, email, buttonPanel);
 	    
 	    
 	    //-------------------- PASSWORD - PANEL ---------------------------
@@ -83,9 +83,10 @@ public class ShowUser extends HorizontalLayout implements View{
 	}
 
 	private void saveChanges() {
+		System.out.println(member.getUsername());
 		member.setUsername(name.getValue());
 		member.setEmail(email.getValue());
-		String locationValue = location.getValue(); //TODO Location ändern
+//		String locationValue = location.getValue(); //TODO Location ändern
 		memberManager.alter(member);
 		
 		message.setValue("Änderungen gespeichert!");
@@ -94,7 +95,7 @@ public class ShowUser extends HorizontalLayout implements View{
 	private void changeToViewMode() {
 		name.setEnabled(false);
     	email.setEnabled(false);
-    	location.setEnabled(false);
+//    	location.setEnabled(false);
     	buttonPanel.addComponent(edit);
    		buttonPanel.removeComponent(saveChanges);
    		buttonPanel.removeComponent(removeChanges);
@@ -103,7 +104,7 @@ public class ShowUser extends HorizontalLayout implements View{
 	private void changeToEditMode() {
 		name.setEnabled(true);
     	email.setEnabled(true);
-    	location.setEnabled(true);
+//    	location.setEnabled(true);
     	buttonPanel.removeComponent(edit);
     	buttonPanel.addComponents(saveChanges, removeChanges);
 	}

@@ -69,8 +69,8 @@ public class Register extends VerticalLayout implements View{
 		
         registerButton = new Button("Registrieren");
 	    registerButton.addClickListener( e -> {
-	    	GeocodedLocation locationValue = location.getLocation();
-	    	Locale locale = location.getLocale();
+//	    	GeocodedLocation locationValue = location.getLocation();
+//	    	Locale locale = location.getLocale();
 	    	
 	    	boolean isSamePasswordInput = password.getValue().equals(controlPassword.getValue());
 	    	boolean isValidEmail = Login.isValidEmailAddress(email.getValue());
@@ -96,7 +96,7 @@ public class Register extends VerticalLayout implements View{
 	    switchButton = new Button("Zum Login");;
         switchButton.addClickListener(listener -> getUI().getNavigator().navigateTo("Login"));
 	    
-	    this.addComponents(register, username, email, location, password, controlPassword, registerButton, switchButton);
+	    this.addComponents(register, username, email, password, controlPassword, registerButton, switchButton);
 	    this.setMargin(true);
 	    this.setSpacing(true);
 	}
