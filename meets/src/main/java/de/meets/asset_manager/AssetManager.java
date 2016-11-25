@@ -1,7 +1,6 @@
 package de.meets.asset_manager;
 
 import java.util.Iterator;
-
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -10,6 +9,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
 
 import de.meets.hibernate.HibernateInit;
 
@@ -87,13 +87,37 @@ public abstract class AssetManager<E> {
 	}
 	
 	// UPDATE a record of a asset
-	public void alter( E asset ) {
+	public void update( E asset ) {
 		Session session = factory.openSession();
 		Transaction tx = null;
 		
 		try {
 			tx = session.beginTransaction();
-			session.update(asset);
+			session.saveOrUpdate(asset);
+			tx.commit();			
+		} catch ( HibernateException e ) {
+			if ( tx != null ) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+	}
+	
+	// SAVE (changes of) a records of a asset
+	@SuppressWarnings("unchecked")
+	public void save( E... assets ) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		
+		try {
+			tx = session.beginTransaction();
+			
+			for (E asset : assets) {
+				session.save(asset);
+			}
+			
 			tx.commit();			
 		} catch ( HibernateException e ) {
 			if ( tx != null ) {
@@ -106,7 +130,7 @@ public abstract class AssetManager<E> {
 	}
 	
 	// DELETE a record of a asset
-	public void delete( E asset ) {
+	public int delete( E asset ) {
 		Session session = factory.openSession();
 		Transaction tx = null;
 		
@@ -114,14 +138,21 @@ public abstract class AssetManager<E> {
 			tx = session.beginTransaction();
 			session.delete(asset);
 			tx.commit();			
+		} catch ( ConstraintViolationException e ) {
+			// there are records, which refer to the record to be deleted.
+			// deletion of record not possible!
+			return 0;
 		} catch ( HibernateException e ) {
 			if ( tx != null ) {
 				tx.rollback();
 			}
+			// failure
 			e.printStackTrace();
+			return -1;
 		} finally {
 			session.close();
 		}
+		return 1;
 	}
 	
 	// EXISTS value of column?

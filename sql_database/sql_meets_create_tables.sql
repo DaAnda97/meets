@@ -1,23 +1,20 @@
--- ---------------------------------
--- Author: Sebastian Luther
--- Date:   21-11-2016
--- ---------------------------------
 
-DROP TABLE IF EXISTS meets.meet;
-DROP TABLE IF EXISTS meets.meeting;
-DROP TABLE IF EXISTS meets.member;
-DROP TABLE IF EXISTS meets.category;
-DROP TABLE IF EXISTS meets.location;
+DROP TABLE IF EXISTS meets.Meet;
+DROP TABLE IF EXISTS meets.Meeting;
+DROP TABLE IF EXISTS meets.Member;
+DROP TABLE IF EXISTS meets.Category;
+DROP TABLE IF EXISTS meets.Location;
 
 -- ---------------------------------
 -- Table 'Meets'.'Location'
 -- ---------------------------------
 
-CREATE TABLE IF NOT EXISTS meets.location
+CREATE TABLE IF NOT EXISTS meets.Location
 (
     locationID 	 INT NOT NULL AUTO_INCREMENT,
-    postalCode	 INT NOT NULL,
-    name		 VARCHAR(45) NOT NULL,
+	city		 VARCHAR(45) NOT NULL UNIQUE,
+    longitude	 DOUBLE NOT NULL,
+    latitude	 DOUBLE NOT NULL,
 	PRIMARY KEY  (locationID)
 )ENGINE=INNODB;
 
@@ -25,10 +22,10 @@ CREATE TABLE IF NOT EXISTS meets.location
 -- Table 'Meets'.'Category'
 -- ---------------------------------
 
-CREATE TABLE IF NOT EXISTS meets.category
+CREATE TABLE IF NOT EXISTS meets.Category
 (
     categoryID 	 INT NOT NULL AUTO_INCREMENT,
-	name		 VARCHAR(45) NOT NULL UNIQUE,
+	title		 VARCHAR(45) NOT NULL UNIQUE,
 	PRIMARY KEY  (categoryID)
 )ENGINE=INNODB;
 
@@ -36,55 +33,55 @@ CREATE TABLE IF NOT EXISTS meets.category
 -- Table 'Meets'.'Member'
 -- ---------------------------------
 
-CREATE TABLE IF NOT EXISTS meets.member
+CREATE TABLE IF NOT EXISTS meets.Member
 (
     memberID	   INT NOT NULL AUTO_INCREMENT,
     username       VARCHAR(30) NOT NULL UNIQUE,
 	firstName      VARCHAR(45),
 	lastName       VARCHAR(45),
-	password	   VARCHAR(256) NOT NULL,
+	password	   VARCHAR(260) NOT NULL,
 	email		   VARCHAR(320) NOT NULL UNIQUE,
-    memberLocation INT NOT NULL,
+    position	   INT NOT NULL,
 	created		   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY    (memberID),
-	FOREIGN KEY	   (memberLocation) REFERENCES meets.location(locationID)
+	FOREIGN KEY	   (position) REFERENCES meets.Location(locationID)
 )ENGINE=INNODB;
 
 -- ---------------------------------
 -- Table 'Meets'.'Meeting'
 -- ---------------------------------
 
-CREATE TABLE IF NOT EXISTS meets.meeting
+CREATE TABLE IF NOT EXISTS meets.Meeting
 (
     meetingID    	INT NOT NULL AUTO_INCREMENT,
-    name		  	VARCHAR(30) NOT NULL,
-	description  	VARCHAR(255),
-	meetingCategory INT NOT NULL,
-	meetingDate		DATE NOT NULL,
-    meetingTime		TIME NOT NULL,
-    meetingLocation	INT,
-	meetingOwner 	INT NOT NULL,
-    maxMembers		INT NOT NULL,
+    title		  	VARCHAR(50) NOT NULL,
+	description  	VARCHAR(500),
+	category 		INT NOT NULL,
+	date			DATE NOT NULL,
+    time			TIME NOT NULL,
+    location		INT,
+	creator		 	INT NOT NULL,
+    scope			INT NOT NULL,
     createdTime		TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	createdLocation	INT NOT NULL,
 	PRIMARY KEY 	(meetingID),
-	FOREIGN KEY 	(meetingCategory) REFERENCES meets.category(categoryID),
-	FOREIGN KEY 	(meetingLocation) REFERENCES meets.location(locationID),
-	FOREIGN KEY 	(createdLocation) REFERENCES meets.location(locationID),
-	FOREIGN KEY 	(meetingOwner) REFERENCES meets.member(memberID)
+	FOREIGN KEY 	(category) REFERENCES meets.Category(categoryID),
+	FOREIGN KEY 	(location) REFERENCES meets.Location(locationID),
+	FOREIGN KEY 	(createdLocation) REFERENCES meets.Location(locationID),
+	FOREIGN KEY 	(creator) REFERENCES meets.Member(memberID)
 )ENGINE=INNODB;
 
 -- ---------------------------------
 -- Table 'Meets'.'Meet' | Member-Meeting
 -- ---------------------------------
 
-CREATE TABLE IF NOT EXISTS meets.meet
+CREATE TABLE IF NOT EXISTS meets.Meet
 (
     meetID       	INT NOT NULL AUTO_INCREMENT,
     memberID	 	INT NOT NULL,
-    meetingID 	INT NOT NULL,
+    meetingID 		INT NOT NULL,
 	PRIMARY KEY (meetID),
-	FOREIGN KEY (memberID) REFERENCES meets.member(memberID),
-	FOREIGN KEY (meetingID) REFERENCES meets.meeting(meetingID)
+	FOREIGN KEY (memberID) REFERENCES meets.Member(memberID),
+	FOREIGN KEY (meetingID) REFERENCES meets.Meeting(meetingID)
 )ENGINE=INNODB;
 

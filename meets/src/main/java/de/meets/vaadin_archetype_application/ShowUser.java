@@ -87,7 +87,7 @@ public class ShowUser extends HorizontalLayout implements View{
 		member.setUsername(name.getValue());
 		member.setEmail(email.getValue());
 //		String locationValue = location.getValue(); //TODO Location ändern
-		memberManager.alter(member);
+		memberManager.update(member);
 		
 		message.setValue("Änderungen gespeichert!");
 	}
@@ -118,7 +118,7 @@ public class ShowUser extends HorizontalLayout implements View{
 			if (newPassword.equals(newPasswordConfirm)){
 				changePassword.setValue("Passwort geändert!");
 				member.setPassword(newPassword);
-				memberManager.alter(member);
+				memberManager.update(member);
 				
 			} else {
 				changePassword.setValue("Neue Passwörter stimmen nicht überein!");

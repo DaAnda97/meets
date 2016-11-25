@@ -6,24 +6,28 @@ import java.util.Set;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "location")
+@Table(name = "Location")
 public class Location {
 
 	// location table
 	public static final String LOCATION_TABLE = "Location";
 	public static final String LOCATION_ID = "locationID";
-	public static final String LOCATION_POSTAL_CODE = "postalCode";
-	public static final String LOCATION_NAME = "name";
+	public static final String LOCATION_CITY = "city";
+	public static final String LOCATION_LONGITUDE = "longitude";
+	public static final String LOCATION_LATITUDE = "latitude";
 	
 	// define location fields/columns
 	@Id @Column(name = LOCATION_ID)
-	private int id;
+	private int locationID;
 	
-	@Column(name = LOCATION_POSTAL_CODE)
-	private int postalCode;
+	@Column(name = LOCATION_CITY)
+	private String city;
 	
-	@Column(name = LOCATION_NAME)
-	private String name;
+	@Column(name = LOCATION_LONGITUDE)
+	private double longitude;
+	
+	@Column(name = LOCATION_LATITUDE)
+	private double latitude;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = Member.MEMBER_LOCATION)
 	private Set<Member> memberLocations = new HashSet<Member>();
@@ -31,45 +35,53 @@ public class Location {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = Meeting.MEETING_LOCATION)
 	private Set<Meeting> meetingLocations =  new HashSet<Meeting>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = Meeting.MEETING_CREATED_LOCATION)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = Meeting.METADATA_CREATED_LOCATION)
 	private Set<Meeting> meetingLocationsCreated =  new HashSet<Meeting>();
 	
 	// constructors
 	public Location() {}
 	
 	public Location(int id) {
-		this.id = id;
+		this.locationID = id;
+	}
+		
+	public Location(String city, double longitude, double latitude) {
+		this.city = city;
+		this.longitude = longitude;
+		this.latitude = latitude;
 	}
 	
-	public Location(int id, int postalCode, String name) {
-		this.id = id;
-		this.postalCode = postalCode;
-		this.name = name;
-	}
-
 	// getters and setters
-	public int getId() {
-		return id;
+	public int getLocationID() {
+		return locationID;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setLocationID(int locationID) {
+		this.locationID = locationID;
 	}
 
-	public int getPostalCode() {
-		return postalCode;
+	public String getCity() {
+		return city;
 	}
 
-	public void setPostalCode(int postalCode) {
-		this.postalCode = postalCode;
+	public void setCity(String city) {
+		this.city = city;
 	}
 
-	public String getName() {
-		return name;
+	public double getLongitude() {
+		return longitude;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
 	}
 
 	public Set<Member> getMemberLocations() {
@@ -95,5 +107,6 @@ public class Location {
 	public void setMeetingLocationsCreated(Set<Meeting> meetingLocationsCreated) {
 		this.meetingLocationsCreated = meetingLocationsCreated;
 	}
+	
 
 }

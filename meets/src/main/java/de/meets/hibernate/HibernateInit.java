@@ -69,6 +69,7 @@ public class HibernateInit {
 	
 	public static void tearDown() {
 		if ( factory.isOpen() )
+			System.out.println("Tear down...");
 			factory.close();
 	}
 

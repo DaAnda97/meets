@@ -74,14 +74,14 @@ public class Register extends VerticalLayout implements View{
 	    	
 	    	boolean isSamePasswordInput = password.getValue().equals(controlPassword.getValue());
 	    	boolean isValidEmail = Login.isValidEmailAddress(email.getValue());
-	    	boolean isUnusedEmail = memberManager.existsEMail(email.getValue());
+	    	boolean isUnusedEmail = memberManager.checkEMail(email.getValue());
 	    	
 	    	if (isSamePasswordInput){
 	    		if (isValidEmail){
 	    			// Noch E-Mail und Benutzer auf Eindeutigkeit prüfen
 	    			// Location ID über Location Manager get(plz) abfragen
-	    			Member member = new Member(0, username.getValue(), null, null, password.getValue(), 
-	    									email.getValue(), new Location(1), null, null);
+	    			Member member = null;
+	    				//TODO
 	    			memberManager.add(member);
 	    			NavigatorUI.setRegistratedMember(member);
 	    			getUI().getNavigator().navigateTo("ShowUser");
