@@ -3,21 +3,23 @@ package de.meets.views;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.server.UserError;
 
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Member;
 import de.meets.vaadin_archetype_application.MeetsUI;
+import de.meets.vaadin_archetype_application.Views;
 
 
 public class Login extends VerticalLayout implements View{
-//        ClassResource logo = new ClassResource("/images/logo.png");
 	Label login = new Label("Anmelden");
-	TextField email = new TextField("Benutzername");
+	TextField email = new TextField("E-Mail");
 	PasswordField password = new PasswordField("Passwort");
 	Button loginButton = new Button("Login");
 	
@@ -30,37 +32,38 @@ public class Login extends VerticalLayout implements View{
         	String emailValue = email.getValue().trim();
         	String passwordValue = password.getValue().trim();
         	
-        	if (isValidEmailAddress(emailValue)){
-        		login.setCaption("E-Mail valide!");
-        		Member member = memberManager.checkLogin(emailValue, passwordValue);
-        		if (member != null){
-        			MeetsUI.setRegistratedMember(member);
-            		getUI().getNavigator().navigateTo("ShowUser");
-            	} else {
-            		login.setCaption("Passwort oder E-Mail-Adresse falsch!");
-            	}
-        	} else {
-        		login.setCaption("Bitte geben Sie eine valide E-Mail ein!");
+        	if (MeetsUI.isValidEmailAddress(emailValue))
+        	{
+        		if(memberManager.checkEMail(emailValue))
+        		{
+        			Member member = memberManager.checkLogin(emailValue, passwordValue);
+        			if (member != null)
+        			{
+        				MeetsUI.setRegistratedMember(member);
+        				getUI().getNavigator().navigateTo(Views.MEETING_OVERVIEW.getView());
+        			} else 
+        			{
+        				password.setComponentError(new UserError("Falsches Passwort!"));
+        			}
+        		} else 
+        		{
+        			email.setComponentError(new UserError("E-Mail ist uns nicht bekannt!"));
+        		}
+        	} else 
+        	{
+        		email.setComponentError(new UserError("Ungültige E-Mail"));
         	}
         	
         });
         
         Button switchButton = new Button("Noch nicht registriert?");
-        switchButton.addClickListener(listener -> getUI().getNavigator().navigateTo("Register"));
+        switchButton.addClickListener(listener -> getUI().getNavigator().navigateTo(Views.REGISTER.getView()));
         
-//        this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-//        this.addComponents(new Image(null,logo), name, password, loginButton, switchButton);
+        this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
         this.addComponents(login, email, password, loginButton, switchButton);
 //        this.setSizeFull();
         this.setMargin(true);
         this.setSpacing(true);
 	}
 	
-	public static boolean isValidEmailAddress(String email) {
-        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-        java.util.regex.Matcher m = p.matcher(email);
-        return m.matches();
- }
-
 }

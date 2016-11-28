@@ -1,6 +1,12 @@
 package de.meets.vaadin_archetype_application;
 
+import java.util.Iterator;
+
 import javax.servlet.annotation.WebServlet;
+
+
+
+
 
 
 
@@ -29,7 +35,9 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 import de.meets.assets.Member;
+import de.meets.views.Footer;
 import de.meets.views.Header;
+import de.meets.views.Impressum;
 import de.meets.views.Login;
 import de.meets.views.Register;
 import de.meets.views.ShowUser;
@@ -45,9 +53,11 @@ import de.meets.views.ShowUser;
 public class MeetsUI extends UI implements View{
 	Navigator navigator;
 	VerticalLayout mainLayout = new VerticalLayout();
-	Header header = new Header();
+	
+	static Header header = new Header();
 	Panel mainView = new Panel();
-
+	Footer footer = new Footer();
+	
     protected static Member registratedMember = null;
 
     @Override
@@ -61,16 +71,16 @@ public class MeetsUI extends UI implements View{
 		navigator = new Navigator(this, mainView);
 		
 		// Create and register the views
-		navigator.addView("Login", Login.class);
-		navigator.addView("Register", Register.class);
-		navigator.addView("ShowUser", ShowUser.class);
+		for (Views view : Views.values()){
+			navigator.addView(view.getView(), view.getItsClass());
+		}
 		
-		navigator.navigateTo("Login");
+		navigator.navigateTo(Views.LOGIN.getView());
 		
 		
         getPage().setTitle("Meets");
         mainLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-    	mainLayout.addComponents(header, mainView);
+    	mainLayout.addComponents(header, mainView, footer);
 //    	mainLayout.setSizeFull();
         mainLayout.setMargin(true);
         mainLayout.setSpacing(true);
@@ -84,8 +94,15 @@ public class MeetsUI extends UI implements View{
 	
 	public static void setRegistratedMember(Member registratedMember) {
 		MeetsUI.registratedMember = registratedMember;
+		header.addShowUser();
 	}
     
+	public static boolean isValidEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+	}
 
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MeetsUI.class, productionMode = false)
