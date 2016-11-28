@@ -1,4 +1,4 @@
-package de.meets.vaadin_archetype_application;
+package de.meets.views;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -11,10 +11,11 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Member;
+import de.meets.vaadin_archetype_application.MeetsUI;
 
 public class ShowUser extends HorizontalLayout implements View{
 	MemberManager memberManager = new MemberManager();
-	Member member = NavigatorUI.getRegistratedMember();
+	Member member = MeetsUI.getRegistratedMember();
 	
 	VerticalLayout informationPanel = new VerticalLayout();
 	Label message = new Label("Deine Angaben:");

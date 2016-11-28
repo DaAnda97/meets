@@ -1,4 +1,4 @@
-package de.meets.vaadin_archetype_application;
+package de.meets.views;
 
 import java.util.Locale;
 
@@ -17,17 +17,10 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-
-
-
-
-
-
-
-
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Location;
 import de.meets.assets.Member;
+import de.meets.vaadin_archetype_application.MeetsUI;
 
 public class Register extends VerticalLayout implements View{
 	Label register;
@@ -83,7 +76,7 @@ public class Register extends VerticalLayout implements View{
 	    			Member member = null;
 	    				//TODO
 	    			memberManager.add(member);
-	    			NavigatorUI.setRegistratedMember(member);
+	    			MeetsUI.setRegistratedMember(member);
 	    			getUI().getNavigator().navigateTo("ShowUser");
 	    		} else {
 	    			register.setValue("Bitte geben Sie eine gültige E-Mail Adresse ein!");

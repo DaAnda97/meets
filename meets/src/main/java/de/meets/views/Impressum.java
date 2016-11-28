@@ -1,4 +1,4 @@
-package de.meets.vaadin_archetype_application;
+package de.meets.views;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;

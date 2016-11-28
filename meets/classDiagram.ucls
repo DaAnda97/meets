@@ -2,8 +2,8 @@
 <class-diagram version="1.1.11" icons="true" automaticImage="PNG" always-add-relationships="false" 
   generalizations="true" realizations="true" associations="true" dependencies="false" nesting-relationships="true" 
   router="FAN">  
-  <class id="1" language="java" name="de.meets.vaadin_archetype_application.Login" project="webpage" 
-    file="/webpage/src/main/java/de/meets/vaadin_archetype_application/Login.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="1" language="java" name="de.meets.views.Login" project="webpage" 
+    file="/webpage/src/main/java/de/meets/views/Login.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="457" y="-717"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -11,8 +11,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="de.meets.vaadin_archetype_application.NavigatorUI.MyUIServlet" project="webpage" 
-    file="/webpage/src/main/java/de/meets/vaadin_archetype_application/NavigatorUI.java" binary="false" 
+  <class id="2" language="java" name="de.meets.vaadin_archetype_application.MeetsUI.MyUIServlet" project="webpage" 
+    file="/webpage/src/main/java/de/meets/vaadin_archetype_application/MeetsUI.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1071" y="-899"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -21,8 +21,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="de.meets.vaadin_archetype_application.NavigatorUI" project="webpage" 
-    file="/webpage/src/main/java/de/meets/vaadin_archetype_application/NavigatorUI.java" binary="false" 
+  <class id="3" language="java" name="de.meets.vaadin_archetype_application.MeetsUI" project="webpage" 
+    file="/webpage/src/main/java/de/meets/vaadin_archetype_application/MeetsUI.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1070" y="-708"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -31,9 +31,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="de.meets.vaadin_archetype_application.MeetingInformation" project="webpage" 
-    file="/webpage/src/main/java/de/meets/vaadin_archetype_application/MeetingInformation.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
+  <class id="4" language="java" name="de.meets.views.MeetingInformation" project="webpage" 
+    file="/webpage/src/main/java/de/meets/views/MeetingInformation.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="752" y="-699"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -41,9 +40,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="de.meets.vaadin_archetype_application.Register" project="webpage" 
-    file="/webpage/src/main/java/de/meets/vaadin_archetype_application/Register.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
+  <class id="5" language="java" name="de.meets.views.Register" project="webpage" 
+    file="/webpage/src/main/java/de/meets/views/Register.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1387" y="-717"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -51,9 +49,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="de.meets.vaadin_archetype_application.MeetingOverview" project="webpage" 
-    file="/webpage/src/main/java/de/meets/vaadin_archetype_application/MeetingOverview.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
+  <class id="6" language="java" name="de.meets.views.MeetingOverview" project="webpage" 
+    file="/webpage/src/main/java/de/meets/views/MeetingOverview.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1682" y="-699"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -61,9 +58,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="de.meets.vaadin_archetype_application.Impressum" project="webpage" 
-    file="/webpage/src/main/java/de/meets/vaadin_archetype_application/Impressum.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
+  <class id="7" language="java" name="de.meets.views.Impressum" project="webpage" 
+    file="/webpage/src/main/java/de/meets/views/Impressum.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1964" y="-735"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -71,9 +67,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="de.meets.vaadin_archetype_application.ShowUser" project="webpage" 
-    file="/webpage/src/main/java/de/meets/vaadin_archetype_application/ShowUser.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
+  <class id="8" language="java" name="de.meets.views.ShowUser" project="webpage" 
+    file="/webpage/src/main/java/de/meets/views/ShowUser.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2245" y="-546"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -108,73 +103,73 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="12">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="13" name="meetingOwner">        
-        <position height="0" width="0" x="297" y="84"/>      
-      </attribute>      
-      <multiplicity id="14" minimum="0" maximum="1">        
-        <position height="0" width="0" x="297" y="84"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="11" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="15">    
+  <nesting id="12">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </nesting>  
+  <association id="13">    
     <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="16" name="category">        
+      <attribute id="14" name="category">        
         <position height="0" width="0" x="-468" y="-74"/>      
       </attribute>      
-      <multiplicity id="17" minimum="0" maximum="1">        
+      <multiplicity id="15" minimum="0" maximum="1">        
         <position height="0" width="0" x="-468" y="-74"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="18">    
+  <association id="16">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="19" name="meeting">        
-        <position height="0" width="0" x="-125" y="191"/>      
+      <attribute id="17" name="category">        
+        <position height="0" width="0" x="-468" y="-74"/>      
       </attribute>      
-      <multiplicity id="20" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-125" y="191"/>      
+      <multiplicity id="18" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-468" y="-74"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="10" navigable="true"/>    
+    <end type="TARGET" refId="9" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="21">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="22" name="meeting">        
-        <position height="0" width="0" x="-125" y="191"/>      
-      </attribute>      
-      <multiplicity id="23" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-125" y="191"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="10" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="24">    
-    <end type="SOURCE" refId="6" navigable="false">      
-      <attribute id="25" name="member">        
+  <association id="19">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="20" name="member">        
         <position height="0" width="0" x="297" y="84"/>      
       </attribute>      
-      <multiplicity id="26" minimum="0" maximum="1">        
+      <multiplicity id="21" minimum="0" maximum="1">        
         <position height="0" width="0" x="297" y="84"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="11" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <nesting id="27">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="2"/>  
-  </nesting>  
+  <association id="22">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="23" name="meeting">        
+        <position height="0" width="0" x="-125" y="191"/>      
+      </attribute>      
+      <multiplicity id="24" minimum="0" maximum="1">        
+        <position height="0" width="0" x="-125" y="191"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="25">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="26" name="member">        
+        <position height="0" width="0" x="297" y="84"/>      
+      </attribute>      
+      <multiplicity id="27" minimum="0" maximum="1">        
+        <position height="0" width="0" x="297" y="84"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <association id="28">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="29" name="member">        
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="29" name="meetingOwner">        
         <position height="0" width="0" x="297" y="84"/>      
       </attribute>      
       <multiplicity id="30" minimum="0" maximum="1">        
@@ -185,7 +180,7 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="31">    
-    <end type="SOURCE" refId="8" navigable="false">      
+    <end type="SOURCE" refId="6" navigable="false">      
       <attribute id="32" name="member">        
         <position height="0" width="0" x="297" y="84"/>      
       </attribute>      
@@ -198,14 +193,14 @@
   </association>  
   <association id="34">    
     <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="35" name="category">        
-        <position height="0" width="0" x="-468" y="-74"/>      
+      <attribute id="35" name="meeting">        
+        <position height="0" width="0" x="-125" y="191"/>      
       </attribute>      
       <multiplicity id="36" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-468" y="-74"/>      
+        <position height="0" width="0" x="-125" y="191"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="9" navigable="true"/>    
+    <end type="TARGET" refId="10" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

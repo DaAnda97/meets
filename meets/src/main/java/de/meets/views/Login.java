@@ -1,4 +1,4 @@
-package de.meets.vaadin_archetype_application;
+package de.meets.views;
 
 
 import com.vaadin.navigator.View;
@@ -11,6 +11,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Member;
+import de.meets.vaadin_archetype_application.MeetsUI;
 
 
 public class Login extends VerticalLayout implements View{
@@ -33,7 +34,7 @@ public class Login extends VerticalLayout implements View{
         		login.setCaption("E-Mail valide!");
         		Member member = memberManager.checkLogin(emailValue, passwordValue);
         		if (member != null){
-        			NavigatorUI.setRegistratedMember(member);
+        			MeetsUI.setRegistratedMember(member);
             		getUI().getNavigator().navigateTo("ShowUser");
             	} else {
             		login.setCaption("Passwort oder E-Mail-Adresse falsch!");
