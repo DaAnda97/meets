@@ -82,15 +82,28 @@ public class Register extends VerticalLayout implements View{
 	    		if (MeetsUI.isValidEmailAddress(email.getValue()))
 	    		{
 	    			if (!memberManager.checkEMail(email.getValue())){
-	    				if (getLocation(location, locationManager) != null){
-	    					Location position = getLocation(location, locationManager);
+	    				if (location.getLocation() != null){
+	    					
+	    					//Generate Location
+	    					Location position = new Location(location.getText(), 
+	    							location.getLocation().getLon(), location.getLocation().getLat());
+	    					if ( locationManager.get(position.getCity()) == null ) {
+	    						locationManager.add(position);
+	    					} else {
+	    						position = locationManager.get(position.getCity());
+	    					}
+	    					
+	    					//Generate Member
 	    					Member member = new Member(username.getValue().trim(), null, null, 
 	    							password.getValue().trim(), email.getValue().trim(), position);
 	    					member.setFirstName(firstName.getValue().trim());
 	    					member.setLastName(lastName.getValue().trim());
+	    					
+	    					//Add Member
 	    					memberManager.add(member);
 	    					MeetsUI.setRegistratedMember(member);
 	    					getUI().getNavigator().navigateTo(Views.MEETING_OVERVIEW.getView());
+	    					
 	    				} else {
 	    					location.setComponentError(new UserError("Wähle eine Adresse aus der Liste! (Drücke Enter)"));
 	    				}
@@ -115,21 +128,5 @@ public class Register extends VerticalLayout implements View{
 	    this.setSpacing(true);
 	}
 	
-	public static Location getLocation(LocationTextField<GeocodedLocation> locationTextField, LocationManager locationManager){
-		try {
-			GeocodedLocation locationValue = locationTextField.getLocation();
-			Location position = new Location(locationTextField.getText(), locationValue.getLon(), locationValue.getLat());
-			
-			if ( locationManager.get(position.getCity()) == null ) {
-				locationManager.add(position);
-			} else {
-				position = locationManager.get(position.getCity());
-			}
-			
-			return position;
-		} catch (Exception e) {
-			return null;
-		}
-	}
 
 }

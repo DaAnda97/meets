@@ -58,13 +58,16 @@ public class ShowUser extends HorizontalLayout implements View{
 	    email.setValue(member.getEmail());
 	    firstName.setValue(member.getFirstName());
 	    lastName.setValue(member.getLastName());
+	    
 	    final OpenStreetMapGeocoder geocoder = OpenStreetMapGeocoder.getInstance();
 		geocoder.setLimit(25);
 		location = new LocationTextField<GeocodedLocation>(geocoder, GeocodedLocation.class);
+		GeocodedLocation geoLoc = new GeocodedLocation();
+		location.setLocation(geoLoc);
 		location.setCaption("Adresse");
         location.setImmediate(true);
-        location.setInputPrompt("");
-        location.setText(member.getPosition().getCity());
+        location.setInputPrompt(member.getPosition().getCity());
+        
 	    changeToViewMode();
 	    
 	    // Button ClickListener
@@ -108,11 +111,22 @@ public class ShowUser extends HorizontalLayout implements View{
 		member.setLastName(lastName.getValue());
 		
 		Location position = member.getPosition();
-		if (!location.getText().equals(position.getCity())){
-			if (Register.getLocation(location, locationManager) != null){
-				position = Register.getLocation(location, locationManager);
+		if (!location.getText().trim().equals("")){
+			if (location.getLocation() != null){
+				position.setCity(location.getText());
+				position.setLatitude(location.getLocation().getLat());
+				position.setLongitude(location.getLocation().getLon());
+				
+				if ( locationManager.get(position.getCity()) == null ) {
+					locationManager.add(position);
+				} else {
+					position = locationManager.get(position.getCity());
+				}
+				
+				member.setPosition(position);
 			} else {
 				location.setComponentError(new UserError("Wähle eine Adresse aus der Liste! (Drücke Enter)"));
+				return; //Stop saving, if there's a input, but it's not a GeoLoc
 			}
 		}
 		memberManager.update(member);
