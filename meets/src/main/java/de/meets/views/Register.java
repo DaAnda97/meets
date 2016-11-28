@@ -2,9 +2,11 @@ package de.meets.views;
 
 import java.util.Locale;
 
+
 import org.vaadin.addons.locationtextfield.GeocodedLocation;
 import org.vaadin.addons.locationtextfield.LocationTextField;
 import org.vaadin.addons.locationtextfield.OpenStreetMapGeocoder;
+
 
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
@@ -19,6 +21,8 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+
+import de.meets.asset_manager.LocationManager;
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Location;
 import de.meets.assets.Member;
@@ -30,12 +34,15 @@ public class Register extends VerticalLayout implements View{
 	TextField username;
 	TextField email;
 	LocationTextField<GeocodedLocation> location;
+	TextField firstName;
+	TextField lastName;
 	PasswordField password;
 	PasswordField controlPassword;
 	Button registerButton;
 	Button switchButton;
 	
 	MemberManager memberManager = new MemberManager();
+	LocationManager locationManager = new LocationManager();
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -45,6 +52,7 @@ public class Register extends VerticalLayout implements View{
 		location.setCaption("Adresse");
         location.setImmediate(true);
         location.setInputPrompt("");
+        location.setRequired(true);
         
         register = new Label("Registrieren");
         
@@ -58,30 +66,34 @@ public class Register extends VerticalLayout implements View{
 //		});
         
         email = new TextField("E-Mail");
+        email.setRequired(true);
         password = new PasswordField("Passwort");
+        password.setRequired(true);
         controlPassword = new PasswordField("Passwort wiederholen");
-		
+        controlPassword.setRequired(true);
+        
+        firstName = new TextField("Vorname");
+        lastName = new TextField("Nachname");
+        
         registerButton = new Button("Registrieren");
 	    registerButton.addClickListener( e -> {
-	    	GeocodedLocation locationValue = location.getLocation();
-	    	Locale locale = location.getLocale();
-	    	
-	    	boolean isSamePasswordInput = password.getValue().equals(controlPassword.getValue());
-	    	boolean isValidEmail = MeetsUI.isValidEmailAddress(email.getValue());
-	    	boolean isUnusedEmail = !memberManager.checkEMail(email.getValue());
-	    	
-	    	if (isSamePasswordInput)
+	    	if (password.getValue().equals(controlPassword.getValue()))
 	    	{
-	    		if (isValidEmail)
+	    		if (MeetsUI.isValidEmailAddress(email.getValue()))
 	    		{
-	    			if (isUnusedEmail){
-	    				Location position = new Location(location.getText(), locationValue.getLon(), locationValue.getLat());
-	    				// Noch E-Mail und Benutzer auf Eindeutigkeit prüfen
-	    				// Location ID über Location Manager get(plz) abfragen
-	    				Member member = new Member(username.getValue(), "", "", password.getValue(), email.getValue(), position);
-	    				memberManager.add(member);
-	    				MeetsUI.setRegistratedMember(member);
-	    				getUI().getNavigator().navigateTo(Views.MEETING_OVERVIEW.getView());
+	    			if (!memberManager.checkEMail(email.getValue())){
+	    				if (getLocation(location, locationManager) != null){
+	    					Location position = getLocation(location, locationManager);
+	    					Member member = new Member(username.getValue().trim(), null, null, 
+	    							password.getValue().trim(), email.getValue().trim(), position);
+	    					member.setFirstName(firstName.getValue().trim());
+	    					member.setLastName(lastName.getValue().trim());
+	    					memberManager.add(member);
+	    					MeetsUI.setRegistratedMember(member);
+	    					getUI().getNavigator().navigateTo(Views.MEETING_OVERVIEW.getView());
+	    				} else {
+	    					location.setComponentError(new UserError("Wähle eine Adresse aus der Liste! (Drücke Enter)"));
+	    				}
 	    			} else {
 	    				email.setComponentError(new UserError("E-Mail ist schon verwendet"));
 	    			}
@@ -98,9 +110,26 @@ public class Register extends VerticalLayout implements View{
         switchButton.addClickListener(listener -> getUI().getNavigator().navigateTo(Views.LOGIN.getView()));
 	    
         this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-	    this.addComponents(register, username, email, location, password, controlPassword, registerButton, switchButton);
+	    this.addComponents(register, username, email, location, firstName, lastName, password, controlPassword, registerButton, switchButton);
 	    this.setMargin(true);
 	    this.setSpacing(true);
+	}
+	
+	public static Location getLocation(LocationTextField<GeocodedLocation> locationTextField, LocationManager locationManager){
+		try {
+			GeocodedLocation locationValue = locationTextField.getLocation();
+			Location position = new Location(locationTextField.getText(), locationValue.getLon(), locationValue.getLat());
+			
+			if ( locationManager.get(position.getCity()) == null ) {
+				locationManager.add(position);
+			} else {
+				position = locationManager.get(position.getCity());
+			}
+			
+			return position;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 }

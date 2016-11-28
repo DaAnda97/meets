@@ -44,7 +44,7 @@ public class Member {
 	@Column(name = MEMBER_CREATED)
 	private Timestamp created;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = MEMBER_LOCATION, nullable = false)
 	private Location position;
 	
@@ -92,19 +92,31 @@ public class Member {
 	}
 
 	public String getFirstName() {
-		return firstName;
+		if (firstName == null){
+			return "";
+		} else {
+			return firstName;
+		}
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		if (!firstName.equals("")){
+			this.firstName = firstName;
+		}
 	}
 
 	public String getLastName() {
-		return lastName;
+		if (lastName == null){
+			return "";
+		} else {
+			return lastName;
+		}
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		if (!lastName.equals("")){
+			this.lastName = lastName;
+		}
 	}
 
 	public String getPassword() {

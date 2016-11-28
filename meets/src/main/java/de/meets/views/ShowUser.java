@@ -1,7 +1,15 @@
 package de.meets.views;
 
+import java.util.ArrayList;
+
+import org.vaadin.addons.locationtextfield.GeocodedLocation;
+import org.vaadin.addons.locationtextfield.GeocodingException;
+import org.vaadin.addons.locationtextfield.LocationTextField;
+import org.vaadin.addons.locationtextfield.OpenStreetMapGeocoder;
+
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.UserError;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
@@ -9,19 +17,24 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
+import de.meets.asset_manager.LocationManager;
 import de.meets.asset_manager.MemberManager;
+import de.meets.assets.Location;
 import de.meets.assets.Member;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
 public class ShowUser extends HorizontalLayout implements View{
 	MemberManager memberManager = new MemberManager();
+	LocationManager locationManager = new LocationManager();
 	Member member = MeetsUI.getRegistratedMember();
 	
 	VerticalLayout informationPanel = new VerticalLayout();
 	Label message = new Label("Deine Angaben:");
 	TextField name = new TextField("Benutzername");
 	TextField email = new TextField("E-Mail");
-//	TextField location = new TextField("Ort");
+	LocationTextField<GeocodedLocation> location;
+	TextField firstName = new TextField("Vorname");
+	TextField lastName = new TextField("Nachname");
 	
 	HorizontalLayout buttonPanel = new HorizontalLayout();
     Button edit = new Button("Bearbeiten");
@@ -41,11 +54,17 @@ public class ShowUser extends HorizontalLayout implements View{
 	@Override
 	public void enter(ViewChangeEvent event) {
 		//-------------------- INFORMATION - PANEL --------------------------
-	    //Ort Informationen zu angemedeten Benutzer ersetzen
 	    name.setValue(member.getUsername());
 	    email.setValue(member.getEmail());
-//	    location.setValue("Dein Ort");
-	    
+	    firstName.setValue(member.getFirstName());
+	    lastName.setValue(member.getLastName());
+	    final OpenStreetMapGeocoder geocoder = OpenStreetMapGeocoder.getInstance();
+		geocoder.setLimit(25);
+		location = new LocationTextField<GeocodedLocation>(geocoder, GeocodedLocation.class);
+		location.setCaption("Adresse");
+        location.setImmediate(true);
+        location.setInputPrompt("");
+        location.setText(member.getPosition().getCity());
 	    changeToViewMode();
 	    
 	    // Button ClickListener
@@ -54,14 +73,13 @@ public class ShowUser extends HorizontalLayout implements View{
 	    });
 	    saveChanges.addClickListener(e -> {
 	    	saveChanges();
-	    	changeToViewMode();
 	    });
 	    removeChanges.addClickListener(e -> {
 	    	changeToViewMode();
 	    });
 	    buttonPanel.addComponent(edit);
 	    
-	    informationPanel.addComponents(message, name, email, buttonPanel);
+	    informationPanel.addComponents(message, name, email, location, firstName, lastName, buttonPanel);
 	    
 	    
 	    //-------------------- PASSWORD - PANEL ---------------------------
@@ -84,19 +102,31 @@ public class ShowUser extends HorizontalLayout implements View{
 	}
 
 	private void saveChanges() {
-		System.out.println(member.getUsername());
 		member.setUsername(name.getValue());
 		member.setEmail(email.getValue());
-//		String locationValue = location.getValue(); //TODO Location ändern
-		memberManager.update(member);
+		member.setFirstName(firstName.getValue());
+		member.setLastName(lastName.getValue());
 		
+		Location position = member.getPosition();
+		if (!location.getText().equals(position.getCity())){
+			if (Register.getLocation(location, locationManager) != null){
+				position = Register.getLocation(location, locationManager);
+			} else {
+				location.setComponentError(new UserError("Wähle eine Adresse aus der Liste! (Drücke Enter)"));
+			}
+		}
+		memberManager.update(member);
 		message.setValue("Änderungen gespeichert!");
+		
+		changeToViewMode();
 	}
 
 	private void changeToViewMode() {
 		name.setEnabled(false);
     	email.setEnabled(false);
-//    	location.setEnabled(false);
+    	location.setEnabled(false);
+    	firstName.setEnabled(false);
+    	lastName.setEnabled(false);
     	buttonPanel.addComponent(edit);
    		buttonPanel.removeComponent(saveChanges);
    		buttonPanel.removeComponent(removeChanges);
@@ -105,7 +135,9 @@ public class ShowUser extends HorizontalLayout implements View{
 	private void changeToEditMode() {
 		name.setEnabled(true);
     	email.setEnabled(true);
-//    	location.setEnabled(true);
+    	location.setEnabled(true);
+    	firstName.setEnabled(true);
+    	lastName.setEnabled(true);
     	buttonPanel.removeComponent(edit);
     	buttonPanel.addComponents(saveChanges, removeChanges);
 	}
@@ -122,10 +154,11 @@ public class ShowUser extends HorizontalLayout implements View{
 				memberManager.update(member);
 				
 			} else {
-				changePassword.setValue("Neue Passwörter stimmen nicht überein!");
+				passwordNew.setComponentError(new UserError("Neue Passwörter stimmen nicht überein"));
+				passwordNewConfirm.setComponentError(new UserError("Neue Passwörter stimmen nicht überein"));
 			}
 		} else {
-			changePassword.setValue("Falsches Passwort!");
+			passwordOld.setComponentError(new UserError("Falsches Passwort"));
 		}
 		
 		passwordOld.setValue("");

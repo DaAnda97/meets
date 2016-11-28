@@ -16,7 +16,7 @@ public class Header extends HorizontalLayout{
 	}
 	
 	public void addShowUser(){
-		Button showUserButton = new Button();
+		Button showUserButton = new Button("Mein Profil");
 		showUserButton.addClickListener(e -> {
 			getUI().getNavigator().navigateTo(Views.SHOW_USER.getView());
 		});
