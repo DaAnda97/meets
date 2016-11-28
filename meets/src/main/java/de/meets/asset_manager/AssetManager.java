@@ -105,30 +105,6 @@ public abstract class AssetManager<E> {
 		}
 	}
 	
-	// SAVE (changes of) a records of a asset
-	@SuppressWarnings("unchecked")
-	public void save( E... assets ) {
-		Session session = factory.openSession();
-		Transaction tx = null;
-		
-		try {
-			tx = session.beginTransaction();
-			
-			for (E asset : assets) {
-				session.save(asset);
-			}
-			
-			tx.commit();			
-		} catch ( HibernateException e ) {
-			if ( tx != null ) {
-				tx.rollback();
-			}
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-	}
-	
 	// DELETE a record of a asset
 	public int delete( E asset ) {
 		Session session = factory.openSession();
