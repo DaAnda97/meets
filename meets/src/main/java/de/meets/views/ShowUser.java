@@ -22,6 +22,7 @@ import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Location;
 import de.meets.assets.Member;
 import de.meets.vaadin_archetype_application.MeetsUI;
+import de.meets.vaadin_archetype_application.Views;
 
 public class ShowUser extends HorizontalLayout implements View{
 	MemberManager memberManager = new MemberManager();
@@ -49,6 +50,7 @@ public class ShowUser extends HorizontalLayout implements View{
     Button confirmNewPassoword = new Button("Bestätigen");
     
     Button deliteUser = new Button("Benutzer löschen!");
+    Button logout = new Button("Abmelden");
     
     
 	@Override
@@ -95,8 +97,7 @@ public class ShowUser extends HorizontalLayout implements View{
 	    //------------------------ MAIN - PANEL ---------------------------
 	    
 	    deliteUser.addClickListener(e -> {
-	    	memberManager.delete(member);
-	    	getUI().getNavigator().navigateTo("Login");
+	    	MeetsUI.deleteUser();
 	    });
 	    
 	    this.addComponents(informationPanel, passwordPanel, deliteUser);
@@ -158,15 +159,24 @@ public class ShowUser extends HorizontalLayout implements View{
 
 	private void confirmNewPassoword() {
 		String oldPassword = passwordOld.getValue();
-		String newPassword = passwordNew.getValue();
+		String newPassword = passwordOld.getValue();
 		String newPasswordConfirm = passwordNewConfirm.getValue();
+		
+		try {
+			oldPassword = MeetsUI.shaHash(passwordOld.getValue().trim());
+			newPassword = MeetsUI.shaHash(passwordNew.getValue().trim());
+			newPasswordConfirm = MeetsUI.shaHash(passwordNewConfirm.getValue().trim());
+		} catch (Exception e1) {
+			passwordOld.setComponentError(new UserError("Internal error - Please try later again"));
+			e1.printStackTrace();
+			return; //Cancel, because the password is not hashed
+		}
 		
 		if (member.getPassword().equals(oldPassword)){
 			if (newPassword.equals(newPasswordConfirm)){
 				changePassword.setValue("Passwort geändert!");
 				member.setPassword(newPassword);
 				memberManager.update(member);
-				
 			} else {
 				passwordNew.setComponentError(new UserError("Neue Passwörter stimmen nicht überein"));
 				passwordNewConfirm.setComponentError(new UserError("Neue Passwörter stimmen nicht überein"));

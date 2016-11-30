@@ -6,9 +6,12 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 
+import de.meets.vaadin_archetype_application.MeetsUI;
 import de.meets.vaadin_archetype_application.Views;
 
 public class Header extends HorizontalLayout{
+	Button showUser = new Button("Mein Profil");
+	Button logout = new Button("Abmelden");
 	
 	public Header() {
 		ClassResource logo =  new ClassResource("/images/logo.png");
@@ -16,13 +19,23 @@ public class Header extends HorizontalLayout{
 	}
 	
 	public void addShowUser(){
-		Button showUserButton = new Button("Mein Profil");
-		showUserButton.addClickListener(e -> {
+		showUser.addClickListener(e -> {
 			getUI().getNavigator().navigateTo(Views.SHOW_USER.getView());
 		});
-		this.addComponent(showUserButton);
+		this.addComponent(showUser);
+	}
+	public void removeShowUser(){
+		this.removeComponent(showUser);
 	}
 	
-	
+	public void addLogout(){
+		logout.addClickListener(e -> {
+			MeetsUI.logout();
+		});
+		this.addComponent(logout);
+	}
+	public void removeLogout(){
+		this.removeComponent(logout);
+	}
 
 }

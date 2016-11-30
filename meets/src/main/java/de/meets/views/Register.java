@@ -3,9 +3,11 @@ package de.meets.views;
 import java.util.Locale;
 
 
+
 import org.vaadin.addons.locationtextfield.GeocodedLocation;
 import org.vaadin.addons.locationtextfield.LocationTextField;
 import org.vaadin.addons.locationtextfield.OpenStreetMapGeocoder;
+
 
 
 import com.vaadin.event.FieldEvents.TextChangeEvent;
@@ -20,6 +22,7 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+
 
 
 import de.meets.asset_manager.LocationManager;
@@ -95,9 +98,19 @@ public class Register extends VerticalLayout implements View{
 	    						position = locationManager.get(position.getCity());
 	    					}
 	    					
+	    					//Hash Password
+	    					String shaPassword;
+							try {
+								shaPassword = MeetsUI.shaHash(password.getValue().trim());
+							} catch (Exception e1) {
+								password.setComponentError(new UserError("Internal error - Please try later again"));
+								e1.printStackTrace();
+								return; //Cancel, because the password is not hashed
+							}
+	    					
 	    					//Generate Member
 	    					Member member = new Member(username.getValue().trim(), null, null, 
-	    							password.getValue().trim(), email.getValue().trim(), position);
+	    							shaPassword, email.getValue().trim(), position);
 	    					member.setFirstName(firstName.getValue().trim());
 	    					member.setLastName(lastName.getValue().trim());
 	    					

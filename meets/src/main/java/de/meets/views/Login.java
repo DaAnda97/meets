@@ -30,13 +30,21 @@ public class Login extends VerticalLayout implements View{
 		
         loginButton.addClickListener( e -> {
         	String emailValue = email.getValue().trim();
-        	String passwordValue = password.getValue().trim();
+        	
+        	String shaPassword;
+			try {
+				shaPassword = MeetsUI.shaHash(password.getValue().trim());
+			} catch (Exception e1) {
+				password.setComponentError(new UserError("Internal error - Please try later again"));
+				e1.printStackTrace();
+				return; //Cancel, because the password is not hashed
+			}
         	
         	if (MeetsUI.isValidEmailAddress(emailValue))
         	{
         		if(memberManager.checkEMail(emailValue))
         		{
-        			Member member = memberManager.checkLogin(emailValue, passwordValue);
+        			Member member = memberManager.checkLogin(emailValue, shaPassword);
         			if (member != null)
         			{
         				MeetsUI.setRegistratedMember(member);

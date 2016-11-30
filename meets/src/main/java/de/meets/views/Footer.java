@@ -1,18 +1,15 @@
 package de.meets.views;
 
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 
 import de.meets.vaadin_archetype_application.Views;
 
-public class Footer extends HorizontalLayout implements View{
+public class Footer extends HorizontalLayout {
 	Button impressum = new Button("Impressum");
 
-	@Override
-	public void enter(ViewChangeEvent event) {
+	public Footer() {
 		impressum.addClickListener(e -> {
 			getUI().getNavigator().navigateTo(Views.IMPRESSUM.getView());
 		});

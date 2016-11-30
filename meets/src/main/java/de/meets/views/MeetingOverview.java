@@ -18,8 +18,10 @@ public class MeetingOverview extends VerticalLayout implements View{
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		this.addComponent(new Label("HIER ERSCHEINEN SPÄTER DIE PASSENDEN MEETS"));
-		
+		for(int i=0; i<20; i++){
+			this.addComponent(new Label(""));
+			this.addComponent(new Label("HIER ERSCHEINEN SPÄTER DIE PASSENDEN MEETS"));
+		}
 	}
 
 }
