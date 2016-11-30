@@ -87,8 +87,10 @@ public class Register extends VerticalLayout implements View{
 	    					//Generate Location
 	    					Location position = new Location(location.getText(), 
 	    							location.getLocation().getLon(), location.getLocation().getLat());
+	    					
 	    					if ( locationManager.get(position.getCity()) == null ) {
 	    						locationManager.add(position);
+		    					System.out.println("Inster into DB: " +position);
 	    					} else {
 	    						position = locationManager.get(position.getCity());
 	    					}

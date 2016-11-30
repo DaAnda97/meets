@@ -45,6 +45,7 @@ public final class MemberManager extends AssetManager<Member> {
 			member = (Member) session.createQuery(
 					"FROM Member m WHERE m.email='" +email +"' and m.password='" +password +"'")
 					.getSingleResult();
+			session.flush();
 			tx.commit();			
 		} catch ( NoResultException e ) {
 			// record not found - login failed

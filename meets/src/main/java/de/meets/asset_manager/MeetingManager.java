@@ -23,6 +23,7 @@ public final class MeetingManager extends AssetManager<Meeting> {
 		try {
 			tx = session.beginTransaction();
 			asset = session.get(Meeting.class, id);
+			session.flush();
 			tx.commit();			
 		} catch ( NoResultException e ) {
 			// record not found

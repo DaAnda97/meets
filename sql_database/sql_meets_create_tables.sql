@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS meets.Location;
 CREATE TABLE IF NOT EXISTS meets.Location
 (
     locationID 	 INT NOT NULL AUTO_INCREMENT,
-	city		 VARCHAR(45) NOT NULL UNIQUE,
+	city		 VARCHAR(320) NOT NULL UNIQUE,
     longitude	 DOUBLE NOT NULL,
     latitude	 DOUBLE NOT NULL,
 	PRIMARY KEY  (locationID)
