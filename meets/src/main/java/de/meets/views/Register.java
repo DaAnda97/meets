@@ -94,10 +94,10 @@ public class Register extends VerticalLayout implements View{
 	    					if ( locationManager.get(position.getCity()) == null ) {
 	    						locationManager.add(position);
 		    					System.out.println("Inster into DB: " +position);
-	    					} else {
-	    						position = locationManager.get(position.getCity());
 	    					}
 	    					
+    						position = locationManager.get(position.getCity());
+    						
 	    					//Hash Password
 	    					String shaPassword;
 							try {

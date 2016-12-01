@@ -23,7 +23,6 @@ public final class LocationManager extends AssetManager<Location> {
 		try {
 			tx = session.beginTransaction();
 			asset = session.get(Location.class, id);
-			session.flush();
 			tx.commit();		
 		} catch ( NoResultException e ) {
 			// record not found
@@ -49,7 +48,6 @@ public final class LocationManager extends AssetManager<Location> {
 			tx = session.beginTransaction();
 			asset = (Location) session.createQuery("FROM Location l WHERE l.city='" +city +"'")
 					.getSingleResult();
-			session.flush();
 			tx.commit();
 		} catch ( NoResultException e ) {
 			// record not found

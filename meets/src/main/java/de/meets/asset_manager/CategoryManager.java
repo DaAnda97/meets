@@ -23,7 +23,6 @@ public final class CategoryManager extends AssetManager<Category> {
 		try {
 			tx = session.beginTransaction();
 			asset = session.get(Category.class, id);
-			session.flush();
 			tx.commit();			
 		} catch ( NoResultException e ) {
 			// record not found

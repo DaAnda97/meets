@@ -48,7 +48,6 @@ public abstract class AssetManager<E> {
 		try {
 			tx = session.beginTransaction();			
 			id = (Integer) session.save(asset);
-			session.flush();
 			tx.commit();
 		} catch ( HibernateException e ) {
 			if ( tx != null ) {
