@@ -67,6 +67,7 @@ public class ShowUser extends HorizontalLayout implements View{
 		GeocodedLocation geoLoc = new GeocodedLocation();
 		location.setLocation(geoLoc);
 		location.setCaption("Adresse");
+		location.setText("");
         location.setImmediate(true);
         location.setInputPrompt(member.getPosition().getCity());
         
