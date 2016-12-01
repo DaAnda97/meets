@@ -23,7 +23,7 @@ public class Login extends VerticalLayout implements View{
 	PasswordField password = new PasswordField("Passwort");
 	Button loginButton = new Button("Login");
 	
-	MemberManager memberManager = new MemberManager();
+	MemberManager memberManager = MeetsUI.getMemberManager();
 	
 	@Override
 	public void enter(ViewChangeEvent event) {

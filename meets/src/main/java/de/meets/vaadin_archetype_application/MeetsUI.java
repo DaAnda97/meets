@@ -16,6 +16,9 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+import de.meets.asset_manager.CategoryManager;
+import de.meets.asset_manager.LocationManager;
+import de.meets.asset_manager.MeetingManager;
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Member;
 import de.meets.views.Footer;
@@ -29,7 +32,7 @@ import de.meets.views.Header;
  * The UI is initialized using {@link #init(VaadinRequest)}. This method is intended to be 
  * overridden to add component to the user interface and initialize non-component functionality.
  */
-public class MeetsUI extends UI implements View{
+public class MeetsUI extends UI{
 	static Navigator navigator;
 	VerticalLayout mainLayout = new VerticalLayout();
 	
@@ -38,12 +41,10 @@ public class MeetsUI extends UI implements View{
 	static Footer footer = new Footer();
 	
     private static Member registratedMember = null;
-	private static MemberManager memberManager = new MemberManager();
-
-    @Override
-    public void enter(ViewChangeEvent event) {
-    	
-    }
+    private static MemberManager memberManager = new MemberManager();
+    private static LocationManager locationManager = new LocationManager();
+    private static MeetingManager meetingManager = new MeetingManager();
+    private static CategoryManager categoryManager = new CategoryManager();
     
 	@Override
     protected void init(VaadinRequest request) {
@@ -117,4 +118,36 @@ public class MeetsUI extends UI implements View{
     public static class MyUIServlet extends VaadinServlet {}
 
 
+	public static MemberManager getMemberManager() {
+		return memberManager;
+	}
+	
+	public static void setMemberManager(MemberManager memberManager) {
+		MeetsUI.memberManager = memberManager;
+	}
+	
+	public static LocationManager getLocationManager() {
+		return locationManager;
+	}
+	
+	public static void setLocationManager(LocationManager locationManager) {
+		MeetsUI.locationManager = locationManager;
+	}
+
+	public static MeetingManager getMeetingManager() {
+		return meetingManager;
+	}
+
+	public static void setMeetingManager(MeetingManager meetingManager) {
+		MeetsUI.meetingManager = meetingManager;
+	}
+
+	public static CategoryManager getCategoryManager() {
+		return categoryManager;
+	}
+
+	public static void setCategoryManager(CategoryManager categoryManager) {
+		MeetsUI.categoryManager = categoryManager;
+	}
+	
 }

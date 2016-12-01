@@ -1,9 +1,6 @@
 package de.meets.views;
 
-import java.util.ArrayList;
-
 import org.vaadin.addons.locationtextfield.GeocodedLocation;
-import org.vaadin.addons.locationtextfield.GeocodingException;
 import org.vaadin.addons.locationtextfield.LocationTextField;
 import org.vaadin.addons.locationtextfield.OpenStreetMapGeocoder;
 
@@ -22,11 +19,10 @@ import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Location;
 import de.meets.assets.Member;
 import de.meets.vaadin_archetype_application.MeetsUI;
-import de.meets.vaadin_archetype_application.Views;
 
 public class ShowUser extends HorizontalLayout implements View{
-	MemberManager memberManager = new MemberManager();
-	LocationManager locationManager = new LocationManager();
+	MemberManager memberManager = MeetsUI.getMemberManager();
+	LocationManager locationManager = MeetsUI.getLocationManager();
 	Member member = MeetsUI.getRegistratedMember();
 	
 	VerticalLayout informationPanel = new VerticalLayout();

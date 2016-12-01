@@ -44,8 +44,8 @@ public class Register extends VerticalLayout implements View{
 	Button registerButton;
 	Button switchButton;
 	
-	MemberManager memberManager = new MemberManager();
-	LocationManager locationManager = new LocationManager();
+	MemberManager memberManager = MeetsUI.getMemberManager();
+	LocationManager locationManager = MeetsUI.getLocationManager();
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
