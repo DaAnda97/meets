@@ -51,6 +51,16 @@ public class Location {
 		this.latitude = latitude;
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder s = new StringBuilder(4);
+		s.append("ID: ");
+		s.append(this.locationID);
+		s.append(", City: ");
+		s.append(this.city);
+		return s.toString(); 
+	}
+	
 	// getters and setters
 	public int getLocationID() {
 		return locationID;

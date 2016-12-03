@@ -1,7 +1,6 @@
 package de.meets.assets;
 
 import java.sql.Timestamp;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -72,6 +71,16 @@ public class Member {
 		this.password = password;
 		this.email = email;
 		this.position = position;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder s = new StringBuilder(4);
+		s.append("ID: ");
+		s.append(this.memberID);
+		s.append(", Username: ");
+		s.append(this.username);
+		return s.toString(); 
 	}
 	
 	// getters and setters

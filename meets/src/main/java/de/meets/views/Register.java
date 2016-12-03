@@ -116,6 +116,7 @@ public class Register extends VerticalLayout implements View{
 	    					
 	    					//Add Member
 	    					memberManager.add(member);
+	    					member = memberManager.checkLogin( member.getEmail(), shaPassword);
 	    					MeetsUI.setRegistratedMember(member);
 	    					getUI().getNavigator().navigateTo(Views.MEETING_OVERVIEW.getView());
 	    					

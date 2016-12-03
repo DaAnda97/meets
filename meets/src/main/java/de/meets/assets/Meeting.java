@@ -88,6 +88,16 @@ public class Meeting {
 		this.createdLocation = createdLocation;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder s = new StringBuilder(4);
+		s.append("ID: ");
+		s.append(this.meetingID);
+		s.append(", Title: ");
+		s.append(this.title);
+		return s.toString(); 
+	}
+	
 	// getters and setters
 	public int getMeetingID() {
 		return meetingID;

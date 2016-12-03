@@ -57,6 +57,7 @@ public abstract class AssetManager<E> {
 		} finally {
 			session.close();
 		}
+		System.out.println("Added: " +asset);
 		return id;
 	}
 	
@@ -103,6 +104,8 @@ public abstract class AssetManager<E> {
 		} finally {
 			session.close();
 		}
+		
+		System.out.println("Update: " +asset);
 	}
 	
 	// DELETE a record of a asset
@@ -115,8 +118,8 @@ public abstract class AssetManager<E> {
 			session.delete(asset);
 			tx.commit();			
 		} catch ( ConstraintViolationException e ) {
-			// there are records, which refer to the record to be deleted.
-			// deletion of record not possible!
+			System.out.println("+++ There are records, which refer to the record to be deleted.");
+			System.out.println("+++ Deletion of record not possible!");
 			return 0;
 		} catch ( HibernateException e ) {
 			if ( tx != null ) {
@@ -128,6 +131,7 @@ public abstract class AssetManager<E> {
 		} finally {
 			session.close();
 		}
+		System.out.println("Deleted: " +asset);
 		return 1;
 	}
 	

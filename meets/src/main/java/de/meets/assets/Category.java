@@ -33,6 +33,16 @@ public class Category {
 	public Category(String name) {
 		this.title = name;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder s = new StringBuilder(4);
+		s.append("ID: ");
+		s.append(this.categoryID);
+		s.append(", Title: ");
+		s.append(this.title);
+		return s.toString(); 
+	}
 
 	// getters and setters
 	public int getCategoryID() {
