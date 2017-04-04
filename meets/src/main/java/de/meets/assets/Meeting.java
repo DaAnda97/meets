@@ -26,7 +26,8 @@ public class Meeting {
 	public static final String METADATA_CREATED_LOCATION = "createdLocation";
 	
 	// define meeting fields/columns
-	@Id @Column(name = MEETING_ID)
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = MEETING_ID)
 	private int meetingID;
 	
 	@Column(name = MEETING_NAME)

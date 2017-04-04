@@ -17,7 +17,8 @@ public class Location {
 	public static final String LOCATION_LATITUDE = "latitude";
 	
 	// define location fields/columns
-	@Id @Column(name = LOCATION_ID)
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = LOCATION_ID)
 	private int locationID;
 	
 	@Column(name = LOCATION_CITY)

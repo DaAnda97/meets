@@ -22,7 +22,8 @@ public class Member {
 	public static final String MEMBER_CREATED = "created";
 	
 	// define member fields/columns
-	@Id @Column(name = MEMBER_ID)
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = MEMBER_ID)
 	private int memberID;
 	
 	@Column(name = MEMBER_USERNAME)

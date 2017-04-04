@@ -1,3 +1,4 @@
 meets/src/main/resources/properties/config.properties
 meets/src/main/resources/hibernate.cfg.xml
 meets/.classpath
+meets/.project

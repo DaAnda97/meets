@@ -15,7 +15,8 @@ public class Category {
 	public static final String CATEGORY_TITLE = "title";
 	
 	// define category fields/columns	
-	@Id @Column(name = CATEGORY_ID)
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = CATEGORY_ID)
 	private int categoryID;
 	
 	@Column(name = CATEGORY_TITLE)
