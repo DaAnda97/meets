@@ -38,13 +38,17 @@ import de.meets.views.ShowUser;
  */
 public class MeetsUI extends UI{
 	
+	Header header = new Header();
+	Panel mainView = new Panel();
+	Footer footer = new Footer();
+	
 	@Override
     protected void init(VaadinRequest request) {
 
-        new Navigator(this, this);
+        new Navigator(this, mainView);
         getNavigator().addView(Login.NAME, Login.class);
-        getNavigator().addView(Register.NAME, Login.class);
-        getNavigator().addView(ShowUser.NAME, Login.class);
+        getNavigator().addView(Register.NAME, Register.class);
+        getNavigator().addView(ShowUser.NAME, ShowUser.class);
         
         getNavigator().navigateTo(Login.NAME);
 

@@ -102,7 +102,7 @@ public class Login extends CustomComponent implements View{
 			getSession().setAttribute("user", username);
 
 			// Navigate to main view
-			getUI().getNavigator().navigateTo(Login.NAME);//
+			getUI().getNavigator().navigateTo(ShowUser.NAME);//
 
 		} else {
 

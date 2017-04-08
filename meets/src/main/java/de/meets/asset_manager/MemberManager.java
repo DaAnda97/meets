@@ -59,6 +59,33 @@ public final class MemberManager extends AssetManager<Member> {
 		}
 		return true;
 	}
+	
+	public Member getMember( String email ) {	
+		Session session = this.getFactory().openSession();
+		Transaction tx = null;
+		Member member = null;
+		
+		email = email.toLowerCase();
+		
+		try {
+			tx = session.beginTransaction();
+			member = (Member) session.createQuery(
+					"FROM Member m WHERE m.email='" +email)
+					.getSingleResult();
+			tx.commit();			
+		} catch ( NoResultException e ) {
+			// record not found - login failed
+			return null;
+		} catch ( HibernateException e ) {
+			if ( tx != null ) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return member;
+	}
 
 	@Override
 	public Member get(int id) {

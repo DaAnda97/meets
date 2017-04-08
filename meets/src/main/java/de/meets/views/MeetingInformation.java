@@ -12,7 +12,7 @@ import de.meets.vaadin_archetype_application.MeetsUI;
 // Informationen zu einem Meet
 public class MeetingInformation extends VerticalLayout implements View{
 
-	Member member = MeetsUI.getRegistratedMember();
+//	Member member = MeetsUI.getRegistratedMember();
 //	Meeting meeting;
 //	Category category;
 

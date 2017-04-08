@@ -157,12 +157,9 @@ public class Register extends CustomComponent implements View {
 					getSession().setAttribute("user", username);
 					getUI().getNavigator().navigateTo(
 							Views.MEETING_OVERVIEW.getView());
-
 				}
 			}
-
 		}
-
 	}
 
 	@Override
