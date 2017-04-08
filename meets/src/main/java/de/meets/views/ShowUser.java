@@ -21,6 +21,8 @@ import de.meets.assets.Member;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
 public class ShowUser extends HorizontalLayout implements View{
+	public static final String NAME = "showUser";
+	
 	MemberManager memberManager = MeetsUI.getMemberManager();
 	LocationManager locationManager = MeetsUI.getLocationManager();
 	Member member = MeetsUI.getRegistratedMember();

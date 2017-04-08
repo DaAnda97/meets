@@ -33,7 +33,7 @@ public final class MemberManager extends AssetManager<Member> {
 	}
 	
 	// check if login is correct
-	public Member checkLogin( String email, String password ) {	
+	public boolean checkLogin( String email, String password ) {	
 		Session session = this.getFactory().openSession();
 		Transaction tx = null;
 		Member member = null;
@@ -48,7 +48,7 @@ public final class MemberManager extends AssetManager<Member> {
 			tx.commit();			
 		} catch ( NoResultException e ) {
 			// record not found - login failed
-			return null;
+			return false;
 		} catch ( HibernateException e ) {
 			if ( tx != null ) {
 				tx.rollback();
@@ -57,7 +57,7 @@ public final class MemberManager extends AssetManager<Member> {
 		} finally {
 			session.close();
 		}
-		return member;
+		return true;
 	}
 
 	@Override

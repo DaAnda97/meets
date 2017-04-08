@@ -16,12 +16,20 @@ public class Header extends HorizontalLayout{
 	public Header() {
 		ClassResource logo =  new ClassResource("/images/logo.png");
 		this.addComponent(new Image(null,logo));
-	}
-	
-	public void addShowUser(){
+		
 		showUser.addClickListener(e -> {
 			getUI().getNavigator().navigateTo(Views.SHOW_USER.getView());
 		});
+		
+		logout.addClickListener(e -> {
+			removeLogout();
+			removeShowUser();
+			getUI().getNavigator().navigateTo(Login.NAME);
+			getSession().setAttribute("user", null);
+		});
+	}
+	
+	public void addShowUser(){
 		this.addComponent(showUser);
 	}
 	public void removeShowUser(){
@@ -29,9 +37,6 @@ public class Header extends HorizontalLayout{
 	}
 	
 	public void addLogout(){
-		logout.addClickListener(e -> {
-			MeetsUI.logout();
-		});
 		this.addComponent(logout);
 	}
 	public void removeLogout(){
