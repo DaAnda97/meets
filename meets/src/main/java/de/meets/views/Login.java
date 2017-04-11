@@ -17,7 +17,7 @@ import de.meets.asset_manager.MemberManager;
 import de.meets.services.GeneralServices;
 import de.meets.services.PasswordValidator;
 
-public class Login extends CustomComponent implements View{
+public class Login extends CustomComponent implements View {
 	public static final String NAME = "login";
 
 	// Label login = new Label("Anmelden");
@@ -28,6 +28,7 @@ public class Login extends CustomComponent implements View{
 	private final TextField userTextField;
 	private final PasswordField passwordTextField;
 	private final Button loginButton;
+	private final Button registerButton;
 
 	MemberManager memberManager = new MemberManager();
 
@@ -56,11 +57,17 @@ public class Login extends CustomComponent implements View{
 		loginButton.addAttachListener(e -> {
 			loginButtonClicked();
 		});
-		
+
+		// Create register button
+		registerButton = new Button("Noch nicht registriert?");
+		registerButton.addAttachListener(e -> {
+			registerButtonClicked();
+		});
 
 		// Add both to a panel
-		VerticalLayout fields = new VerticalLayout(userTextField, passwordTextField, loginButton);
-		fields.setCaption("Please login to access the application. (test@test.com/passw0rd)");
+		VerticalLayout fields = new VerticalLayout(userTextField,
+				passwordTextField, loginButton, registerButton);
+		fields.setCaption("Bitte melde dich an:");
 		fields.setSpacing(true);
 		fields.setMargin(new MarginInfo(true, true, true, false));
 		fields.setSizeUndefined();
@@ -69,13 +76,18 @@ public class Login extends CustomComponent implements View{
 		VerticalLayout viewLayout = new VerticalLayout(fields);
 		viewLayout.setSizeFull();
 		viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
-		viewLayout.setStyleName(Reindeer.LAYOUT_BLUE);
+		// viewLayout.setStyleName(Reindeer.LAYOUT_BLUE);
 		setCompositionRoot(viewLayout);
 	}
+
 
 	@Override
 	public void enter(ViewChangeEvent event) {
 		userTextField.focus();
+	}
+
+	private void registerButtonClicked() {
+//		getUI().getNavigator().navigateTo(Register.NAME);
 	}
 
 	public void loginButtonClicked() {
@@ -88,7 +100,8 @@ public class Login extends CustomComponent implements View{
 		String username = userTextField.getValue();
 		String shaPassword;
 		try {
-			shaPassword = GeneralServices.shaHash(passwordTextField.getValue().trim());
+			shaPassword = GeneralServices.shaHash(passwordTextField.getValue()
+					.trim());
 		} catch (Exception e1) {
 			passwordTextField.setComponentError(new UserError(
 					"Internal error - Please try later again"));
@@ -102,7 +115,10 @@ public class Login extends CustomComponent implements View{
 			getSession().setAttribute("user", username);
 
 			// Navigate to main view
-			getUI().getNavigator().navigateTo(ShowUser.NAME);//
+			getUI().getNavigator().navigateTo(ShowUser.NAME);
+
+			// add Logout and ShowUser
+			// getUI().getPage().
 
 		} else {
 

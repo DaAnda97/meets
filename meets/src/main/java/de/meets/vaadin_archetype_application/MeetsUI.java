@@ -38,51 +38,55 @@ import de.meets.views.ShowUser;
  */
 public class MeetsUI extends UI{
 	
+	Navigator navigator;
 	Header header = new Header();
 	Panel mainView = new Panel();
 	Footer footer = new Footer();
 	
 	@Override
     protected void init(VaadinRequest request) {
+		
+		VerticalLayout mainLayout = new VerticalLayout(header, mainView, footer);
 
-        new Navigator(this, mainView);
-        getNavigator().addView(Login.NAME, Login.class);
-        getNavigator().addView(Register.NAME, Register.class);
-        getNavigator().addView(ShowUser.NAME, ShowUser.class);
+        navigator = new Navigator(this, mainView);
+        navigator.addView(Login.NAME, Login.class);
+        navigator.addView(Register.NAME, Register.class);
+        navigator.addView(ShowUser.NAME, ShowUser.class);
         
-        getNavigator().navigateTo(Login.NAME);
-
-        getNavigator().addViewChangeListener(new ViewChangeListener() {
-
-            @Override
-            public boolean beforeViewChange(ViewChangeEvent event) {
-
-                // Check if a user has logged in
-                boolean isLoggedIn = getSession().getAttribute("user") != null;
-                boolean isLoginView = event.getNewView() instanceof Login;
-
-                if (!isLoggedIn && !isLoginView) {
-                    // Redirect to login view always if a user has not yet
-                    // logged in
-                    getNavigator().navigateTo(Login.NAME);
-                    return false;
-
-                } else if (isLoggedIn && isLoginView) {
-                    // If someone tries to access to login view while logged in,
-                    // then cancel
-                    return false;
-                }
-
-                return true;
-            }
-
-            @Override
-            public void afterViewChange(ViewChangeEvent event) {
-
-            }
-        });
+        navigator.navigateTo(Login.NAME);
+        
+        this.setContent(mainLayout);
+        getPage().setTitle("Meets");
+        
     }	
 	
+	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
+	@VaadinServletConfiguration(ui = MeetsUI.class, productionMode = false)
+	public static class MyUIServlet extends VaadinServlet {}
+
+	public Header getHeader() {
+		return header;
+	}
+
+	public void setHeader(Header header) {
+		this.header = header;
+	}
+
+	public Footer getFooter() {
+		return footer;
+	}
+
+	public void setFooter(Footer footer) {
+		this.footer = footer;
+	}
+	
+	public Navigator getNavigator() {
+		return navigator;
+	}
+
+	public void setNavigator(Navigator navigator) {
+		this.navigator = navigator;
+	}
 	
 	
 //	Navigator navigator;

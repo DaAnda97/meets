@@ -15,6 +15,8 @@ public class Header extends HorizontalLayout{
 	
 	public Header() {
 		ClassResource logo =  new ClassResource("/images/logo.png");
+		this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+		this.setSizeFull();
 		this.addComponent(new Image(null,logo));
 		
 		showUser.addClickListener(e -> {
