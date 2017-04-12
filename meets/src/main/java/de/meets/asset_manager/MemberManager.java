@@ -7,11 +7,12 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import de.meets.assets.Member;
+import de.meets.hibernate.DatabaseConnector;
 
 public final class MemberManager extends AssetManager<Member> {
 
-	public MemberManager() {
-		super(Member.MEMBER_TABLE);
+	public MemberManager( DatabaseConnector connector ) {
+		super(Member.MEMBER_TABLE, connector);
 	}
 	
 	@Override
@@ -36,11 +37,12 @@ public final class MemberManager extends AssetManager<Member> {
 	public boolean checkLogin( String email, String password ) {	
 		Session session = this.getFactory().openSession();
 		Transaction tx = null;
-		Member member = null;
-		
-		email = email.toLowerCase();
 		
 		try {
+			@SuppressWarnings("unused")
+			Member member;
+			email = email.toLowerCase();
+			
 			tx = session.beginTransaction();
 			member = (Member) session.createQuery(
 					"FROM Member m WHERE m.email='" +email +"' and m.password='" +password +"'")

@@ -11,7 +11,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 
-import de.meets.hibernate.HibernateInit;
+import de.meets.hibernate.DatabaseConnector;
 
 
 public abstract class AssetManager<E> {
@@ -21,9 +21,9 @@ public abstract class AssetManager<E> {
 	private String table;
 	
 	// constructor
-	public AssetManager( String table ) {
+	public AssetManager( String table, DatabaseConnector connector ) {
 		if ( factory == null ) {
-			factory = HibernateInit.getInstance();
+			factory = connector.getSessionFactory();
 		}
 		if ( criteria == null ) {
 			criteria = factory.getCriteriaBuilder();
@@ -35,7 +35,7 @@ public abstract class AssetManager<E> {
 		return this.factory;
 	}
 	
-	protected String getTable() {
+	public String getTable() {
 		return this.table;
 	}
 	
@@ -105,7 +105,7 @@ public abstract class AssetManager<E> {
 			session.close();
 		}
 		
-		System.out.println("Update: " +asset);
+		System.out.println("Updated: " +asset);
 	}
 	
 	// DELETE a record of a asset
@@ -187,7 +187,7 @@ public abstract class AssetManager<E> {
 			}
 		} else {
 			// INVALID input
-			System.err.println("String[] columns and String[] values must have the same array size!");
+			System.err.println("Parameters must have the same array size!");
 		}//else	
 		
 		return count;

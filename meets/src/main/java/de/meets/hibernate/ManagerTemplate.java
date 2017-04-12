@@ -16,25 +16,28 @@ public class ManagerTemplate {
 
 	public static void main(String[] args) {
 		
+		DatabaseConnector db = new DatabaseConnector();
+		
+		MemberManager memb = new MemberManager(db);
+		MeetingManager meet = new MeetingManager(db);
+		LocationManager loca = new LocationManager(db);
+		CategoryManager cate = new CategoryManager(db);
+		
 		// Add categories
-		CategoryManager cate = new CategoryManager();
 		cate.add(new Category("Indoor"));
 		cate.add(new Category("Gesellschaft"));
 		
 		// Add locations
-		LocationManager loca = new LocationManager();
 		loca.add(new Location("Berlin", 12.4, 13.888));
 		loca.add(new Location("Paris", 123.55, 123.55));
 		
 		// Add members
-		MemberManager memb = new MemberManager();
 		memb.add(new Member("Gla", "Peter", "Acker", "superSave", "pnr.acker@web.de", 
 				new Location(1)));
 		memb.add(new Member("Umntate", "Bernd", "Heck", "1234321", "bnd01@web.de", 
 				new Location(2)));
 		
 		// Add meetings
-		MeetingManager meet = new MeetingManager();
 		meet.add(new Meeting("Essen", "Wer hat bock auf Oxfort?", new Category(1), new Date(), 
 				new Time(System.currentTimeMillis()), new Location(1), new Member(1), 5, new Location(1)));
 		meet.add(new Meeting("Weihnachtsmarkt", "In der Weihnachtsbäckerei gibt es manche Leckerei - Weihnachtsmark?!", 
@@ -64,7 +67,7 @@ public class ManagerTemplate {
 		
 		// For a clear website shutdown 
 		// --> shut down database connection
-		HibernateInit.tearDown();
+		db.tearDown();
 	}
 
 }

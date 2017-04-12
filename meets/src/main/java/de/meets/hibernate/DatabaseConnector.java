@@ -1,9 +1,8 @@
 package de.meets.hibernate;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import javax.persistence.criteria.CriteriaBuilder;
+import java.util.logging.Logger;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -12,38 +11,24 @@ import org.hibernate.service.ServiceRegistry;
 
 import de.meets.assets.*;
 
-public class HibernateInit {
+public class DatabaseConnector {
 
-	private static SessionFactory factory;
-	private static ServiceRegistry registry;
-	private static CriteriaBuilder criteria;
+	private SessionFactory factory;
+	private ServiceRegistry registry;
 	
-	private HibernateInit() {}
+	public DatabaseConnector() {
+		setUp();
+	}
 	
-	public static SessionFactory getInstance() {
+	public SessionFactory getSessionFactory() {
 		if ( factory == null ) {
-			try {
-				setUp();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			setUp();
 		}//if
 		return factory;
 	}
 	
-	public static CriteriaBuilder getCriteriaInstance() {
-		if ( criteria == null ) {
-			try {
-				setUp();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}//if
-		return criteria;
-	}
-	
-	private static void setUp() throws Exception {
-		// logger
+	public void setUp() {
+		// Logger
 		Logger logger = java.util.logging.Logger.getLogger("org.hibernate");
 		logger.setLevel(Level.SEVERE);
 		
@@ -57,20 +42,24 @@ public class HibernateInit {
 				.applySettings(config.getProperties())
 				.build();
 		factory = config.buildSessionFactory(registry);
-		criteria = factory.getCriteriaBuilder();
 	}
 	
-	private static void createHibernateClasses( Configuration configuration ) {
+	public void tearDown() {
+		if ( factory != null ) {
+			if ( factory.isOpen() ) {
+				System.out.println("Tear down...");
+				factory.close();
+				registry = null;
+			}
+		}//if
+	}
+
+	private void createHibernateClasses( Configuration configuration ) {
 		configuration.addAnnotatedClass(Category.class);
 		configuration.addAnnotatedClass(Location.class);
 		configuration.addAnnotatedClass(Meeting.class);
 		configuration.addAnnotatedClass(Member.class);
 	}
 	
-	public static void tearDown() {
-		if ( factory.isOpen() )
-			System.out.println("Tear down...");
-			factory.close();
-	}
-
+	
 }

@@ -7,11 +7,12 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import de.meets.assets.Location;
+import de.meets.hibernate.DatabaseConnector;
 
 public final class LocationManager extends AssetManager<Location> {
 
-	public LocationManager() {
-		super(Location.LOCATION_TABLE);
+	public LocationManager( DatabaseConnector connector ) {
+		super(Location.LOCATION_TABLE, connector);
 	}
 
 	@Override

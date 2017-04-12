@@ -7,11 +7,12 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import de.meets.assets.Meeting;
+import de.meets.hibernate.DatabaseConnector;
 
 public final class MeetingManager extends AssetManager<Meeting> {
 
-	public MeetingManager() {
-		super(Meeting.MEETING_TABLE);
+	public MeetingManager( DatabaseConnector connector ) {
+		super(Meeting.MEETING_TABLE, connector);
 	}
 
 	@Override
