@@ -18,11 +18,11 @@ import de.meets.asset_manager.LocationManager;
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Location;
 import de.meets.assets.Member;
-import de.meets.services.GeneralServices;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
 public class ShowUser extends HorizontalLayout implements View{
 	public static final String NAME = "showUser";
+	private MeetsUI meetsUI;
 	
 	MemberManager memberManager;
 	LocationManager locationManager;
@@ -50,9 +50,12 @@ public class ShowUser extends HorizontalLayout implements View{
     
     Button deliteUser = new Button("Benutzer löschen!");
     Button logout = new Button("Abmelden");
+
     
     
 	public ShowUser(MeetsUI meetsUI) {
+		this.meetsUI = meetsUI;
+		
 		memberManager = meetsUI.getMemberManager();
 		locationManager = meetsUI.getLocationManager();
 		member = meetsUI.getRegistratedMember();
@@ -169,9 +172,9 @@ public class ShowUser extends HorizontalLayout implements View{
 		String newPasswordConfirm = passwordNewConfirm.getValue();
 		
 		try {
-			oldPassword = GeneralServices.shaHash(passwordOld.getValue().trim());
-			newPassword = GeneralServices.shaHash(passwordNew.getValue().trim());
-			newPasswordConfirm = GeneralServices.shaHash(passwordNewConfirm.getValue().trim());
+			oldPassword = meetsUI.shaHash(passwordOld.getValue().trim());
+			newPassword = meetsUI.shaHash(passwordNew.getValue().trim());
+			newPasswordConfirm = meetsUI.shaHash(passwordNewConfirm.getValue().trim());
 		} catch (Exception e1) {
 			passwordOld.setComponentError(new UserError("Internal error - Please try later again"));
 			e1.printStackTrace();

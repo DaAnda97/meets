@@ -20,12 +20,12 @@ import de.meets.asset_manager.LocationManager;
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Location;
 import de.meets.assets.Member;
-import de.meets.services.GeneralServices;
 import de.meets.services.PasswordValidator;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
 public class Register extends CustomComponent implements View {
 	public static final String NAME = "register";
+	MeetsUI meetsUI;
 	
 	private Label register;
 	private TextField username;
@@ -43,6 +43,7 @@ public class Register extends CustomComponent implements View {
 
 	
 	public Register(MeetsUI meetsUI) {
+		this.meetsUI = meetsUI;
 		memberManager = meetsUI.getMemberManager();
 		locationManager = meetsUI.getLocationManager();
 		
@@ -118,7 +119,7 @@ public class Register extends CustomComponent implements View {
 		String username = email.getValue().trim();
 		String shaPassword;
 		try {
-			shaPassword = GeneralServices.shaHash(password.getValue().trim());
+			shaPassword = meetsUI.shaHash(password.getValue().trim());
 		} catch (Exception e1) {
 			password.setComponentError(new UserError(
 					"Internal error - Please try later again"));
@@ -159,8 +160,7 @@ public class Register extends CustomComponent implements View {
 					member.setFirstName(firstName.getValue().trim());
 					member.setLastName(lastName.getValue().trim());
 					memberManager.add(member);
-					getSession().setAttribute("user", username);
-					getUI().getNavigator().navigateTo(MeetingOverview.NAME);
+					meetsUI.login(member);
 				}
 			}
 		}

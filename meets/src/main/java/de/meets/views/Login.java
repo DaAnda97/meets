@@ -15,7 +15,6 @@ import com.vaadin.ui.themes.Reindeer;
 
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Member;
-import de.meets.services.GeneralServices;
 import de.meets.services.PasswordValidator;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
@@ -102,7 +101,7 @@ public class Login extends CustomComponent implements View {
 		String username = userTextField.getValue();
 		String shaPassword;
 		try {
-			shaPassword = GeneralServices.shaHash(passwordTextField.getValue()
+			shaPassword = meetsUI.shaHash(passwordTextField.getValue()
 					.trim());
 		} catch (Exception e1) {
 			passwordTextField.setComponentError(new UserError(
@@ -111,21 +110,16 @@ public class Login extends CustomComponent implements View {
 			return; // Abbruch, da Passwort nicht gehashed wurde
 		}
 		
-		
-		Member loginMember = memberManager.checkLogin(username, shaPassword);
-		if (!loginMember.equals(null)) {
-			
-			meetsUI.login(loginMember);
-
-		} else {
-
+		try {
+			meetsUI.login(memberManager.checkLogin(username, shaPassword));
+		} catch (NullPointerException e) {
 			// Wrong password clear the password field and refocuses it
-			this.passwordTextField.setValue(null);
-			this.passwordTextField.setComponentError(new UserError(
-					"E-Mail oder Passwort falsch."));
-			this.userTextField.setValue(null);
-			this.userTextField.setComponentError(new UserError(
-					"E-Mail oder Passwort falsch."));
+						this.passwordTextField.setValue(null);
+						this.passwordTextField.setComponentError(new UserError(
+								"E-Mail oder Passwort falsch."));
+						this.userTextField.setValue(null);
+						this.userTextField.setComponentError(new UserError(
+								"E-Mail oder Passwort falsch."));
 
 		}
 	}
