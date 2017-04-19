@@ -14,25 +14,27 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Reindeer;
 
 import de.meets.asset_manager.MemberManager;
+import de.meets.assets.Member;
 import de.meets.services.GeneralServices;
 import de.meets.services.PasswordValidator;
+import de.meets.vaadin_archetype_application.MeetsUI;
 
 public class Login extends CustomComponent implements View {
 	public static final String NAME = "login";
+	public MeetsUI meetsUI;
 
-	// Label login = new Label("Anmelden");
-	// TextField email = new TextField("E-Mail");
-	// PasswordField password = new PasswordField("Passwort");
-	// Button loginButton = new Button("Login");
+	private TextField userTextField;
+	private PasswordField passwordTextField;
+	private Button loginButton;
+	private Button registerButton;
 
-	private final TextField userTextField;
-	private final PasswordField passwordTextField;
-	private final Button loginButton;
-	private final Button registerButton;
+	private MemberManager memberManager;
 
-	MemberManager memberManager = new MemberManager();
-
-	public Login() {
+	
+	public Login(MeetsUI meetsUI) {
+		this.meetsUI = meetsUI;
+		memberManager = meetsUI.getMemberManager();
+		
 		setSizeFull();
 
 		// Create the user input field
@@ -54,13 +56,13 @@ public class Login extends CustomComponent implements View {
 
 		// Create login button
 		loginButton = new Button("Login");
-		loginButton.addAttachListener(e -> {
+		loginButton.addClickListener(e -> {
 			loginButtonClicked();
 		});
 
 		// Create register button
 		registerButton = new Button("Noch nicht registriert?");
-		registerButton.addAttachListener(e -> {
+		registerButton.addClickListener(e -> {
 			registerButtonClicked();
 		});
 
@@ -86,8 +88,8 @@ public class Login extends CustomComponent implements View {
 		userTextField.focus();
 	}
 
-	private void registerButtonClicked() {
-//		getUI().getNavigator().navigateTo(Register.NAME);
+	public void registerButtonClicked() {
+		meetsUI.getNavigator().navigateTo(Register.NAME);
 	}
 
 	public void loginButtonClicked() {
@@ -108,17 +110,12 @@ public class Login extends CustomComponent implements View {
 			e1.printStackTrace();
 			return; // Abbruch, da Passwort nicht gehashed wurde
 		}
-
-		if (memberManager.checkLogin(username, shaPassword)) {
-
-			// Store the current user in the service session
-			getSession().setAttribute("user", username);
-
-			// Navigate to main view
-			getUI().getNavigator().navigateTo(ShowUser.NAME);
-
-			// add Logout and ShowUser
-			// getUI().getPage().
+		
+		
+		Member loginMember = memberManager.checkLogin(username, shaPassword);
+		if (!loginMember.equals(null)) {
+			
+			meetsUI.login(loginMember);
 
 		} else {
 

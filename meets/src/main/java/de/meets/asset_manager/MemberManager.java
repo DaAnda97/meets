@@ -34,35 +34,7 @@ public final class MemberManager extends AssetManager<Member> {
 	}
 	
 	// check if login is correct
-	public boolean checkLogin( String email, String password ) {	
-		Session session = this.getFactory().openSession();
-		Transaction tx = null;
-		
-		try {
-			@SuppressWarnings("unused")
-			Member member;
-			email = email.toLowerCase();
-			
-			tx = session.beginTransaction();
-			member = (Member) session.createQuery(
-					"FROM Member m WHERE m.email='" +email +"' and m.password='" +password +"'")
-					.getSingleResult();
-			tx.commit();			
-		} catch ( NoResultException e ) {
-			// record not found - login failed
-			return false;
-		} catch ( HibernateException e ) {
-			if ( tx != null ) {
-				tx.rollback();
-			}
-			e.printStackTrace();
-		} finally {
-			session.close();
-		}
-		return true;
-	}
-	
-	public Member getMember( String email ) {	
+	public Member checkLogin( String email , String password) {	
 		Session session = this.getFactory().openSession();
 		Transaction tx = null;
 		Member member = null;
@@ -72,7 +44,7 @@ public final class MemberManager extends AssetManager<Member> {
 		try {
 			tx = session.beginTransaction();
 			member = (Member) session.createQuery(
-					"FROM Member m WHERE m.email='" +email)
+					"FROM Member m WHERE m.email='" +email +"' and m.password='" +password +"'")
 					.getSingleResult();
 			tx.commit();			
 		} catch ( NoResultException e ) {

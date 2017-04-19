@@ -7,27 +7,27 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 
 import de.meets.vaadin_archetype_application.MeetsUI;
-import de.meets.vaadin_archetype_application.Views;
 
 public class Header extends HorizontalLayout{
+	MeetsUI meetsUI;
+	
 	Button showUser = new Button("Mein Profil");
 	Button logout = new Button("Abmelden");
 	
-	public Header() {
+	public Header(MeetsUI meetsUI) {
+		this.meetsUI = meetsUI;
+		
 		ClassResource logo =  new ClassResource("/images/logo.png");
 		this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		this.setSizeFull();
 		this.addComponent(new Image(null,logo));
 		
 		showUser.addClickListener(e -> {
-			getUI().getNavigator().navigateTo(Views.SHOW_USER.getView());
+			meetsUI.showUser();
 		});
 		
 		logout.addClickListener(e -> {
-			removeLogout();
-			removeShowUser();
-			getUI().getNavigator().navigateTo(Login.NAME);
-			getSession().setAttribute("user", null);
+			meetsUI.logout();
 		});
 	}
 	

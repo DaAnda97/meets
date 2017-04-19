@@ -24,9 +24,9 @@ import de.meets.vaadin_archetype_application.MeetsUI;
 public class ShowUser extends HorizontalLayout implements View{
 	public static final String NAME = "showUser";
 	
-	MemberManager memberManager = new MemberManager();
-	LocationManager locationManager = new LocationManager();
-	Member member = memberManager.getMember(getSession().getAttribute("user").toString());
+	MemberManager memberManager;
+	LocationManager locationManager;
+	Member member;
 	
 	VerticalLayout informationPanel = new VerticalLayout();
 	Label message = new Label("Deine Angaben:");
@@ -52,6 +52,12 @@ public class ShowUser extends HorizontalLayout implements View{
     Button logout = new Button("Abmelden");
     
     
+	public ShowUser(MeetsUI meetsUI) {
+		memberManager = meetsUI.getMemberManager();
+		locationManager = meetsUI.getLocationManager();
+		member = meetsUI.getRegistratedMember();
+	}
+
 	@Override
 	public void enter(ViewChangeEvent event) {
 		//-------------------- INFORMATION - PANEL --------------------------

@@ -12,10 +12,16 @@ import de.meets.vaadin_archetype_application.MeetsUI;
 
 // Alle entsprechenden Meets anzeigen 
 public class MeetingOverview extends VerticalLayout implements View{
+	public static final String NAME = "meetingOverview";
+	public MeetsUI meetsUI;
 	
 //	Member member = MeetsUI.getRegistratedMember();
 //	Meeting meeting;
 //	Category category;
+
+	public MeetingOverview(MeetsUI meetsUI) {
+		this.meetsUI = meetsUI;
+	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {

@@ -22,9 +22,13 @@ import de.meets.asset_manager.LocationManager;
 import de.meets.asset_manager.MeetingManager;
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Member;
+import de.meets.hibernate.DatabaseConnector;
 import de.meets.views.Footer;
 import de.meets.views.Header;
+import de.meets.views.Impressum;
 import de.meets.views.Login;
+import de.meets.views.MeetingInformation;
+import de.meets.views.MeetingOverview;
 import de.meets.views.Register;
 import de.meets.views.ShowUser;
 
@@ -39,19 +43,29 @@ import de.meets.views.ShowUser;
 public class MeetsUI extends UI{
 	
 	Navigator navigator;
-	Header header = new Header();
-	Panel mainView = new Panel();
-	Footer footer = new Footer();
+	private MemberManager memberManager;
+	private LocationManager locationManager;
+	private Member registratedMember;
 	
+	private Header header = new Header(this);
+	private Panel mainView = new Panel();
+	private Footer footer = new Footer(this);
+
 	@Override
     protected void init(VaadinRequest request) {
+		DatabaseConnector databaseConnector = new DatabaseConnector();
+		memberManager = new MemberManager(databaseConnector);
+		locationManager = new LocationManager(databaseConnector);
 		
 		VerticalLayout mainLayout = new VerticalLayout(header, mainView, footer);
 
         navigator = new Navigator(this, mainView);
-        navigator.addView(Login.NAME, Login.class);
-        navigator.addView(Register.NAME, Register.class);
-        navigator.addView(ShowUser.NAME, ShowUser.class);
+        navigator.addView(Login.NAME, new Login(this));
+        navigator.addView(Register.NAME, new Register(this));
+        navigator.addView(ShowUser.NAME, new ShowUser(this));
+        navigator.addView(MeetingOverview.NAME, new MeetingOverview(this));
+        navigator.addView(MeetingInformation.NAME, new MeetingInformation(this));
+        navigator.addView(Impressum.NAME, new Impressum());
         
         navigator.navigateTo(Login.NAME);
         
@@ -64,30 +78,45 @@ public class MeetsUI extends UI{
 	@VaadinServletConfiguration(ui = MeetsUI.class, productionMode = false)
 	public static class MyUIServlet extends VaadinServlet {}
 
-	public Header getHeader() {
-		return header;
+	public void login(Member loginMember){
+		registratedMember = loginMember;
+		header.addShowUser();
+		header.addLogout();
+	}
+	
+	public void logout(){
+		registratedMember = null;
+		header.removeLogout();
+		header.removeShowUser();
+		navigator.navigateTo(Login.NAME);
 	}
 
-	public void setHeader(Header header) {
-		this.header = header;
+	public void deleteUser(){
+		memberManager.delete(registratedMember);
+		logout();
 	}
-
-	public Footer getFooter() {
-		return footer;
-	}
-
-	public void setFooter(Footer footer) {
-		this.footer = footer;
+	
+	public void showUser() {
+		getNavigator().navigateTo(ShowUser.NAME);
 	}
 	
 	public Navigator getNavigator() {
 		return navigator;
 	}
+	
+	public MemberManager getMemberManager() {
+		return memberManager;
+	}
 
-	public void setNavigator(Navigator navigator) {
-		this.navigator = navigator;
+	public LocationManager getLocationManager() {
+		return locationManager;
 	}
 	
+	public Member getRegistratedMember() {
+		return registratedMember;
+	}
+	
+}
 	
 //	Navigator navigator;
 //	VerticalLayout mainLayout = new VerticalLayout();
@@ -123,15 +152,6 @@ public class MeetsUI extends UI{
 //        
 //    }
 //
-//	public Member getRegistratedMember() {
-//		return registratedMember;
-//	}
-//	
-//	public void setRegistratedMember(Member registratedMember) {
-//		MeetsUI.registratedMember = registratedMember;
-//		header.addShowUser();
-//		header.addLogout();
-//	}
 //    
 //	public boolean isValidEmailAddress(String email) {
 //        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
@@ -140,17 +160,7 @@ public class MeetsUI extends UI{
 //        return m.matches();
 //	}
 //	
-//	public void logout(){
-//		registratedMember = null;
-//		header.removeLogout();
-//		header.removeShowUser();
-//		navigator.navigateTo(Views.LOGIN.getView());
-//	}
-//	
-//	public void deleteUser(){
-//		memberManager.delete(registratedMember);
-//		logout();
-//	}
+
 //	
 //	public static String shaHash (String password) throws NoSuchAlgorithmException{
 //		MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -173,37 +183,4 @@ public class MeetsUI extends UI{
 //    @VaadinServletConfiguration(ui = MeetsUI.class, productionMode = false)
 //    public static class MyUIServlet extends VaadinServlet {}
 //
-//
-//	public MemberManager getMemberManager() {
-//		return memberManager;
-//	}
-//	
-//	public void setMemberManager(MemberManager memberManager) {
-//		MeetsUI.memberManager = memberManager;
-//	}
-//	
-//	public LocationManager getLocationManager() {
-//		return locationManager;
-//	}
-//	
-//	public void setLocationManager(LocationManager locationManager) {
-//		MeetsUI.locationManager = locationManager;
-//	}
-//
-//	public MeetingManager getMeetingManager() {
-//		return meetingManager;
-//	}
-//
-//	public static void setMeetingManager(MeetingManager meetingManager) {
-//		MeetsUI.meetingManager = meetingManager;
-//	}
-//
-//	public static CategoryManager getCategoryManager() {
-//		return categoryManager;
-//	}
-//
-//	public static void setCategoryManager(CategoryManager categoryManager) {
-//		MeetsUI.categoryManager = categoryManager;
-//	}
-	
-}
+

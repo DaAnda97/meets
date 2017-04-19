@@ -22,26 +22,30 @@ import de.meets.assets.Location;
 import de.meets.assets.Member;
 import de.meets.services.GeneralServices;
 import de.meets.services.PasswordValidator;
-import de.meets.vaadin_archetype_application.Views;
+import de.meets.vaadin_archetype_application.MeetsUI;
 
 public class Register extends CustomComponent implements View {
 	public static final String NAME = "register";
+	
+	private Label register;
+	private TextField username;
+	private TextField email;
+	private LocationTextField<GeocodedLocation> location;
+	private TextField firstName;
+	private TextField lastName;
+	private PasswordField password;
+	private PasswordField controlPassword;
+	private Button registerButton;
+	private Button switchButton;
+	
+	private MemberManager memberManager;
+	private LocationManager locationManager;
 
-	Label register;
-	TextField username;
-	TextField email;
-	LocationTextField<GeocodedLocation> location;
-	TextField firstName;
-	TextField lastName;
-	PasswordField password;
-	PasswordField controlPassword;
-	Button registerButton;
-	Button switchButton;
-
-	MemberManager memberManager = new MemberManager();
-	LocationManager locationManager = new LocationManager();
-
-	public Register() {
+	
+	public Register(MeetsUI meetsUI) {
+		memberManager = meetsUI.getMemberManager();
+		locationManager = meetsUI.getLocationManager();
+		
 		final OpenStreetMapGeocoder geocoder = OpenStreetMapGeocoder
 				.getInstance();
 		geocoder.setLimit(25);
@@ -92,7 +96,7 @@ public class Register extends CustomComponent implements View {
 		switchButton = new Button("Zum Login");
 		;
 		switchButton.addClickListener(listener -> getUI().getNavigator()
-				.navigateTo(Views.LOGIN.getView()));
+				.navigateTo(Login.NAME));
 
 		VerticalLayout verticalLayout = new VerticalLayout();
 		verticalLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
@@ -101,6 +105,7 @@ public class Register extends CustomComponent implements View {
 				switchButton);
 		verticalLayout.setMargin(true);
 		verticalLayout.setSpacing(true);
+		setCompositionRoot(verticalLayout);
 	}
 
 	private void registerButtonClicked() {
@@ -155,8 +160,7 @@ public class Register extends CustomComponent implements View {
 					member.setLastName(lastName.getValue().trim());
 					memberManager.add(member);
 					getSession().setAttribute("user", username);
-					getUI().getNavigator().navigateTo(
-							Views.MEETING_OVERVIEW.getView());
+					getUI().getNavigator().navigateTo(MeetingOverview.NAME);
 				}
 			}
 		}

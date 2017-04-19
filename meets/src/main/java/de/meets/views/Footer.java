@@ -4,14 +4,14 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 
-import de.meets.vaadin_archetype_application.Views;
+import de.meets.vaadin_archetype_application.MeetsUI;
 
 public class Footer extends HorizontalLayout {
 	Button impressum = new Button("Impressum");
 
-	public Footer() {
+	public Footer(MeetsUI meetsUI) {
 		impressum.addClickListener(e -> {
-			getUI().getNavigator().navigateTo(Views.IMPRESSUM.getView());
+			getUI().getNavigator().navigateTo(Impressum.NAME);
 		});
 		
 		this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
