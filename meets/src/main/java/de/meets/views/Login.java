@@ -29,11 +29,10 @@ public class Login extends CustomComponent implements View {
 
 	private MemberManager memberManager;
 
-	
 	public Login(MeetsUI meetsUI) {
 		this.meetsUI = meetsUI;
 		memberManager = meetsUI.getMemberManager();
-		
+
 		setSizeFull();
 
 		// Create the user input field
@@ -81,7 +80,6 @@ public class Login extends CustomComponent implements View {
 		setCompositionRoot(viewLayout);
 	}
 
-
 	@Override
 	public void enter(ViewChangeEvent event) {
 		userTextField.focus();
@@ -101,26 +99,25 @@ public class Login extends CustomComponent implements View {
 		String username = userTextField.getValue();
 		String shaPassword;
 		try {
-			shaPassword = meetsUI.shaHash(passwordTextField.getValue()
-					.trim());
+			shaPassword = meetsUI.shaHash(passwordTextField.getValue().trim());
 		} catch (Exception e1) {
 			passwordTextField.setComponentError(new UserError(
 					"Internal error - Please try later again"));
 			e1.printStackTrace();
 			return; // Abbruch, da Passwort nicht gehashed wurde
 		}
-		
-		try {
-			meetsUI.login(memberManager.checkLogin(username, shaPassword));
-		} catch (NullPointerException e) {
-			// Wrong password clear the password field and refocuses it
-						this.passwordTextField.setValue(null);
-						this.passwordTextField.setComponentError(new UserError(
-								"E-Mail oder Passwort falsch."));
-						this.userTextField.setValue(null);
-						this.userTextField.setComponentError(new UserError(
-								"E-Mail oder Passwort falsch."));
 
+		Member loginMember = memberManager.checkLogin(username, shaPassword);
+		if (loginMember != null) {
+			meetsUI.login(loginMember);
+		} else {
+			// Wrong password clear the password field and refocuses it
+			this.passwordTextField.setValue("");
+			this.passwordTextField.setComponentError(new UserError(
+					"E-Mail oder Passwort falsch."));
+			this.userTextField.setValue("");
+			this.userTextField.setComponentError(new UserError(
+					"E-Mail oder Passwort falsch."));
 		}
 	}
 

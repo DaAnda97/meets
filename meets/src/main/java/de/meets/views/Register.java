@@ -116,7 +116,7 @@ public class Register extends CustomComponent implements View {
 			return;
 		}
 
-		String username = email.getValue().trim();
+		String validEmail = email.getValue().trim();
 		String shaPassword;
 		try {
 			shaPassword = meetsUI.shaHash(password.getValue().trim());
@@ -149,17 +149,20 @@ public class Register extends CustomComponent implements View {
 
 					if (locationManager.get(position.getCity()) == null) {
 						locationManager.add(position);
-						System.out.println("Inster into DB: " + position);
+						System.out.println("Instert into DB: " + position);
 					}
 
 					position = locationManager.get(position.getCity());
 
 					// Generate Member
-					Member member = new Member(username, null, null,
-							shaPassword, email.getValue().trim(), position);
+					Member member = new Member(username.getValue().trim(), null, null,
+							shaPassword, validEmail, position);
 					member.setFirstName(firstName.getValue().trim());
 					member.setLastName(lastName.getValue().trim());
 					memberManager.add(member);
+					
+					System.out.println("Member:" + username.getValue() + ", Hashed password:" + shaPassword + ", mail: " + email.getValue() + ", Vorname: " + firstName.getValue().trim() + ", Nachname: " + firstName.getValue().trim());
+					
 					meetsUI.login(member);
 				}
 			}

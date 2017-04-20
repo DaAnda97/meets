@@ -24,33 +24,31 @@ public class ShowUser extends HorizontalLayout implements View{
 	public static final String NAME = "showUser";
 	private MeetsUI meetsUI;
 	
-	MemberManager memberManager;
-	LocationManager locationManager;
-	Member member;
+	private MemberManager memberManager;
+	private LocationManager locationManager;
+	private Member member;
 	
-	VerticalLayout informationPanel = new VerticalLayout();
-	Label message = new Label("Deine Angaben:");
-	TextField name = new TextField("Benutzername");
-	TextField email = new TextField("E-Mail");
-	LocationTextField<GeocodedLocation> location;
-	TextField firstName = new TextField("Vorname");
-	TextField lastName = new TextField("Nachname");
+	private VerticalLayout informationPanel = new VerticalLayout();
+	private Label message = new Label("Deine Angaben:");
+	private TextField name = new TextField("Benutzername");
+	private TextField email = new TextField("E-Mail");
+	private LocationTextField<GeocodedLocation> location;
+	private TextField firstName = new TextField("Vorname");
+	private TextField lastName = new TextField("Nachname");
 	
-	HorizontalLayout buttonPanel = new HorizontalLayout();
-    Button edit = new Button("Bearbeiten");
-    Button saveChanges = new Button("Speichern");
-    Button removeChanges = new Button("Abbrechen");
+	private HorizontalLayout buttonPanel = new HorizontalLayout();
+	private Button edit = new Button("Bearbeiten");
+	private Button saveChanges = new Button("Speichern");
+	private Button removeChanges = new Button("Abbrechen");
     
-    VerticalLayout passwordPanel = new VerticalLayout();
-    Label changePassword = new Label("Passwort ändern:");
-    PasswordField passwordOld = new PasswordField("Altes Passwort");
-    PasswordField passwordNew = new PasswordField("Neues Passwort");
-    PasswordField passwordNewConfirm = new PasswordField("Bestätige neues Passwort");
-    Button confirmNewPassoword = new Button("Bestätigen");
+	private VerticalLayout passwordPanel = new VerticalLayout();
+	private Label changePassword = new Label("Passwort ändern:");
+	private PasswordField passwordOld = new PasswordField("Altes Passwort");
+	private PasswordField passwordNew = new PasswordField("Neues Passwort");
+	private PasswordField passwordNewConfirm = new PasswordField("Bestätige neues Passwort");
+	private Button confirmNewPassoword = new Button("Bestätigen");
     
-    Button deliteUser = new Button("Benutzer löschen!");
-    Button logout = new Button("Abmelden");
-
+	private Button deliteUser = new Button("Benutzer löschen!");
     
     
 	public ShowUser(MeetsUI meetsUI) {
@@ -106,7 +104,7 @@ public class ShowUser extends HorizontalLayout implements View{
 	    //------------------------ MAIN - PANEL ---------------------------
 	    
 	    deliteUser.addClickListener(e -> {
-//	    	MeetsUI.deleteUser();
+	    	meetsUI.deleteUser();
 	    });
 	    
 	    this.addComponents(informationPanel, passwordPanel, deliteUser);
