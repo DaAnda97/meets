@@ -36,6 +36,8 @@ public class ManagerTemplate {
 				new Location(1)));
 		memb.add(new Member("Umntate", "Bernd", "Heck", "1234321", "bnd01@web.de", 
 				new Location(2)));
+		memb.add(new Member("andi", "Andi", "Test", "1234", "andi@gmx.de", 
+				new Location(2)));
 		
 		// Add meetings
 		meet.add(new Meeting("Essen", "Wer hat bock auf Oxfort?", new Category(1), new Date(), 

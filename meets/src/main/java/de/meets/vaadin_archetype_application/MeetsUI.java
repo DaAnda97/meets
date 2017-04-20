@@ -132,6 +132,8 @@ public class MeetsUI extends UI{
 	}
 	
 	public Member getRegistratedMember() {
+//		System.out.println("Moin, i bims da Member: " + registratedMember.getUsername() + ", " + registratedMember.getEmail() + ", "
+//				+ registratedMember.getFirstName() + ", " + registratedMember.getLastName());
 		return registratedMember;
 	}
 	
