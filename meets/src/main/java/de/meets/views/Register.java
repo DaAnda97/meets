@@ -161,8 +161,7 @@ public class Register extends CustomComponent implements View {
 					member.setLastName(lastName.getValue().trim());
 					memberManager.add(member);
 					
-					System.out.println("Member:" + username.getValue() + ", Hashed password:" + shaPassword + ", mail: " + email.getValue() + ", Vorname: " + firstName.getValue().trim() + ", Nachname: " + firstName.getValue().trim());
-					
+					System.out.println("------------" +member.toString());
 					meetsUI.login(member);
 				}
 			}

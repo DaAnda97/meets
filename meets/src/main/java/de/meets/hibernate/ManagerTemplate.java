@@ -14,7 +14,7 @@ import de.meets.assets.Member;
 
 public class ManagerTemplate {
 
-	public static void main(String[] args) {
+	public static void main() {
 		
 		DatabaseConnector db = new DatabaseConnector();
 		

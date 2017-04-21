@@ -22,7 +22,7 @@ public class Login extends CustomComponent implements View {
 	public static final String NAME = "login";
 	public MeetsUI meetsUI;
 
-	private TextField userTextField;
+	private TextField emailTextField;
 	private PasswordField passwordTextField;
 	private Button loginButton;
 	private Button registerButton;
@@ -36,13 +36,13 @@ public class Login extends CustomComponent implements View {
 		setSizeFull();
 
 		// Create the user input field
-		userTextField = new TextField("E-Mail:");
-		userTextField.setWidth("300px");
-		userTextField.setRequired(true);
-		userTextField.setInputPrompt("Deine hinterlegte E-Mail");
-		userTextField.addValidator(new EmailValidator(
+		emailTextField = new TextField("E-Mail:");
+		emailTextField.setWidth("300px");
+		emailTextField.setRequired(true);
+		emailTextField.setInputPrompt("Deine hinterlegte E-Mail");
+		emailTextField.addValidator(new EmailValidator(
 				"Der Benutzername muss eine E-Mailadresse sein"));
-		userTextField.setInvalidAllowed(false);
+		emailTextField.setInvalidAllowed(false);
 
 		// Create the password input field
 		passwordTextField = new PasswordField("Passwort:");
@@ -65,7 +65,7 @@ public class Login extends CustomComponent implements View {
 		});
 
 		// Add both to a panel
-		VerticalLayout fields = new VerticalLayout(userTextField,
+		VerticalLayout fields = new VerticalLayout(emailTextField,
 				passwordTextField, loginButton, registerButton);
 		fields.setCaption("Bitte melde dich an:");
 		fields.setSpacing(true);
@@ -82,7 +82,7 @@ public class Login extends CustomComponent implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		userTextField.focus();
+		emailTextField.focus();
 	}
 
 	public void registerButtonClicked() {
@@ -92,11 +92,11 @@ public class Login extends CustomComponent implements View {
 	public void loginButtonClicked() {
 
 		// Teste, ob die Eingaben (E-Mail, gültiges Passwort) valide sind
-		if (!userTextField.isValid() || !passwordTextField.isValid()) {
+		if (!emailTextField.isValid() || !passwordTextField.isValid()) {
 			return;
 		}
 
-		String username = userTextField.getValue();
+		String validEmail = emailTextField.getValue();
 		String shaPassword;
 		try {
 			shaPassword = meetsUI.shaHash(passwordTextField.getValue().trim());
@@ -107,7 +107,7 @@ public class Login extends CustomComponent implements View {
 			return; // Abbruch, da Passwort nicht gehashed wurde
 		}
 
-		Member loginMember = memberManager.checkLogin(username, shaPassword);
+		Member loginMember = memberManager.checkLogin(validEmail, shaPassword);
 		if (loginMember != null) {
 			meetsUI.login(loginMember);
 		} else {
@@ -115,8 +115,8 @@ public class Login extends CustomComponent implements View {
 			this.passwordTextField.setValue("");
 			this.passwordTextField.setComponentError(new UserError(
 					"E-Mail oder Passwort falsch."));
-			this.userTextField.setValue("");
-			this.userTextField.setComponentError(new UserError(
+			this.emailTextField.setValue("");
+			this.emailTextField.setComponentError(new UserError(
 					"E-Mail oder Passwort falsch."));
 		}
 	}

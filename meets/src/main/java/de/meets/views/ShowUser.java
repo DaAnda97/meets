@@ -56,11 +56,12 @@ public class ShowUser extends HorizontalLayout implements View{
 		
 		memberManager = meetsUI.getMemberManager();
 		locationManager = meetsUI.getLocationManager();
-		member = meetsUI.getRegistratedMember();
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		member = meetsUI.getRegistratedMember();
+		
 		//-------------------- INFORMATION - PANEL --------------------------
 	    name.setValue(member.getUsername());
 	    email.setValue(member.getEmail());

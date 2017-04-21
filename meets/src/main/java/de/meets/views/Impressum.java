@@ -8,7 +8,7 @@ import com.vaadin.ui.VerticalLayout;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
 public class Impressum extends VerticalLayout implements View{
-	public static final String NAME = "meetingOverview";
+	public static final String NAME = "impressum";
 
 	@Override
 	public void enter(ViewChangeEvent event) {
