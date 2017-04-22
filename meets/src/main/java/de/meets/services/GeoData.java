@@ -9,9 +9,11 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
 
+import de.meets.assets.Location;
+
 public class GeoData {
 	
-	public GeocodingResult getCoordinatesFromAdress(String adress) throws Exception{
+	public Location getCoordinatesFromAdress(String adress) throws Exception{
 		
 		String apiKey = "";
 		
@@ -35,7 +37,10 @@ public class GeoData {
 			
 		}
 		
-		return results[0];
+		Location location = new Location(results[0].formattedAddress, results[0].geometry.location.lng, results[0].geometry.location.lat);
+		
+		
+		return location;
 		
 	}
 	
@@ -50,3 +55,4 @@ public class GeoData {
 //		}
 //	}
 }
+
