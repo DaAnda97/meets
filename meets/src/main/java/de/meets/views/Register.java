@@ -27,6 +27,11 @@ public class Register extends CustomComponent implements View {
 	public static final String NAME = "register";
 	MeetsUI meetsUI;
 	
+	
+	
+	private static final String AUTHENTIFICATION_KEY = "key=AIzaSyDTm0ww_trYHNH3J81Girzbtmn52bcOqQI";
+	String basicUrl = "https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA";
+		
 	private Label register;
 	private TextField username;
 	private TextField email;

@@ -9,6 +9,8 @@ import javax.persistence.*;
 @Table(name = "Location")
 public class Location {
 
+	// AIzaSyDTm0ww_trYHNH3J81Girzbtmn52bcOqQI 
+	
 	// location table
 	public static final String LOCATION_TABLE = "Location";
 	public static final String LOCATION_ID = "locationID";
