@@ -1,9 +1,5 @@
 package de.meets.views;
 
-import org.vaadin.addons.locationtextfield.GeocodedLocation;
-import org.vaadin.addons.locationtextfield.LocationTextField;
-import org.vaadin.addons.locationtextfield.OpenStreetMapGeocoder;
-
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -20,42 +16,32 @@ import de.meets.asset_manager.LocationManager;
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Location;
 import de.meets.assets.Member;
+import de.meets.services.GeoData;
 import de.meets.services.PasswordValidator;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
 public class Register extends CustomComponent implements View {
 	public static final String NAME = "register";
 	MeetsUI meetsUI;
-	
+
 	private Label register;
 	private TextField username;
 	private TextField email;
-	private LocationTextField<GeocodedLocation> location;
+	private TextField location;
 	private TextField firstName;
 	private TextField lastName;
 	private PasswordField password;
 	private PasswordField controlPassword;
 	private Button registerButton;
 	private Button switchButton;
-	
+
 	private MemberManager memberManager;
 	private LocationManager locationManager;
 
-	
 	public Register(MeetsUI meetsUI) {
 		this.meetsUI = meetsUI;
 		memberManager = meetsUI.getMemberManager();
 		locationManager = meetsUI.getLocationManager();
-		
-		final OpenStreetMapGeocoder geocoder = OpenStreetMapGeocoder
-				.getInstance();
-		geocoder.setLimit(25);
-		location = new LocationTextField<GeocodedLocation>(geocoder,
-				GeocodedLocation.class);
-		location.setCaption("Adresse");
-		location.setImmediate(true);
-		location.setInputPrompt("");
-		location.setRequired(true);
 
 		register = new Label("Registrieren");
 
@@ -70,7 +56,6 @@ public class Register extends CustomComponent implements View {
 
 		email = new TextField("E-Mail");
 		email.setRequired(true);
-		email.setRequired(true);
 		email.setInputPrompt("Deine hinterlegte E-Mail");
 		email.addValidator(new EmailValidator(
 				"Der Benutzername muss eine E-Mailadresse sein"));
@@ -79,9 +64,13 @@ public class Register extends CustomComponent implements View {
 		password = new PasswordField("Passwort");
 		password.setRequired(true);
 		password.addValidator(new PasswordValidator());
-		password.setRequired(true);
 		password.setValue("");
 		password.setNullRepresentation("");
+		
+		location = new TextField("Adresse");
+		location.setRequired(true);
+		location.setValue("");
+		location.setNullRepresentation("");
 
 		controlPassword = new PasswordField("Passwort wiederholen");
 		controlPassword.setRequired(true);
@@ -137,33 +126,34 @@ public class Register extends CustomComponent implements View {
 				email.setComponentError(new UserError(
 						"E-Mail ist schon verwendet"));
 			} else {
-				if (location.getLocation() == null) {
+				Location position;
+				try {
+					GeoData geoData = new GeoData();
+					position = geoData.getCoordinatesFromAdress(location
+							.getValue());
+				} catch (Exception e) {
 					location.setComponentError(new UserError(
-							"Wähle eine Adresse aus der Liste! (Drücke Enter)"));
-				} else {
-
-					// Generate Location
-					Location position = new Location(location.getText(),
-							location.getLocation().getLon(), location
-									.getLocation().getLat());
-
-					if (locationManager.get(position.getCity()) == null) {
-						locationManager.add(position);
-						System.out.println("Instert into DB: " + position);
-					}
-
-					position = locationManager.get(position.getCity());
-
-					// Generate Member
-					Member member = new Member(username.getValue().trim(), null, null,
-							shaPassword, validEmail, position);
-					member.setFirstName(firstName.getValue().trim());
-					member.setLastName(lastName.getValue().trim());
-					memberManager.add(member);
-					
-					System.out.println("------------" +member.toString());
-					meetsUI.login(member);
+							"Deine Adresse konnte nicht gefinden werden."));
+					return;
 				}
+
+				if (locationManager.get(position.getCity()) == null) {
+					locationManager.add(position);
+					System.out.println("Instert into DB: " + position);
+				}
+
+				position = locationManager.get(position.getCity());
+
+				// Generate Member
+				Member member = new Member(username.getValue().trim(), null,
+						null, shaPassword, validEmail, position);
+				member.setFirstName(firstName.getValue().trim());
+				member.setLastName(lastName.getValue().trim());
+				memberManager.add(member);
+
+				System.out.println("------------" + member.toString());
+				meetsUI.login(member);
+
 			}
 		}
 	}
