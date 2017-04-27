@@ -34,7 +34,6 @@ public class GeoData {
 			double lat = result.geometry.location.lat;
 			double lng = result.geometry.location.lng;
 			System.out.println(result.formattedAddress + "(Latitude:" + lat + ", Longitude:" + lng + ")");
-			
 		}
 		
 		Location location = new Location(results[0].formattedAddress, results[0].geometry.location.lng, results[0].geometry.location.lat);
@@ -47,10 +46,10 @@ public class GeoData {
 //	public static void main(String[] args) {
 //		GeoData geoData = new GeoData();
 //		try {
-//			geoData.getCoordinatesFromAdress("Buchenstraße 8, 82293 Mittelstetten");
-//			geoData.getCoordinatesFromAdress("Mammendorf");
+//			Location location = geoData.getCoordinatesFromAdress("Kuh");
+//			System.out.println(location.getCity() + "( Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude() + ")");
 //		} catch (Exception e) {
-//			// TODO Auto-generated catch block
+//			System.out.println(e.getMessage());
 //			e.printStackTrace();
 //		}
 //	}
