@@ -1,4 +1,4 @@
-package de.meets.views;
+package de.meets.gui.views;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
