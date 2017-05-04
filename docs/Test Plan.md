@@ -160,25 +160,7 @@ Human Resources
 This section outlines how to approach staffing and training the test roles for the project.
 
 ## 11.	Iteration Milestones
-
-| Milestone | Planned Start Date | Actual Start Date | Planned End Date | Actual End Date |
-| --------- | ------------------ | ----------------- | ---------------- | --------------- |
-| Iteration Plan agreed	|||||			
-|Iteration starts|||||			
-|Requirements baselined	|||||			
-|Architecture baselined	|||||			
-|User Interface baselined|||||				
-|First Build delivered to test|||||			
-|First Build accepted into test	|||||			
-|First Build test cycle finishes|||||			
-|[Build Two will not be tested]	|||||		
-|Third Build delivered to test|||||		
-|Third Build accepted into test	|||||			
-|Third Build test cycle finishes|||||			
-|Fourth Build delivered to test	|||||		
-|Fourth Build accepted into test|||||			
-|Iteration Assessment review|||||		
-|Iteration ends|||||	
+The planned Unit classes should run green and therefore be executed successfully.
 
 ## 12.	Risks, Dependencies, Assumptions, and Constraints
 
@@ -187,16 +169,4 @@ This section outlines how to approach staffing and training the test roles for t
 | Prerequisite entry criteria is not met. |	<Tester> will define the prerequisites that must be met before Load Testing can start <Customer> will endeavor to meet prerequisites indicated by <Tester>. |<ul><li>	Meet outstanding prerequisites</li><li>Consider Load Test Failure</li></ul>|
 | Test data proves to be inadequate.|<Customer> will ensure a full set of suitable and protected test data is available. <Tester> will indicate what is required and will verify the suitability of test data.|<ul><li>Redefine test data</li><li>Review Test Plan and modify	components (that is, scripts)</li><li>	Consider Load Test Failure</li></ul>|
 |Database requires refresh.| <System Admin> will endeavor to ensure the Database is regularly refreshed as required by <Tester>.| <ul><li>	Restore data and restart</li><li>Clear Database</li></ul>|
-
-|Dependency between|Potential Impact of Dependency|Owners|
-|------------------|------------------------------|------|		
-
-|Assumption to be proven|Impact of Assumption being incorrect|Owners|
-|-----------------------|------------------------------------|------|
-
-|Constraint on|Impact Constraint has on test effort|Owners|
-|-------------|------------------------------------|------|
-
-
-
 
