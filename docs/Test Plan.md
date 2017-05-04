@@ -194,6 +194,7 @@ The following Test Environment Configurations needs to be provided and supported
 | ------------------ | ----------- | ------------------------------------- |	
 
 ## 10.	Responsibilities, Staffing, and Training Needs
+Responsible Person for testing related subjects and Unit tests is Luca Carotenuto. The responsible person is responsible for communication inside the team in regards to testing topics.
 
 ### 10.1	People and Roles
 This table shows the staffing assumptions for the test effort.
@@ -252,18 +253,6 @@ This section outlines how to approach staffing and training the test roles for t
 |Constraint on|Impact Constraint has on test effort|Owners|
 |-------------|------------------------------------|------|
 
-## 13.	Management Process and Procedures
 
-### 13.1	Measuring and Assessing the Extent of Testing
-
-### 13.2	Assessing the Deliverables of this Test Plan
-
-### 13.3	Problem Reporting, Escalation, and Issue Resolution
-
-### 13.4	Managing Test Cycles
-
-### 13.5	Traceability Strategies
-
-### 13.6	Approval and Signoff
 
 
