@@ -94,19 +94,14 @@ n/a
 | ------------------- | --------- | ------- | -------------- | --------------- | ---------------------- |
 | Let the user click through our application to verify that the usabilty is good enough | Several Users should work with our application for a week to verify everything is working and they can interact with the UI | The User is happy, that he can use our application and it is wasy to use | User | Users will say that they can use our application with ease | Will be done manually by asking different Person to test our application |
 
-## 7.	Deliverables
+## 6.	Testing Workflow
+In our project we use the JUnit Framework for Java. Every developer can run the Unit Test in his IDE and check if the developed code runs correctly.
 
-### 7.1	Test Evaluation Summaries
+![alt text](https://github.com/DaAnda97/meets/raw/master/docs/test/Screenshot_RunningTest.JPG)
 
-### 7.2	Reporting on Test Coverage
+## 7.	Environmental Needs
 
-### 7.3	Perceived Quality Reports
-
-## 8.	Testing Workflow
-
-## 9.	Environmental Needs
-
-### 9.1	Base System Hardware
+### 7.1	Base System Hardware
 The following table sets forth the system resources for the test effort presented in this Test Plan.
 
 System Resources
@@ -119,28 +114,19 @@ System Resources
 | Test Deployment PCs | | |
 
 
-### 9.2	Base Software Elements in the Test Environment
+### 7.2	Base Software Elements in the Test Environment
 The following base software elements are required in the test environment for this Test Plan.
 
-| Software Element Name | Version | Type and Other Notes |
-| --------------------- | ------- | -------------------- |
+| Resource | Name and Type |
+|--------- |  ------------- |
+| JUnit | Unit Testing library | 
+|Eclipse IDE | Local Test Runner and IDE |
+| TChrome Webdriver | 	Local UI Test Runner; OS: PC, Linux and MAC; Browser: Chrome | 
 
-### 9.3	Productivity and Support Tools
-The following tools will be employed to support the test process for this Test Plan.
-
-| Tool Category or Type | Tool Brand Name | Vendor or In-house | Version |
-| --------------------- | --------------- | ------------------ | ------- |
-
-### 9.4	Test Environment Configurations
-The following Test Environment Configurations needs to be provided and supported for this project.
-
-| Configuration Name | Description | Implemented in Physical Configuration |
-| ------------------ | ----------- | ------------------------------------- |	
-
-## 10.	Responsibilities, Staffing, and Training Needs
+## 8.	Responsibilities, Staffing, and Training Needs
 Responsible Person for testing related subjects and Unit tests is Luca Carotenuto. The responsible person is responsible for communication inside the team in regards to testing topics.
 
-### 10.1	People and Roles
+### 8.1	People and Roles
 This table shows the staffing assumptions for the test effort.
 
 Human Resources
@@ -156,13 +142,13 @@ Human Resources
 | Designer | | Identifies and defines the operations, attributes, and associations of the test classes. Responsibilities include:	defines the test classes required to support testability requirements as defined by the test team |
 | Implementer |	| Implements and unit tests the test classes and test packages. Responsibilities include:<ul><li>creates the test components required to support testability requirements as defined by the designer</li></ul> |
 
-### 10.2	Staffing and Training Needs
+### 8.2	Staffing and Training Needs
 This section outlines how to approach staffing and training the test roles for the project.
 
-## 11.	Iteration Milestones
+## 9.	Iteration Milestones
 The planned Unit classes should run green and therefore be executed successfully.
 
-## 12.	Risks, Dependencies, Assumptions, and Constraints
+## 10.	Risks, Dependencies, Assumptions, and Constraints
 
 | Risk | Mitigation Strategy | Contingency (Risk is realized) |
 | ---- | ------------------- | ------------------------------ |
