@@ -77,7 +77,7 @@ n/a
 #### 5.2.1	Data and Database Integrity Testing
 | Technique Objective | Technique | Oracles | Required Tools | Succes Criteria | Special Considerations |
 | ------------------- | --------- | ------- | -------------- | --------------- | ---------------------- |
-| Testing if the database follows the implementation in the code | Test at startup if the database structure follows the data type definitions in Django | The Backend knows exactly the structure of the database and therefore is able to interact easily with it | Django | No differences between Django models and database models | will be done at every server-start |
+| Testing if the database follows the implementation in the code | Test at startup if the database structure follows the data type definitions in Vaadin | The Backend knows exactly the structure of the database and therefore is able to interact easily with it | Vaadin | No differences between Vaadin models and database models | will be done at every server-start |
 
 #### 5.2.2	Function Testing
 
@@ -94,48 +94,6 @@ n/a
 | ------------------- | --------- | ------- | -------------- | --------------- | ---------------------- |
 | Let the user click through our application to verify that the usabilty is good enough | Several Users should work with our application for a week to verify everything is working and they can interact with the UI | The User is happy, that he can use our application and it is wasy to use | User | Users will say that they can use our application with ease | Will be done manually by asking different Person to test our application |
 
-#### 5.2.5	Performance Profiling 
-n/a
-
-#### 5.2.6	Load Testing
-n/a
-
-#### 5.2.7	Stress Testing
-n/a
- 
-#### 5.2.8	Volume Testing
-n/a
-
-#### 5.2.9	Security and Access Control Testing
-n/a
-
-#### 5.2.10	Failover and Recovery Testing
-n/a
-
-#### 5.2.11	Configuration Testing
-n/a
-
-#### 5.2.12	Installation Testing
-n/a
-
-## 6.	Entry and Exit Criteria
-
-### 6.1	Test Plan
-
-#### 6.1.1	Test Plan Entry Criteria
-
-#### 6.1.2	Test Plan Exit Criteria
-
-#### 6.1.3	 Suspension and Resumption Criteria
-
-### 6.2	Test Cycles
-
-#### 6.2.1	Test Cycle Entry Criteria
-
-#### 6.2.2	Test Cycle Exit Criteria
-
-#### 6.2.3	Test Cycle Abnormal Termination
-
 ## 7.	Deliverables
 
 ### 7.1	Test Evaluation Summaries
@@ -143,20 +101,6 @@ n/a
 ### 7.2	Reporting on Test Coverage
 
 ### 7.3	Perceived Quality Reports
-
-### 7.4	Incident Logs and Change Requests
-
-### 7.5	Smoke Test Suite and Supporting Test Scripts 
-
-### 7.6	Additional Work Products
-
-#### 7.6.1	Detailed Test Results
-
-#### 7.6.2	Additional Automated Functional Test Scripts
-
-#### 7.6.3	Test Guidelines
-
-#### 7.6.4	Traceability Matrices
 
 ## 8.	Testing Workflow
 
