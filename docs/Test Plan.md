@@ -2,20 +2,13 @@
 ## 1.	Introduction
 ### 1.1	Purpose
 The purpose of the Iteration Test Plan is to gather all of the information necessary to plan and control the test effort for a given iteration. It describes the approach to testing the software, and is the top-level plan generated and used by managers to direct the test effort.
-This Test Plan for the BestPlaces - Project supports the following objectives:
+This Test Plan for the Meets Project - This project supports the following objectives:
 * Decrease and minimise the number of mistakes and bugs
 * Provide the users a comfortable and flawless use
 * Automated backend and frontend testing
 
 ### 1.2	Scope
-*Integration Testing*
-* Dredd will use the sample data provided in API Blueprint to test against the real API
-* UI-Testing with Cucumber supported by the feature-files
-* TeamCity for automated testing while deploying
-
-*Unit tests*
-* Unit Tests in the backend with Django
-* Unit Tests in the frontend with JUnit
+This document describes how the application is tested by using JUnit. JUnit is a Framework for testing Java-based applications, in this case a Vaadin Application.
 
 ### 1.3	Intended Audience
 * Students
@@ -61,25 +54,22 @@ The goals of testing are the following:
 ## 3.	Target Test Items
 The listing below identifies those test items-software, hardware, and supporting product elements -that have been identified as targets for testing. This list represents what items will be tested. 
 
-* UI
-* RESTful-API
-* Functionality Testing
+* Filtering Meets (use case: view meets) 
+* Register, Edit User Profile, Logout, Login, Delete User Account
 
 ## 4.	Outline of Planned Tests
 
 ### 4.1	Outline of Test Inclusions
-* Cucumber UI-Testing
 * JUnit-Testing
 
 ### 4.2	Outline of Other Candidates for Potential Inclusion
-* Dredd-Testing
 * User-Testing
 
 ### 4.3	Outline of Test Exclusions
 * Stress testing (bad server hardware)
 
 ## 5.	Test Approach
-We commonly will do *integration testing* and *Unit testing*.
+We commonly will do *Unit testing*.
 ### 5.1	Initial Test-Idea Catalogs and Other Reference Sources
 n/a
 ### 5.2	Testing Techniques and Types
