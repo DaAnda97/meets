@@ -11,10 +11,10 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.themes.Reindeer;
 
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Member;
+import de.meets.gui.extendedComponents.ExtendedTextField;
 import de.meets.services.PasswordValidator;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
@@ -22,8 +22,8 @@ public class Login extends CustomComponent implements View {
 	public static final String NAME = "login";
 	public MeetsUI meetsUI;
 
-	private TextField emailTextField;
-	private PasswordField passwordTextField;
+	private ExtendedTextField emailTextField;
+	private ExtendedTextField passwordTextField;
 	private Button loginButton;
 	private Button registerButton;
 
@@ -36,8 +36,7 @@ public class Login extends CustomComponent implements View {
 		setSizeFull();
 
 		// Create the user input field
-		emailTextField = new TextField("E-Mail:");
-		emailTextField.setWidth("300px");
+		emailTextField = new ExtendedTextField("E-Mail:", new TextField(), "E-Mail oder Passwort falsch.");
 		emailTextField.setRequired(true);
 		emailTextField.setInputPrompt("Deine hinterlegte E-Mail");
 		emailTextField.addValidator(new EmailValidator(
@@ -45,12 +44,10 @@ public class Login extends CustomComponent implements View {
 		emailTextField.setInvalidAllowed(false);
 
 		// Create the password input field
-		passwordTextField = new PasswordField("Passwort:");
-		passwordTextField.setWidth("300px");
+		passwordTextField = new ExtendedTextField("Passwort:", new PasswordField(), "E-Mail oder Passwort falsch.");
 		passwordTextField.addValidator(new PasswordValidator());
 		passwordTextField.setRequired(true);
 		passwordTextField.setValue("");
-		passwordTextField.setNullRepresentation("");
 
 		// Create login button
 		loginButton = new Button("Login");
@@ -112,12 +109,8 @@ public class Login extends CustomComponent implements View {
 			meetsUI.login(loginMember);
 		} else {
 			// Wrong password clear the password field and refocuses it
-			this.passwordTextField.setValue("");
-			this.passwordTextField.setComponentError(new UserError(
-					"E-Mail oder Passwort falsch."));
-			this.emailTextField.setValue("");
-			this.emailTextField.setComponentError(new UserError(
-					"E-Mail oder Passwort falsch."));
+			this.passwordTextField.showErrorMessage();
+			this.emailTextField.showErrorMessage();
 		}
 	}
 
