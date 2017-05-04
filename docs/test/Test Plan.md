@@ -101,20 +101,7 @@ In our project we use the JUnit Framework for Java. Every developer can run the 
 
 ## 7.	Environmental Needs
 
-### 7.1	Base System Hardware
-The following table sets forth the system resources for the test effort presented in this Test Plan.
-
-System Resources
-
-| Resource | Quantity |	Name and Type |
-|--------- | -------- | ------------- |
-| Database Server | | |
-| Client Test PCs | | |
-| Test Repository | | |
-| Test Deployment PCs | | |
-
-
-### 7.2	Base Software Elements in the Test Environment
+### 7.1	Base Software Elements in the Test Environment
 The following base software elements are required in the test environment for this Test Plan.
 
 | Resource | Name and Type |
