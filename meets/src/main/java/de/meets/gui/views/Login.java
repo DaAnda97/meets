@@ -39,13 +39,11 @@ public class Login extends CustomComponent implements View {
 		emailTextField = new ExtendedTextField("E-Mail:", new TextField(), "E-Mail oder Passwort falsch.");
 		emailTextField.setRequired(true);
 		emailTextField.setInputPrompt("Deine hinterlegte E-Mail");
-		emailTextField.addValidator(new EmailValidator(
-				"Der Benutzername muss eine E-Mailadresse sein"));
-		emailTextField.setInvalidAllowed(false);
+		emailTextField.addValidator(new EmailValidator(""), "Keine gültige E-Mail-Adresse");
 
 		// Create the password input field
 		passwordTextField = new ExtendedTextField("Passwort:", new PasswordField(), "E-Mail oder Passwort falsch.");
-		passwordTextField.addValidator(new PasswordValidator());
+		passwordTextField.addValidator(new PasswordValidator(), "Das Passwort entspricht nicht den Vorgaben");
 		passwordTextField.setRequired(true);
 		passwordTextField.setValue("");
 

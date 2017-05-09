@@ -16,6 +16,7 @@ import de.meets.asset_manager.LocationManager;
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Location;
 import de.meets.assets.Member;
+import de.meets.gui.extendedComponents.ExtendedTextField;
 import de.meets.services.GeoData;
 import de.meets.services.PasswordValidator;
 import de.meets.vaadin_archetype_application.MeetsUI;
@@ -25,13 +26,13 @@ public class Register extends CustomComponent implements View {
 	MeetsUI meetsUI;
 
 	private Label register;
-	private TextField username;
-	private TextField email;
-	private TextField location;
-	private TextField firstName;
-	private TextField lastName;
-	private PasswordField password;
-	private PasswordField controlPassword;
+	private ExtendedTextField username;
+	private ExtendedTextField email;
+	private ExtendedTextField location;
+	private ExtendedTextField firstName;
+	private ExtendedTextField lastName;
+	private ExtendedTextField password;
+	private ExtendedTextField controlPassword;
 	private Button registerButton;
 	private Button switchButton;
 
@@ -45,7 +46,7 @@ public class Register extends CustomComponent implements View {
 
 		register = new Label("Registrieren");
 
-		username = new TextField("Benutzername");
+		username = new ExtendedTextField("Benutzername:", new TextField(), "");
 		username.setRequired(true);
 		// username.addTextChangeListener(new TextChangeListener() {
 		// @Override
@@ -54,29 +55,24 @@ public class Register extends CustomComponent implements View {
 		// }
 		// });
 
-		email = new TextField("E-Mail");
+		email = new ExtendedTextField("E-Mail:", new TextField(), "Diese E-Mail ist schon registriert");
 		email.setRequired(true);
 		email.setInputPrompt("Deine hinterlegte E-Mail");
-		email.addValidator(new EmailValidator(
-				"Der Benutzername muss eine E-Mailadresse sein"));
+		email.addValidator(new EmailValidator(""), "Keine gültige E-Mailadresse");
 		email.setInvalidAllowed(false);
-
-		password = new PasswordField("Passwort");
-		password.setRequired(true);
-		password.addValidator(new PasswordValidator());
-		password.setValue("");
-		password.setNullRepresentation("");
 		
-		location = new TextField("Adresse");
+		location = new ExtendedTextField("Adresse:", new TextField(), "Keine gültige Adresse");
 		location.setRequired(true);
-		location.setValue("");
-		location.setNullRepresentation("");
 
-		controlPassword = new PasswordField("Passwort wiederholen");
+		password = new ExtendedTextField("Passwort:", new PasswordField(), "Die Passwörter stimmen nicht überein");
+		password.setRequired(true);
+		password.addValidator(new PasswordValidator(), "Das Passwort entspricht nicht den Vorgaben");
+		
+		controlPassword = new ExtendedTextField("Passwort wiederholen", new TextField(), "Die Passwörter stimmen nicht überein");
 		controlPassword.setRequired(true);
 
-		firstName = new TextField("Vorname");
-		lastName = new TextField("Nachname");
+		firstName = new ExtendedTextField("Vorname:", new TextField(), "");
+		lastName = new ExtendedTextField("Nachname:", new TextField(), "");
 
 		registerButton = new Button("Registrieren");
 		registerButton.addClickListener(e -> {

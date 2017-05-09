@@ -1,26 +1,39 @@
 package de.meets.gui.extendedComponents;
 
 import com.vaadin.data.Validator;
+import com.vaadin.data.Validator.InvalidValueException;
+import com.vaadin.event.FieldEvents.BlurEvent;
+import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.ui.AbstractTextField;
+import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
 
-public class ExtendedTextField extends HorizontalLayout {
-	Label caption;
-	AbstractTextField textField;
-	Label message;
+public class ExtendedTextField extends CustomComponent {
+	private Label caption;
+	private AbstractTextField textField;
+	private Label message;
+	private String errorMessage;
 	
 	public ExtendedTextField(String caption, AbstractTextField textField, String errorMessage) {
+		Panel panel = new Panel();
+		HorizontalLayout panelContent = new HorizontalLayout();
+		panel.setContent(panelContent);
+		
 		this.caption = new Label(caption);
-		this.message = new Label(errorMessage);
+		this.caption.setWidth(8, Unit.EM);
+		
 		this.textField = textField;
+		this.textField.setWidth(15, Unit.EM);
 		
-		this.textField.setWidth(10, Unit.EM);
+		this.message = new Label("");
+		this.message.setWidth(20, Unit.EM);
+		this.errorMessage = errorMessage;
 		
-		this.message.setVisible(false);
-		
-		this.setSizeFull();
-		this.addComponents(this.caption, this.textField, this.message);
+		panelContent.addComponents(this.caption, this.textField, this.message);
+		panelContent.setSpacing(true);
+		setCompositionRoot(panel);
 	}
 	
 	@Override
@@ -43,8 +56,18 @@ public class ExtendedTextField extends HorizontalLayout {
 		textField.setInputPrompt(inputPrompt);
 	}
 	
-	public void addValidator(Validator validator){
-		textField.addValidator(validator);
+	public void addValidator(Validator validator, String errorMessage){
+		textField.addBlurListener(new BlurListener() {
+
+			public void blur(BlurEvent event) {
+				try {
+					validator.validate(textField.getValue());
+					message.setValue("");
+				} catch (InvalidValueException exception) {
+					message.setValue(errorMessage);
+				}
+			}
+		});
 	}
 	
 	public void setInvalidAllowed(boolean invalidAllowed){
@@ -68,7 +91,8 @@ public class ExtendedTextField extends HorizontalLayout {
 	}
 	
 	public void showErrorMessage(){
-		this.message.setVisible(true);
+		this.message.setValue(errorMessage);
 	}
+
 	
 }
