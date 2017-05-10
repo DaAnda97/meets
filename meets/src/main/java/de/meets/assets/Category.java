@@ -22,7 +22,7 @@ public class Category {
 	@Column(name = CATEGORY_TITLE)
 	private String title;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = Meeting.MEETING_CATEGORY)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = Meeting.MEETING_CATEGORY, orphanRemoval = true)
 	private Set<Meeting> categorized = new HashSet<Meeting>();
 	
 	// constructors

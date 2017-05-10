@@ -3,7 +3,8 @@ package de.meets.assets;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -36,7 +37,7 @@ public class Meeting {
 	@Column(name = MEETING_DESCRIPTION)
 	private String description;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = MEETING_CATEGORY, nullable = false)
 	private Category category;
 	
@@ -51,12 +52,16 @@ public class Meeting {
 	@JoinColumn(name = MEETING_LOCATION, nullable = true)
 	private Location location;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = MEETING_OWNER, nullable = false)
 	private Member creator;
-
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "joinedMeetings")
-	private List<Member> members;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@JoinTable(name = "Meet", 
+		joinColumns = { @JoinColumn(name = Meeting.MEETING_ID, nullable = false, updatable = false) }, 
+		inverseJoinColumns = { @JoinColumn(name = Member.MEMBER_ID, nullable = false, updatable = false) })
+	//@ManyToMany(fetch = FetchType.EAGER, mappedBy = "joinedMeetings")
+	private Set<Member> members = new HashSet<Member>();
 	
 	@Column(name = MEETING_MAX_MEMBERS)
 	private int scope;
@@ -164,11 +169,11 @@ public class Meeting {
 		this.creator = creator;
 	}
 
-	public List<Member> getMembers() {
+	public Set<Member> getMembers() {
 		return members;
 	}
 
-	public void setMembers(List<Member> members) {
+	public void setMembers(HashSet<Member> members) {
 		this.members = members;
 	}
 

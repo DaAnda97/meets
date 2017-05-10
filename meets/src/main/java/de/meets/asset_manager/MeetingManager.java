@@ -1,7 +1,6 @@
 package de.meets.asset_manager;
 
 import javax.persistence.NoResultException;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

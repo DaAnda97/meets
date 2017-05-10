@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Location")
 public class Location {
-
+	
 	// location table
 	public static final String LOCATION_TABLE = "Location";
 	public static final String LOCATION_ID = "locationID";
@@ -30,13 +30,13 @@ public class Location {
 	@Column(name = LOCATION_LATITUDE)
 	private double latitude;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = Member.MEMBER_LOCATION)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = Member.MEMBER_LOCATION, orphanRemoval = true)
 	private Set<Member> memberLocations = new HashSet<Member>();
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = Meeting.MEETING_LOCATION)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = Meeting.MEETING_LOCATION, orphanRemoval = true)
 	private Set<Meeting> meetingLocations =  new HashSet<Meeting>();
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = Meeting.METADATA_CREATED_LOCATION)
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = Meeting.METADATA_CREATED_LOCATION, orphanRemoval = true)
 	private Set<Meeting> meetingLocationsCreated =  new HashSet<Meeting>();
 	
 	// constructors

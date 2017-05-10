@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Member")
 public class Member {
-
+	
 	// member table
 	public static final String MEMBER_TABLE = "Member";
 	public static final String MEMBER_ID = "memberID";
@@ -44,17 +44,17 @@ public class Member {
 	@Column(name = MEMBER_CREATED)
 	private Timestamp created;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = MEMBER_LOCATION, nullable = false)
 	private Location position;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = Meeting.MEETING_OWNER)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = Meeting.MEETING_OWNER, orphanRemoval = true)
 	private Set<Meeting> ownedMeetings = new HashSet<Meeting>();
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
-	@JoinTable(name="Meet", 
-				joinColumns={@JoinColumn(name=Member.MEMBER_ID)}, 
-				inverseJoinColumns={@JoinColumn(name=Meeting.MEETING_ID)})
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinTable(name = "Meet", 
+		joinColumns = { @JoinColumn(name = Member.MEMBER_ID, nullable = false, updatable = false) }, 
+		inverseJoinColumns = { @JoinColumn(name = Meeting.MEETING_ID, nullable = false, updatable = false) })
 	private Set<Meeting> joinedMeetings = new HashSet<Meeting>();
 	
 	// constructors
