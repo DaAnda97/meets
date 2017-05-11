@@ -66,7 +66,8 @@ public class Meeting {
 	@Column(name = MEETING_MAX_MEMBERS)
 	private int scope;
 	
-	@Column(name = METADATA_CREATED_TIME)
+	@Column(name = METADATA_CREATED_TIME, insertable = false, updatable = false,
+			columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp createdTime;
 
 	@ManyToOne(fetch = FetchType.LAZY)

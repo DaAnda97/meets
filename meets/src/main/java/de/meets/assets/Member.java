@@ -41,7 +41,8 @@ public class Member {
 	@Column(name = MEMBER_EMAIL)
 	private String email;
 	
-	@Column(name = MEMBER_CREATED)
+	@Column(name = MEMBER_CREATED, insertable = false, updatable = false,
+			columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp created;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
