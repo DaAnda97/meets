@@ -3,14 +3,17 @@ package de.meets.gui.views;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.UserError;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.Runo;
 
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Member;
@@ -19,11 +22,16 @@ import de.meets.services.PasswordValidator;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
 public class Login extends CustomComponent implements View {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4225187475844096527L;
+	
 	public static final String NAME = "login";
 	public MeetsUI meetsUI;
 
-	private ExtendedTextField emailTextField;
-	private ExtendedTextField passwordTextField;
+	private TextField emailTextField;
+	private PasswordField passwordTextField;
 	private Button loginButton;
 	private Button registerButton;
 
@@ -36,36 +44,38 @@ public class Login extends CustomComponent implements View {
 		setSizeFull();
 
 		// Create the user input field
-		emailTextField = new ExtendedTextField("E-Mail:", new TextField(), "E-Mail oder Passwort falsch.");
+		emailTextField = new TextField("E-Mail");
 		emailTextField.setRequired(true);
-		emailTextField.setInputPrompt("Deine hinterlegte E-Mail");
-		emailTextField.addValidator(new EmailValidator(""), "Keine gültige E-Mail-Adresse");
+		emailTextField.addValidator(new EmailValidator("E-Mail oder Passwort falsch."));
 
 		// Create the password input field
-		passwordTextField = new ExtendedTextField("Passwort:", new PasswordField(), "E-Mail oder Passwort falsch.");
-		passwordTextField.addValidator(new PasswordValidator(), "Das Passwort entspricht nicht den Vorgaben");
+		passwordTextField = new PasswordField("Passwort");
+		passwordTextField.addValidator(new PasswordValidator("E-Mail oder Passwort falsch."));
 		passwordTextField.setRequired(true);
 		passwordTextField.setValue("");
 
 		// Create login button
-		loginButton = new Button("Login");
+		loginButton = new Button("Login", FontAwesome.SIGN_IN);
 		loginButton.addClickListener(e -> {
 			loginButtonClicked();
 		});
 
 		// Create register button
 		registerButton = new Button("Noch nicht registriert?");
+		registerButton.setStyleName(Runo.BUTTON_LINK);
 		registerButton.addClickListener(e -> {
 			registerButtonClicked();
 		});
 
+		Label lblLogin = new Label("Anmelden");
+		lblLogin.setWidthUndefined();
+		
 		// Add both to a panel
-		VerticalLayout fields = new VerticalLayout(emailTextField,
-				passwordTextField, loginButton, registerButton);
-		fields.setCaption("Bitte melde dich an:");
+		VerticalLayout fields = new VerticalLayout();
+		fields.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		fields.setSpacing(true);
-		fields.setMargin(new MarginInfo(true, true, true, false));
-		fields.setSizeUndefined();
+		fields.setMargin(true);
+		fields.addComponents(lblLogin, emailTextField, passwordTextField, loginButton, registerButton);
 
 		// The view root layout
 		VerticalLayout viewLayout = new VerticalLayout(fields);
@@ -107,8 +117,8 @@ public class Login extends CustomComponent implements View {
 			meetsUI.login(loginMember);
 		} else {
 			// Wrong password clear the password field and refocuses it
-			this.passwordTextField.showErrorMessage();
-			this.emailTextField.showErrorMessage();
+			this.passwordTextField.isValid();//.showErrorMessage();
+			this.emailTextField.isValid();//.showErrorMessage();
 		}
 	}
 

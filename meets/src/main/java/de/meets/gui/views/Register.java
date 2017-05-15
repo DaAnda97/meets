@@ -1,8 +1,10 @@
 package de.meets.gui.views;
 
 import com.vaadin.data.validator.EmailValidator;
+
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -11,28 +13,34 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.Runo;
 
 import de.meets.asset_manager.LocationManager;
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Location;
 import de.meets.assets.Member;
-import de.meets.gui.extendedComponents.ExtendedTextField;
 import de.meets.services.GeoData;
 import de.meets.services.PasswordValidator;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
 public class Register extends CustomComponent implements View {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6587051905101649685L;
+	
 	public static final String NAME = "register";
+	
 	MeetsUI meetsUI;
 
 	private Label register;
-	private ExtendedTextField username;
-	private ExtendedTextField email;
-	private ExtendedTextField location;
-	private ExtendedTextField firstName;
-	private ExtendedTextField lastName;
-	private ExtendedTextField password;
-	private ExtendedTextField controlPassword;
+	private TextField username;
+	private TextField email;
+	private TextField location;
+	private TextField firstName;
+	private TextField lastName;
+	private PasswordField password;
+	private PasswordField controlPassword;
 	private Button registerButton;
 	private Button switchButton;
 
@@ -45,9 +53,15 @@ public class Register extends CustomComponent implements View {
 		locationManager = meetsUI.getLocationManager();
 
 		register = new Label("Registrieren");
+		register.setWidthUndefined();
 
-		username = new ExtendedTextField("Benutzername:", new TextField(), "");
+		// Validators: com.vaadin.data.validator.
+		
+		username = new TextField("Benutzername");
+		username.setIcon(FontAwesome.USER);
 		username.setRequired(true);
+		username.setInvalidAllowed(false);
+		
 		// username.addTextChangeListener(new TextChangeListener() {
 		// @Override
 		// public void textChange(TextChangeEvent event) {
@@ -55,24 +69,33 @@ public class Register extends CustomComponent implements View {
 		// }
 		// });
 
-		email = new ExtendedTextField("E-Mail:", new TextField(), "Diese E-Mail ist schon registriert");
+		email = new TextField("E-Mail");
+		email.setIcon(FontAwesome.ENVELOPE);
 		email.setRequired(true);
-		email.setInputPrompt("Deine hinterlegte E-Mail");
-		email.addValidator(new EmailValidator(""), "Keine gültige E-Mailadresse");
+		//email.setInputPrompt("E-Mail-Adresse");
+		email.addValidator(new EmailValidator("Keine gültige E-Mailadresse"));
 		email.setInvalidAllowed(false);
 		
-		location = new ExtendedTextField("Adresse:", new TextField(), "Keine gültige Adresse");
+		location = new TextField("Adresse");
 		location.setRequired(true);
+		location.setIcon(FontAwesome.LOCATION_ARROW);
+		//location.addValidator(new RegexpValidator("Location-REGEX", true, "Keine gültige Adresse"));
 
-		password = new ExtendedTextField("Passwort:", new PasswordField(), "Die Passwörter stimmen nicht überein");
+		password = new PasswordField("Passwort");
 		password.setRequired(true);
-		password.addValidator(new PasswordValidator(), "Das Passwort entspricht nicht den Vorgaben");
+		password.setIcon(FontAwesome.LOCK);
+		password.addValidator(new PasswordValidator("Das Passwort zu schwach!"));
+		password.setInvalidAllowed(false);
 		
-		controlPassword = new ExtendedTextField("Passwort wiederholen", new TextField(), "Die Passwörter stimmen nicht überein");
+		controlPassword = new PasswordField("Passwort wiederholen");
+		controlPassword.setIcon(FontAwesome.LOCK);
 		controlPassword.setRequired(true);
-
-		firstName = new ExtendedTextField("Vorname:", new TextField(), "");
-		lastName = new ExtendedTextField("Nachname:", new TextField(), "");
+		controlPassword.setInvalidAllowed(false);
+		
+		firstName = new TextField("Vorname");
+		firstName.setIcon(FontAwesome.TAG);
+		lastName = new TextField("Nachname");
+		lastName.setIcon(FontAwesome.TAG);
 
 		registerButton = new Button("Registrieren");
 		registerButton.addClickListener(e -> {
@@ -80,7 +103,7 @@ public class Register extends CustomComponent implements View {
 		});
 
 		switchButton = new Button("Zum Login");
-		;
+		switchButton.setStyleName(Runo.BUTTON_LINK);
 		switchButton.addClickListener(listener -> getUI().getNavigator()
 				.navigateTo(Login.NAME));
 

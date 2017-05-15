@@ -5,12 +5,20 @@ import com.vaadin.data.Validator.InvalidValueException;
 import com.vaadin.event.FieldEvents.BlurEvent;
 import com.vaadin.event.FieldEvents.BlurListener;
 import com.vaadin.ui.AbstractTextField;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.themes.Runo;
 
 public class ExtendedTextField extends CustomComponent {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2053552566390855791L;
+	
 	private Label caption;
 	private AbstractTextField textField;
 	private Label message;
@@ -18,7 +26,9 @@ public class ExtendedTextField extends CustomComponent {
 	
 	public ExtendedTextField(String caption, AbstractTextField textField, String errorMessage) {
 		Panel panel = new Panel();
+		panel.addStyleName(Runo.PANEL_LIGHT);
 		HorizontalLayout panelContent = new HorizontalLayout();
+		panelContent.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		panel.setContent(panelContent);
 		
 		this.caption = new Label(caption);
@@ -56,6 +66,7 @@ public class ExtendedTextField extends CustomComponent {
 		textField.setInputPrompt(inputPrompt);
 	}
 	
+	@SuppressWarnings("serial")
 	public void addValidator(Validator validator, String errorMessage){
 		textField.addBlurListener(new BlurListener() {
 

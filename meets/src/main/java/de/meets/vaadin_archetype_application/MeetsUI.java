@@ -9,6 +9,7 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -38,6 +39,11 @@ import de.meets.hibernate.DatabaseConnector;
  */
 public class MeetsUI extends UI{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 69546722268473890L;
+
 	private DatabaseConnector databaseConnector;
 	
 	private CategoryManager categoryManager;
@@ -48,9 +54,9 @@ public class MeetsUI extends UI{
 	
 	private Navigator navigator;
 	
-	private Header header = new Header(this);
-	private Panel mainView = new Panel();
-	private Footer footer = new Footer(this);
+	private Header header;
+	private Panel mainView;
+	private Footer footer;
 
 	@Override
     protected void init(VaadinRequest request) {
@@ -62,8 +68,19 @@ public class MeetsUI extends UI{
 		this.meetingManager = new MeetingManager(databaseConnector);
 		this.memberManager = new MemberManager(databaseConnector);
 		
-		VerticalLayout mainLayout = new VerticalLayout(header, mainView, footer);
-
+		// GUI
+		Header header = new Header(this);
+		Panel mainView = new Panel();
+		Footer footer = new Footer(this);
+		
+		VerticalLayout mainLayout = new VerticalLayout(); // VerticalLayout(header, mainView, footer)
+		mainLayout.setSpacing(true);
+		mainLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+		mainLayout.addComponent(header);
+		mainLayout.addComponent(mainView);
+		mainLayout.addComponent(footer);
+		
+		
 		// Views
         navigator = new Navigator(this, mainView);
         navigator.addView(Login.NAME, new Login(this));
@@ -80,6 +97,7 @@ public class MeetsUI extends UI{
         
     }	
 	
+	@SuppressWarnings("serial")
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
 	@VaadinServletConfiguration(ui = MeetsUI.class, productionMode = false)
 	public static class MyUIServlet extends VaadinServlet {}

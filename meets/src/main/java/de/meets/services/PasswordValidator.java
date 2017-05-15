@@ -7,10 +7,17 @@ import com.vaadin.data.validator.AbstractValidator;
  */
 public class PasswordValidator extends AbstractValidator<String> {
 
-	public PasswordValidator() {
-		super("Das Passwort entspricht nicht den Vorgaben!");
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 215256696598444695L;
+
+	public PasswordValidator(String errorMsg) {
+		super(errorMsg);
 	}
 
+	
+	
 	@Override
 	protected boolean isValidValue(String value) {
 		//

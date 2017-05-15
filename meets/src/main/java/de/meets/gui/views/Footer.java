@@ -1,21 +1,31 @@
 package de.meets.gui.views;
 
+import com.vaadin.annotations.Theme;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.themes.Runo;
 
 import de.meets.vaadin_archetype_application.MeetsUI;
 
-public class Footer extends HorizontalLayout {
-	Button impressum = new Button("Impressum");
+@Theme("runo")
+public class Footer extends VerticalLayout {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1641423676622745180L;
 
 	public Footer(MeetsUI meetsUI) {
-		impressum.addClickListener(e -> {
+		Button btnImpressum = new Button("Impressum");
+		btnImpressum.setStyleName(Runo.BUTTON_LINK);
+		
+		btnImpressum.addClickListener(e -> {
 			getUI().getNavigator().navigateTo(Impressum.NAME);
 		});
 		
 		this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-        this.addComponents(impressum);
+        this.addComponent(btnImpressum);
         this.setMargin(true);
         this.setSpacing(true);
 	}
