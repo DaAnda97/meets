@@ -69,9 +69,9 @@ public class MeetsUI extends UI{
 		this.memberManager = new MemberManager(databaseConnector);
 		
 		// GUI
-		Header header = new Header(this);
-		Panel mainView = new Panel();
-		Footer footer = new Footer(this);
+		header = new Header(this);
+		mainView = new Panel();
+		footer = new Footer(this);
 		
 		VerticalLayout mainLayout = new VerticalLayout(); // VerticalLayout(header, mainView, footer)
 		mainLayout.setSpacing(true);

@@ -5,7 +5,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
+import com.vaadin.ui.themes.Runo;
 
 import de.meets.vaadin_archetype_application.MeetsUI;
 
@@ -24,13 +24,13 @@ public class Header extends HorizontalLayout{
 	public Header(MeetsUI meetsUI) {
 		this.meetsUI = meetsUI;
 		
-		ClassResource logoResource =  new ClassResource("/images/logo.png");
-		Image logo = new Image(null,logoResource);
-		logo.setHeight(3, Unit.CM);
+		Button btnLogo = new Button(new ClassResource("/images/logo.png"));
+		btnLogo.setStyleName(Runo.BUTTON_LINK);
+		btnLogo.addClickListener(clickEvent -> getUI().getNavigator().navigateTo(Login.NAME));
 		
 		this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		this.setSizeFull();
-		this.addComponent(logo);
+		this.addComponent(btnLogo);
 		this.setMargin(true);
 		this.setSpacing(true);
 		

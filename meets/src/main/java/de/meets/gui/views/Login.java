@@ -1,11 +1,11 @@
 package de.meets.gui.views;
 
 import com.vaadin.data.validator.EmailValidator;
+
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.UserError;
-import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.CustomComponent;
@@ -17,7 +17,6 @@ import com.vaadin.ui.themes.Runo;
 
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Member;
-import de.meets.gui.extendedComponents.ExtendedTextField;
 import de.meets.services.PasswordValidator;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
