@@ -1,7 +1,6 @@
 package de.meets.assets;
 
 import java.sql.Timestamp;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Member")
 public class Member {
-
+	
 	// member table
 	public static final String MEMBER_TABLE = "Member";
 	public static final String MEMBER_ID = "memberID";
@@ -23,7 +22,8 @@ public class Member {
 	public static final String MEMBER_CREATED = "created";
 	
 	// define member fields/columns
-	@Id @Column(name = MEMBER_ID)
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = MEMBER_ID)
 	private int memberID;
 	
 	@Column(name = MEMBER_USERNAME)
@@ -41,20 +41,21 @@ public class Member {
 	@Column(name = MEMBER_EMAIL)
 	private String email;
 	
-	@Column(name = MEMBER_CREATED)
+	@Column(name = MEMBER_CREATED, insertable = false, updatable = false,
+			columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp created;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = MEMBER_LOCATION, nullable = false)
 	private Location position;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = Meeting.MEETING_OWNER)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = Meeting.MEETING_OWNER, orphanRemoval = true)
 	private Set<Meeting> ownedMeetings = new HashSet<Meeting>();
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
-	@JoinTable(name="Meet", 
-				joinColumns={@JoinColumn(name=Member.MEMBER_ID)}, 
-				inverseJoinColumns={@JoinColumn(name=Meeting.MEETING_ID)})
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinTable(name = "Meet", 
+		joinColumns = { @JoinColumn(name = Member.MEMBER_ID, nullable = false, updatable = false) }, 
+		inverseJoinColumns = { @JoinColumn(name = Meeting.MEETING_ID, nullable = false, updatable = false) })
 	private Set<Meeting> joinedMeetings = new HashSet<Meeting>();
 	
 	// constructors
@@ -72,6 +73,16 @@ public class Member {
 		this.password = password;
 		this.email = email;
 		this.position = position;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder s = new StringBuilder(4);
+		s.append("ID: ");
+		s.append(this.memberID);
+		s.append(", Username: ");
+		s.append(this.username);
+		return s.toString(); 
 	}
 	
 	// getters and setters

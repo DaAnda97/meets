@@ -1,1 +1,8 @@
 /target/
+.settings
+.classpath
+.project
+classDiagram.ucls
+src/main/resources/properties/config.properties
+src/main/resources/hibernate.cfg.xml
+

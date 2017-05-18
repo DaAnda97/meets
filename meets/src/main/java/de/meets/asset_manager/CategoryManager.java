@@ -7,11 +7,12 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import de.meets.assets.Category;
+import de.meets.hibernate.DatabaseConnector;
 
 public final class CategoryManager extends AssetManager<Category> {
 
-	public CategoryManager() {
-		super(Category.CATEGORY_TABLE);
+	public CategoryManager( DatabaseConnector connector ) {
+		super(Category.CATEGORY_TABLE, connector);
 	}
 
 	@Override

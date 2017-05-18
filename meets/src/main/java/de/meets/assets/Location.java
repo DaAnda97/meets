@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Location")
 public class Location {
-
+	
 	// location table
 	public static final String LOCATION_TABLE = "Location";
 	public static final String LOCATION_ID = "locationID";
@@ -17,7 +17,8 @@ public class Location {
 	public static final String LOCATION_LATITUDE = "latitude";
 	
 	// define location fields/columns
-	@Id @Column(name = LOCATION_ID)
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = LOCATION_ID)
 	private int locationID;
 	
 	@Column(name = LOCATION_CITY)
@@ -29,13 +30,13 @@ public class Location {
 	@Column(name = LOCATION_LATITUDE)
 	private double latitude;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = Member.MEMBER_LOCATION)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = Member.MEMBER_LOCATION, orphanRemoval = true)
 	private Set<Member> memberLocations = new HashSet<Member>();
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = Meeting.MEETING_LOCATION)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = Meeting.MEETING_LOCATION, orphanRemoval = true)
 	private Set<Meeting> meetingLocations =  new HashSet<Meeting>();
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = Meeting.METADATA_CREATED_LOCATION)
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = Meeting.METADATA_CREATED_LOCATION, orphanRemoval = true)
 	private Set<Meeting> meetingLocationsCreated =  new HashSet<Meeting>();
 	
 	// constructors
@@ -49,6 +50,16 @@ public class Location {
 		this.city = city;
 		this.longitude = longitude;
 		this.latitude = latitude;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder s = new StringBuilder(4);
+		s.append("ID: ");
+		s.append(this.locationID);
+		s.append(", City: ");
+		s.append(this.city);
+		return s.toString(); 
 	}
 	
 	// getters and setters
