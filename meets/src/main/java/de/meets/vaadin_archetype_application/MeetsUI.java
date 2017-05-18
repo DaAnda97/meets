@@ -2,9 +2,6 @@ package de.meets.vaadin_archetype_application;
 
 import javax.servlet.annotation.WebServlet;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
@@ -14,11 +11,8 @@ import com.vaadin.ui.Panel;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-import de.meets.asset_manager.CategoryManager;
-import de.meets.asset_manager.LocationManager;
-import de.meets.asset_manager.MeetingManager;
-import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Member;
+import de.meets.gui.ViewName;
 import de.meets.gui.views.Footer;
 import de.meets.gui.views.Header;
 import de.meets.gui.views.Impressum;
@@ -46,10 +40,6 @@ public class MeetsUI extends UI{
 
 	private DatabaseConnector databaseConnector;
 	
-	private CategoryManager categoryManager;
-	private LocationManager locationManager;
-	private MeetingManager meetingManager;
-	private MemberManager memberManager;
 	private Member registeredMember;
 	
 	private Navigator navigator;
@@ -62,11 +52,6 @@ public class MeetsUI extends UI{
     protected void init(VaadinRequest request) {
 		// Database-Connection
 		this.databaseConnector = new DatabaseConnector();
-		// Asset-Manager
-		this.categoryManager = new CategoryManager(databaseConnector);
-		this.locationManager = new LocationManager(databaseConnector);
-		this.meetingManager = new MeetingManager(databaseConnector);
-		this.memberManager = new MemberManager(databaseConnector);
 		
 		// GUI
 		header = new Header(this);
@@ -83,11 +68,11 @@ public class MeetsUI extends UI{
 		
 		// Views
         navigator = new Navigator(this, mainView);
-        navigator.addView(Login.NAME, new Login(this));
-        navigator.addView(Register.NAME, new Register(this));
-        navigator.addView(ShowUser.NAME, new ShowUser(this));
-        navigator.addView(MeetingOverview.NAME, new MeetingOverview(this));
-        navigator.addView(MeetingInformation.NAME, new MeetingInformation(this));
+        navigator.addView(ViewName.LOGIN.toString(), new Login(ViewName.LOGIN, this));
+        navigator.addView(ViewName.REGISTER.toString(), new Register(ViewName.REGISTER, this));
+        navigator.addView(ViewName.PROFILE.toString(), new ShowUser(ViewName.PROFILE, this));
+        navigator.addView(ViewName.MEETS.toString(), new MeetingOverview(ViewName.MEETS, this));
+        navigator.addView(ViewName.MEET.toString(), new MeetingInformation(ViewName.MEET, this));
         navigator.addView(Impressum.NAME, new Impressum());
         
         navigator.navigateTo(Login.NAME);        
@@ -106,7 +91,7 @@ public class MeetsUI extends UI{
 		this.registeredMember = loginMember;
 		header.addShowUser();
 		header.addLogout();
-		navigator.navigateTo(MeetingOverview.NAME);
+		navigator.navigateTo(ViewName.MEETS.toString());
 	}
 	
 	public void logout(){
@@ -115,53 +100,13 @@ public class MeetsUI extends UI{
 		header.removeShowUser();
 		navigator.navigateTo(Login.NAME);
 	}
-
-	public void deleteUser(){
-		memberManager.delete(this.registeredMember);
-		logout();
-	}
-	
-	public String shaHash(String password) throws NoSuchAlgorithmException {
-		MessageDigest md = MessageDigest.getInstance("SHA-256");
-		md.update(password.getBytes());
-
-		byte byteData[] = md.digest();
-
-		// convert the byte to hex
-		StringBuffer hexString = new StringBuffer();
-		for (int i = 0; i < byteData.length; i++) {
-			String hex = Integer.toHexString(0xff & byteData[i]);
-			if (hex.length() == 1)
-				hexString.append('0');
-			hexString.append(hex);
-		}
-
-		return hexString.toString();
-	}
 	
 	public void showUser() {
-		this.navigator.navigateTo(ShowUser.NAME);
+		this.navigator.navigateTo(ViewName.PROFILE.toString());
 	}
 	
 	public Navigator getNavigator() {
 		return this.navigator;
-	}
-
-	// Get asset managers
-	public CategoryManager getCategoryManager() {
-		return this.categoryManager;
-	}
-	
-	public LocationManager getLocationManager() {
-		return this.locationManager;
-	}
-	
-	public MeetingManager getMeetingManager() {
-		return this.meetingManager;
-	}
-	
-	public MemberManager getMemberManager() {
-		return this.memberManager;
 	}
 	
 	// Get registered member
@@ -169,14 +114,13 @@ public class MeetsUI extends UI{
 		return this.registeredMember;
 	}
 	
-	/*
 	public DatabaseConnector getDatabaseConnector() {
 		return this.databaseConnector;
 	}
-	*/
+	
 	// Use to adapt registered member
-	public void updateUser() {
-		this.memberManager.get(this.registeredMember.getMemberID());
+	public void updateUser(Member user) {
+		this.registeredMember = user;
 	}
 	
 }

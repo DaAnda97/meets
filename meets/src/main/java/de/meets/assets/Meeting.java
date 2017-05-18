@@ -48,7 +48,7 @@ public class Meeting {
 	@Column(name = MEETING_TIME)
 	private Time time;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = MEETING_LOCATION, nullable = true)
 	private Location location;
 	

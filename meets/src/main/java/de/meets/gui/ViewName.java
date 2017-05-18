@@ -3,8 +3,13 @@ package de.meets.gui;
 public enum ViewName {
 
 	LOGIN,
-	REGISTER;
+	REGISTER,
+	IMPRESSUM,
+	PROFILE,
+	MEETS,
+	MEET,
 	
+	;
 	
 	@Override
 	public String toString() {

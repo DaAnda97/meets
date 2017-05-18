@@ -6,6 +6,7 @@ import com.vaadin.server.UserError;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Panel;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -14,17 +15,18 @@ import de.meets.asset_manager.LocationManager;
 import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Location;
 import de.meets.assets.Member;
+import de.meets.gui.MeetsView;
+import de.meets.gui.ViewName;
 import de.meets.services.GeoData;
+import de.meets.services.SHAEncription;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
-public class ShowUser extends HorizontalLayout implements View {
-	public static final String NAME = "showUser";
-	private MeetsUI meetsUI;
-
-	private MemberManager memberManager;
-	private LocationManager locationManager;
-	private Member member;
-
+public class ShowUser extends MeetsView {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7447737181195264736L;
+	
 	private VerticalLayout informationPanel = new VerticalLayout();
 	private Label message = new Label("Deine Angaben:");
 	private TextField name = new TextField("Benutzername");
@@ -48,26 +50,13 @@ public class ShowUser extends HorizontalLayout implements View {
 
 	private Button deliteUser = new Button("Benutzer löschen!");
 
-	public ShowUser(MeetsUI meetsUI) {
-		this.meetsUI = meetsUI;
 
-		memberManager = meetsUI.getMemberManager();
-		locationManager = meetsUI.getLocationManager();
-	}
-
-	@Override
-	public void enter(ViewChangeEvent event) {
-		member = meetsUI.getRegistratedMember();
-
+	public ShowUser(ViewName viewName, MeetsUI meetsUI) {
+		super(viewName, meetsUI);
+		
 		// -------------------- INFORMATION - PANEL --------------------------
-		name.setValue(member.getUsername());
-		email.setValue(member.getEmail());
-		firstName.setValue(member.getFirstName());
-		lastName.setValue(member.getLastName());
-
 		location.setCaption("Adresse");
 		location.setImmediate(true);
-		location.setInputPrompt(member.getPosition().getCity());
 
 		changeToViewMode();
 
@@ -96,19 +85,28 @@ public class ShowUser extends HorizontalLayout implements View {
 		// ------------------------ MAIN - PANEL ---------------------------
 
 		deliteUser.addClickListener(e -> {
-			meetsUI.deleteUser();
+			Member userToDelete = getRegistratedMember();
+			getMemberManager().delete(userToDelete);
+			this.logout();;
 		});
 
-		this.addComponents(informationPanel, passwordPanel, deliteUser);
-		this.setMargin(true);
-		this.setSpacing(true);
+		
+		Panel componentPanel = new Panel();
+		HorizontalLayout componentPanelLayout = new HorizontalLayout();
+		componentPanelLayout.addComponents(informationPanel, passwordPanel, deliteUser);
+		componentPanelLayout.setMargin(true);
+		componentPanelLayout.setSpacing(true);
+		componentPanel.setContent(componentPanelLayout);
+		setCompositionRoot(componentPanel);
 	}
 
+
 	private void saveChanges() {
-		member.setUsername(name.getValue());
-		member.setEmail(email.getValue());
-		member.setFirstName(firstName.getValue());
-		member.setLastName(lastName.getValue());
+		Member newMember = getRegistratedMember();	
+		newMember.setUsername(name.getValue());
+		newMember.setEmail(email.getValue());
+		newMember.setFirstName(firstName.getValue());
+		newMember.setLastName(lastName.getValue());
 
 		if (!location.getValue().trim().equals("")) {
 			Location position;
@@ -122,15 +120,15 @@ public class ShowUser extends HorizontalLayout implements View {
 				return;
 			}
 
-			if (locationManager.get(position.getCity()) == null) {
-				locationManager.add(position);
+			if (getLocationManager().get(position.getCity()) == null) {
+				getLocationManager().add(position);
 				System.out.println("Instert into DB: " + position);
 			}
 
-			member.setPosition(position);
+			newMember.setPosition(position);
 
 		}
-		memberManager.update(member);
+		updateRegistratedMember(newMember);
 		message.setValue("Änderungen gespeichert!");
 
 		changeToViewMode();
@@ -163,9 +161,9 @@ public class ShowUser extends HorizontalLayout implements View {
 		String newPasswordConfirm = passwordNewConfirm.getValue();
 
 		try {
-			oldPassword = meetsUI.shaHash(passwordOld.getValue().trim());
-			newPassword = meetsUI.shaHash(passwordNew.getValue().trim());
-			newPasswordConfirm = meetsUI.shaHash(passwordNewConfirm.getValue()
+			oldPassword = new SHAEncription().SHAHash(passwordOld.getValue().trim());
+			newPassword = new SHAEncription().SHAHash(passwordNew.getValue().trim());
+			newPasswordConfirm = new SHAEncription().SHAHash(passwordNewConfirm.getValue()
 					.trim());
 		} catch (Exception e1) {
 			passwordOld.setComponentError(new UserError(
@@ -174,11 +172,12 @@ public class ShowUser extends HorizontalLayout implements View {
 			return; // Cancel, because the password is not hashed
 		}
 
-		if (member.getPassword().equals(oldPassword)) {
+		if (getRegistratedMember().getPassword().equals(oldPassword)) {
 			if (newPassword.equals(newPasswordConfirm)) {
 				changePassword.setValue("Passwort geändert!");
-				member.setPassword(newPassword);
-				memberManager.update(member);
+				Member newMember = getRegistratedMember();
+				newMember.setPassword(newPassword);
+				updateRegistratedMember(newMember);
 			} else {
 				passwordNew.setComponentError(new UserError(
 						"Neue Passwörter stimmen nicht überein"));
@@ -192,5 +191,18 @@ public class ShowUser extends HorizontalLayout implements View {
 		passwordOld.setValue("");
 		passwordNew.setValue("");
 		passwordNewConfirm.setValue("");
+	}
+
+
+	@Override
+	public void enter(ViewChangeEvent event) {
+		Member member = getRegistratedMember();
+
+		name.setValue(member.getUsername());
+		email.setValue(member.getEmail());
+		firstName.setValue(member.getFirstName());
+		lastName.setValue(member.getLastName());
+		location.setInputPrompt(member.getPosition().getCity());
+		
 	}
 }

@@ -45,7 +45,7 @@ public class Member {
 			columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp created;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = MEMBER_LOCATION, nullable = false)
 	private Location position;
 	

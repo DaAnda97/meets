@@ -2,36 +2,31 @@ package de.meets.gui.views;
 
 import com.vaadin.data.validator.EmailValidator;
 
-import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Runo;
 
-import de.meets.asset_manager.LocationManager;
-import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Location;
 import de.meets.assets.Member;
+import de.meets.gui.MeetsView;
+import de.meets.gui.ViewName;
 import de.meets.services.GeoData;
 import de.meets.services.PasswordValidator;
+import de.meets.services.SHAEncription;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
-public class Register extends CustomComponent implements View {
+public class Register extends MeetsView {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6587051905101649685L;
-	
-	public static final String NAME = "register";
-	
-	MeetsUI meetsUI;
 
 	private Label register;
 	private TextField username;
@@ -44,14 +39,9 @@ public class Register extends CustomComponent implements View {
 	private Button registerButton;
 	private Button switchButton;
 
-	private MemberManager memberManager;
-	private LocationManager locationManager;
-
-	public Register(MeetsUI meetsUI) {
-		this.meetsUI = meetsUI;
-		memberManager = meetsUI.getMemberManager();
-		locationManager = meetsUI.getLocationManager();
-
+	public Register(ViewName viewName, MeetsUI meetsUI) {
+		super(viewName, meetsUI);
+		
 		register = new Label("Registrieren");
 		register.setWidthUndefined();
 
@@ -114,6 +104,7 @@ public class Register extends CustomComponent implements View {
 				switchButton);
 		verticalLayout.setMargin(true);
 		verticalLayout.setSpacing(true);
+		
 		setCompositionRoot(verticalLayout);
 	}
 
@@ -127,7 +118,7 @@ public class Register extends CustomComponent implements View {
 		String validEmail = email.getValue().trim();
 		String shaPassword;
 		try {
-			shaPassword = meetsUI.shaHash(password.getValue().trim());
+			shaPassword = new SHAEncription().SHAHash(password.getValue().trim());
 		} catch (Exception e1) {
 			password.setComponentError(new UserError(
 					"Internal error - Please try later again"));
@@ -141,7 +132,7 @@ public class Register extends CustomComponent implements View {
 			controlPassword.setComponentError(new UserError(
 					"Passwörter stimmen nicht überein!"));
 		} else {
-			if (memberManager.checkEMail(email.getValue())) {
+			if (getMemberManager().checkEMail(email.getValue())) {
 				email.setComponentError(new UserError(
 						"E-Mail ist schon verwendet"));
 			} else {
@@ -156,22 +147,22 @@ public class Register extends CustomComponent implements View {
 					return;
 				}
 
-				if (locationManager.get(position.getCity()) == null) {
-					locationManager.add(position);
+				if (getLocationManager().get(position.getCity()) == null) {
+					getLocationManager().add(position);
 					System.out.println("Instert into DB: " + position);
 				}
 
-				position = locationManager.get(position.getCity());
+				position = getLocationManager().get(position.getCity());
 
 				// Generate Member
 				Member member = new Member(username.getValue().trim(), null,
 						null, shaPassword, validEmail, position);
 				member.setFirstName(firstName.getValue().trim());
 				member.setLastName(lastName.getValue().trim());
-				memberManager.add(member);
+				getMemberManager().add(member);
 
 				System.out.println("------------" + member.toString());
-				meetsUI.login(member);
+				this.login(member);
 
 			}
 		}

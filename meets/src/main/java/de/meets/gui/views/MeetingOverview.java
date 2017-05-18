@@ -1,34 +1,40 @@
 package de.meets.gui.views;
 
-import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
-import de.meets.assets.Category;
-import de.meets.assets.Meeting;
-import de.meets.assets.Member;
+import de.meets.gui.MeetsView;
+import de.meets.gui.ViewName;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
 // Alle entsprechenden Meets anzeigen 
-public class MeetingOverview extends VerticalLayout implements View{
-	public static final String NAME = "meetingOverview";
-	public MeetsUI meetsUI;
+public class MeetingOverview extends MeetsView {
 	
-//	Member member = MeetsUI.getRegistratedMember();
-//	Meeting meeting;
-//	Category category;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7973265153857834807L;
 
-	public MeetingOverview(MeetsUI meetsUI) {
-		this.meetsUI = meetsUI;
+	public MeetingOverview(ViewName viewName, MeetsUI meetsUI) {
+		super(viewName, meetsUI);
 	}
-
+	
 	@Override
-	public void enter(ViewChangeEvent event) {
-		for(int i=0; i<20; i++){
-			this.addComponent(new Label(""));
-			this.addComponent(new Label("HIER ERSCHEINEN SPÄTER DIE PASSENDEN MEETS"));
+	public void enter(ViewChangeEvent event) {		
+		VerticalLayout verticalLayout = new VerticalLayout();
+		verticalLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+		
+		for(int i = 0; i < 10; i++){
+			verticalLayout.addComponent(new Label(""));
+			verticalLayout.addComponent(new Label("HIER ERSCHEINEN SPÄTER DIE PASSENDEN MEETS"));
 		}
+		
+		verticalLayout.setMargin(true);
+		verticalLayout.setSpacing(true);
+		
+		setCompositionRoot(verticalLayout);
 	}
 
 }

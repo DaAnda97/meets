@@ -1,25 +1,22 @@
 package de.meets.gui.views;
 
-import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.ui.VerticalLayout;
 
-import de.meets.assets.Category;
-import de.meets.assets.Meeting;
-import de.meets.assets.Member;
+import de.meets.gui.MeetsView;
+import de.meets.gui.ViewName;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
 // Informationen zu einem Meet
-public class MeetingInformation extends VerticalLayout implements View{
-	public static final String NAME = "meetingInformation";
-	public MeetsUI meetsUI;
+public class MeetingInformation extends MeetsView {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2420734523715598238L;
 
-//	Member member = MeetsUI.getRegistratedMember();
-//	Meeting meeting;
-//	Category category;
-
-	public MeetingInformation(MeetsUI meetsUI) {
-		this.meetsUI = meetsUI;
+	public MeetingInformation(ViewName viewName, MeetsUI meetsUI) {
+		super(viewName, meetsUI);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override

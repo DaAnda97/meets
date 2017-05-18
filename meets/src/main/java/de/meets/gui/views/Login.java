@@ -2,44 +2,40 @@ package de.meets.gui.views;
 
 import com.vaadin.data.validator.EmailValidator;
 
-import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Runo;
 
-import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Member;
+import de.meets.gui.MeetsView;
+import de.meets.gui.ViewName;
 import de.meets.services.PasswordValidator;
+import de.meets.services.SHAEncription;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
-public class Login extends CustomComponent implements View {
+public class Login extends MeetsView {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4225187475844096527L;
 	
 	public static final String NAME = "login";
-	public MeetsUI meetsUI;
-
+	
 	private TextField emailTextField;
 	private PasswordField passwordTextField;
 	private Button loginButton;
 	private Button registerButton;
 
-	private MemberManager memberManager;
-
-	public Login(MeetsUI meetsUI) {
-		this.meetsUI = meetsUI;
-		memberManager = meetsUI.getMemberManager();
-
+	public Login(ViewName viewName, MeetsUI meetsUI) {
+		super(viewName, meetsUI);
+		
 		setSizeFull();
 
 		// Create the user input field
@@ -81,6 +77,7 @@ public class Login extends CustomComponent implements View {
 		viewLayout.setSizeFull();
 		viewLayout.setComponentAlignment(fields, Alignment.MIDDLE_CENTER);
 		// viewLayout.setStyleName(Reindeer.LAYOUT_BLUE);
+		
 		setCompositionRoot(viewLayout);
 	}
 
@@ -90,7 +87,7 @@ public class Login extends CustomComponent implements View {
 	}
 
 	public void registerButtonClicked() {
-		meetsUI.getNavigator().navigateTo(Register.NAME);
+		navigateTo(ViewName.REGISTER);
 	}
 
 	public void loginButtonClicked() {
@@ -103,7 +100,7 @@ public class Login extends CustomComponent implements View {
 		String validEmail = emailTextField.getValue();
 		String shaPassword;
 		try {
-			shaPassword = meetsUI.shaHash(passwordTextField.getValue().trim());
+			shaPassword = new SHAEncription().SHAHash(passwordTextField.getValue().trim());
 		} catch (Exception e1) {
 			passwordTextField.setComponentError(new UserError(
 					"Internal error - Please try later again"));
@@ -111,9 +108,9 @@ public class Login extends CustomComponent implements View {
 			return; // Abbruch, da Passwort nicht gehashed wurde
 		}
 
-		Member loginMember = memberManager.checkLogin(validEmail, shaPassword);
+		Member loginMember = getMemberManager().checkLogin(validEmail, shaPassword);
 		if (loginMember != null) {
-			meetsUI.login(loginMember);
+			this.login(loginMember);
 		} else {
 			// Wrong password clear the password field and refocuses it
 			this.passwordTextField.isValid();//.showErrorMessage();
