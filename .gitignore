@@ -1,2 +1,3 @@
 meets/src/main/resources/properties/config.properties
 meets/src/main/resources/hibernate.cfg.xml
+meets/src/main/resources/geoApiKey.txt
