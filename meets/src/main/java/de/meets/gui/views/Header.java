@@ -7,6 +7,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.themes.Runo;
 
+import de.meets.gui.ViewName;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
 public class Header extends HorizontalLayout{
@@ -26,7 +27,7 @@ public class Header extends HorizontalLayout{
 		
 		Button btnLogo = new Button(new ClassResource("/images/logo.png"));
 		btnLogo.setStyleName(Runo.BUTTON_LINK);
-		btnLogo.addClickListener(clickEvent -> getUI().getNavigator().navigateTo(Login.NAME));
+		btnLogo.addClickListener(clickEvent -> getUI().getNavigator().navigateTo(ViewName.LOGIN.toString()));
 		
 		this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		this.setSizeFull();

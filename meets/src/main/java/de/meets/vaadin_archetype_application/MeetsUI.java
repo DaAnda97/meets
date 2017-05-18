@@ -73,7 +73,7 @@ public class MeetsUI extends UI{
         navigator.addView(ViewName.PROFILE.toString(), new ShowUser(ViewName.PROFILE, this));
         navigator.addView(ViewName.MEETS.toString(), new MeetingOverview(ViewName.MEETS, this));
         navigator.addView(ViewName.MEET.toString(), new MeetingInformation(ViewName.MEET, this));
-        navigator.addView(Impressum.NAME, new Impressum());
+        navigator.addView(ViewName.IMPRESSUM.toString(), new Impressum(ViewName.IMPRESSUM, this));
         
         navigator.navigateTo(Login.NAME);        
         

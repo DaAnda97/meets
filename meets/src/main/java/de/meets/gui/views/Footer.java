@@ -6,6 +6,7 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Runo;
 
+import de.meets.gui.ViewName;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
 @Theme("runo")
@@ -21,7 +22,7 @@ public class Footer extends VerticalLayout {
 		btnImpressum.setStyleName(Runo.BUTTON_LINK);
 		
 		btnImpressum.addClickListener(e -> {
-			getUI().getNavigator().navigateTo(Impressum.NAME);
+			getUI().getNavigator().navigateTo(ViewName.IMPRESSUM.toString());
 		});
 		
 		this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
