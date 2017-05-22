@@ -1,6 +1,7 @@
 package de.meets.asset_manager;
 
 import java.util.Iterator;
+
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -10,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.query.Query;
 
 import de.meets.hibernate.DatabaseConnector;
 
@@ -65,6 +67,34 @@ public abstract class AssetManager<E> {
 	
 	// READ all records of a asset
 	@SuppressWarnings("unchecked")
+	public Iterator<E> get( int begin, int end ) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Iterator<E> assets = null;
+		
+		try {
+			tx = session.beginTransaction();
+			
+			Query<E> query = session.createQuery("FROM " +this.table);
+			query.setMaxResults(end);
+			
+			List<E> listCategories = query.getResultList();
+			assets = (Iterator<E>) listCategories.iterator();
+			
+			tx.commit();			
+		} catch ( HibernateException e ) {
+			if ( tx != null ) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return assets;
+	}
+	
+	// READ all records of a asset
+	@SuppressWarnings("unchecked")
 	public Iterator<E> getAll() {
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -72,7 +102,7 @@ public abstract class AssetManager<E> {
 		
 		try {
 			tx = session.beginTransaction();
-			List<?> listCategories = session.createQuery("FROM " +this.table).getResultList();
+			List<E> listCategories = session.createQuery("FROM " +this.table).getResultList();
 			assets = (Iterator<E>) listCategories.iterator();
 			tx.commit();			
 		} catch ( HibernateException e ) {

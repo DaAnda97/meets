@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Meeting {
 
 	// meeting table
-	public static final String MEETING_TABLE = "meeting";
+	public static final String MEETING_TABLE = "Meeting";
 	public static final String MEETING_ID = "meetingID";
 	public static final String MEETING_NAME = "title";
 	public static final String MEETING_DESCRIPTION = "description";
@@ -64,7 +64,7 @@ public class Meeting {
 	private Set<Member> members = new HashSet<Member>();
 	
 	@Column(name = MEETING_MAX_MEMBERS)
-	private int scope;
+	private int maxMembers;
 	
 	@Column(name = METADATA_CREATED_TIME, insertable = false, updatable = false,
 			columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -82,7 +82,7 @@ public class Meeting {
 	}
 
 	public Meeting(String title, String description, Category category,
-			Date date, Time time, Location location, Member creator, int scope,
+			Date date, Time time, Location location, Member creator, int maxMembers,
 			Location createdLocation) {
 		this.title = title;
 		this.description = description;
@@ -91,7 +91,7 @@ public class Meeting {
 		this.time = time;
 		this.location = location;
 		this.creator = creator;
-		this.scope = scope;
+		this.maxMembers = maxMembers;
 		this.createdLocation = createdLocation;
 	}
 
@@ -178,12 +178,12 @@ public class Meeting {
 		this.members = members;
 	}
 
-	public int getScope() {
-		return scope;
+	public int getMaxMembers() {
+		return maxMembers;
 	}
 
-	public void setScope(int scope) {
-		this.scope = scope;
+	public void setMaxMembers(int maxMembers) {
+		this.maxMembers = maxMembers;
 	}
 
 	public Timestamp getCreatedTime() {

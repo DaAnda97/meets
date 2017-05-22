@@ -3,6 +3,7 @@ package de.meets.hibernate;
 import java.sql.Time;
 
 import java.util.Date;
+import java.util.Iterator;
 
 import de.meets.asset_manager.CategoryManager;
 import de.meets.asset_manager.LocationManager;
@@ -15,7 +16,7 @@ import de.meets.assets.Member;
 
 public abstract class DatabaseTest {
 
-	public static void testDatabase() {
+	public static void main(String[] args) {
 		
 		DatabaseConnector db = new DatabaseConnector();
 		
@@ -107,6 +108,27 @@ public abstract class DatabaseTest {
 		
 		System.out.println("\n--- END Member ---");
 		
+		// Get meetings
+		System.out.println("\n--- GET Meetings ---\n");
+		
+		Meeting meeting_3 = new Meeting("Essen", "Wer hat bock auf Oxfort?", new Category(1), new Date(), 
+				new Time(System.currentTimeMillis()), new Location(1), new Member(3), 5, new Location(1));
+		Meeting meeting_4 = new Meeting("Weihnachtsmarkt", "In der Weihnachtsbäckerei", new Category(2), new Date(), 
+				new Time(System.currentTimeMillis()), new Location(1), new Member(3), 4, new Location(1));
+		Meeting meeting_5 = new Meeting("Weihnachtsmarkt", "In der Weihnachtsbäckerei", new Category(2), new Date(), 
+				new Time(System.currentTimeMillis()), new Location(1), new Member(3), 4, new Location(1));
+		
+		meet.add(meeting_3);
+		meet.add(meeting_4);
+		meet.add(meeting_5);
+		
+		Iterator<Meeting> meetings = meet.get(0, 3);
+		while (meetings.hasNext()) {
+			Meeting meeting = (Meeting) meetings.next();
+			System.out.println(meeting);
+		}
+		
+		System.out.println("\n--- END Meetings ---");
 		
 		// Shut down database connection
 		db.tearDown();

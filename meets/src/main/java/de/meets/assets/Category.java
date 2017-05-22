@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class Category {
 	
 	// category table
-	public static final String CATEGORY_TABLE = "category";
+	public static final String CATEGORY_TABLE = "Category";
 	public static final String CATEGORY_ID = "categoryID";
 	public static final String CATEGORY_TITLE = "title";
 	
