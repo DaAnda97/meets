@@ -2,5 +2,5 @@ language: java
 jdk:
   - oraclejdk8
 script:
-  - mvn -f meets/pom.xml
+  - cd meets
   - mvn test
