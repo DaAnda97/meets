@@ -161,13 +161,9 @@ public abstract class AssetManager<E> {
 	
 	// EXISTS value of column?
 	protected boolean exists( String column, String value ) {
-		return exists( new String[]{column}, new String[]{value} );
-	}
-	
-	private boolean exists( String[] columns, String[] values ) {
-		long count = count(columns, values);
+		E asset = count(column, value);
 		
-		if ( count == 0L ) {
+		if ( asset == null ) {
 			// value NOT exists
 			return false;
 		} else {
@@ -175,46 +171,32 @@ public abstract class AssetManager<E> {
 			return true;
 		}
 	}
-	
+		
 	// COUNT 
-	private long count( String[] columns, String[] values ) {
+	@SuppressWarnings("unchecked")
+	private E count( String column, String value ) {
 		Session session = this.getFactory().openSession();
 		Transaction tx = null;
-		long count = 0;
+		E asset = null;
 		
-		if ( columns != null && values != null && (columns.length == values.length) ) {
-			// VALID input
-			try {
-				tx = session.beginTransaction();
-				
-				String hql = "SELECT COUNT(*) FROM " +this.table +" x WHERE x." 
-						+columns[0] +"='" +values[0] +"'";
-				
-				if ( columns.length == 1 ) {
-					// no AND needed
-					count = (long) session.createQuery(hql).getSingleResult();
-				} else {
-					// AND needed
-					for (int i = 1; i < values.length; i++) {
-						hql += " AND " +columns[i] +"='" +values[i] +"'";
-					}
-					count = (long) session.createQuery(hql).getSingleResult();
-				}			
-				tx.commit();			
-			} catch ( HibernateException e ) {
-				if ( tx != null ) {
-					tx.rollback();
-				}
-				e.printStackTrace();
-			} finally {
-				session.close();
+		try {
+			tx = session.beginTransaction();
+			
+			String hql = "FROM " + this.table + " x WHERE x." + column +" = " + value;
+			asset = (E) session.createQuery(hql).getSingleResult();
+			
+			tx.commit();			
+		} catch ( HibernateException e ) {
+			asset = null;
+			if ( tx != null ) {
+				tx.rollback();
 			}
-		} else {
-			// INVALID input
-			System.err.println("Parameters must have the same array size!");
-		}//else	
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
 		
-		return count;
+		return asset;
 	}//count()
 	
 }
