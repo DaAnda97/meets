@@ -14,9 +14,9 @@ import de.meets.assets.Location;
 import de.meets.assets.Meeting;
 import de.meets.assets.Member;
 
-public abstract class DatabaseTest {
+public class DatabaseTest {
 
-	public static void main(String[] args) {
+	public static void databaseTest() {
 		
 		DatabaseConnector db = new DatabaseConnector();
 		
@@ -48,7 +48,7 @@ public abstract class DatabaseTest {
 				new Location(1)));
 		memb.add(new Member("Umntate", "Bernd", "Heck", "1234321", "bnd01@web.de", 
 				new Location(2)));
-		memb.add(new Member("andi", "Andi", "Test", "1234", "andi@gmx.de", 
+		memb.add(new Member("andi", "Andi", "Test", "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", "andi@gmx.de", 
 				new Location(2)));
 		
 		System.out.println("\n--- END Members ---");
@@ -134,4 +134,5 @@ public abstract class DatabaseTest {
 		db.tearDown();
 	}
 
+	
 }

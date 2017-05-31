@@ -22,6 +22,7 @@ import de.meets.gui.views.MeetingOverview;
 import de.meets.gui.views.Register;
 import de.meets.gui.views.ShowUser;
 import de.meets.hibernate.DatabaseConnector;
+import de.meets.hibernate.DatabaseTest;
 
 
 /**
@@ -79,6 +80,8 @@ public class MeetsUI extends UI{
         
         this.setContent(mainLayout);
         getPage().setTitle("Meets"); 
+        
+        DatabaseTest.databaseTest();
         
     }	
 	

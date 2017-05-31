@@ -15,16 +15,20 @@ public class MeetingComponent extends CustomComponent{
 	private Label cathegory;
 	private Label location;
 	private Label members;
+	private Label x;
 
 	public MeetingComponent(Meeting meeting) {
-		date = new Label(meeting.MEETING_DATE);
-		description = new Label(meeting.MEETING_DESCRIPTION);
-		cathegory = new Label(meeting.MEETING_CATEGORY);
-		location = new Label(meeting.MEETING_LOCATION);
-		members = new Label(meeting.getMembers().size() + "");
+		date = new Label(meeting.getDate().toLocaleString());
+		description = new Label(meeting.getDescription());
+		cathegory = new Label("Kategorie: " + meeting.getCategory().getTitle());
+		location = new Label("Ort: " + meeting.getLocation().getCity());
+		members = new Label("Teilnehmer: " + meeting.getMaxMembers());
+		
+		description.addStyleName("meetsdesc");
 		
 		Panel mainPanel = new Panel();
 		GridLayout layout = new GridLayout(3, 3);
+		layout.setSizeFull();
 		
 		layout.addComponent(date);
 		layout.addComponent(new Label(""));
@@ -37,6 +41,8 @@ public class MeetingComponent extends CustomComponent{
 		layout.addComponent(new Label(""));
 		layout.addComponent(location);
 		layout.addComponent(members);
+		
+		
 		
 		mainPanel.setContent(layout);
 		setCompositionRoot(mainPanel);

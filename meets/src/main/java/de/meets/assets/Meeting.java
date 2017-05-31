@@ -22,7 +22,7 @@ public class Meeting {
 	public static final String MEETING_TIME = "time";
 	public static final String MEETING_LOCATION = "location";
 	public static final String MEETING_OWNER = "creator";
-	public static final String MEETING_MAX_MEMBERS = "scope";
+	public static final String MEETING_MAX_MEMBERS = "max_members";
 	public static final String METADATA_CREATED_TIME = "createdTime";
 	public static final String METADATA_CREATED_LOCATION = "createdLocation";
 	
@@ -56,7 +56,7 @@ public class Meeting {
 	@JoinColumn(name = MEETING_OWNER, nullable = false)
 	private Member creator;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinTable(name = "Meet", 
 		joinColumns = { @JoinColumn(name = Meeting.MEETING_ID, nullable = false, updatable = false) }, 
 		inverseJoinColumns = { @JoinColumn(name = Member.MEMBER_ID, nullable = false, updatable = false) })
