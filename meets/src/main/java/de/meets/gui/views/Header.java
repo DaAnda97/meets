@@ -27,7 +27,7 @@ public class Header extends HorizontalLayout{
 		
 		Button btnLogo = new Button(new ClassResource("/images/logo.png"));
 		btnLogo.setStyleName(Runo.BUTTON_LINK);
-		btnLogo.addClickListener(clickEvent -> getUI().getNavigator().navigateTo(ViewName.LOGIN.toString()));
+		btnLogo.addClickListener(clickEvent -> navigate());
 		
 		this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		this.setSizeFull();
@@ -42,6 +42,16 @@ public class Header extends HorizontalLayout{
 		logout.addClickListener(e -> {
 			meetsUI.logout();
 		});
+	}
+	
+	private void navigate() {
+		String view = ViewName.MEETS.toString();
+		if ( meetsUI.getRegistratedMember() == null ) {
+			view = ViewName.LOGIN.toString();
+		} else {
+
+		}
+		getUI().getNavigator().navigateTo(view);
 	}
 	
 	public void addShowUser(){

@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 
 import org.hibernate.HibernateException;
@@ -161,33 +162,19 @@ public abstract class AssetManager<E> {
 	
 	// EXISTS value of column?
 	protected boolean exists( String column, String value ) {
-		E asset = count(column, value);
-		
-		if ( asset == null ) {
-			// value NOT exists
-			return false;
-		} else {
-			// value exists
-			return true;
-		}
-	}
-		
-	// COUNT 
-	@SuppressWarnings("unchecked")
-	private E count( String column, String value ) {
 		Session session = this.getFactory().openSession();
 		Transaction tx = null;
-		E asset = null;
 		
 		try {
 			tx = session.beginTransaction();
 			
-			String hql = "FROM " + this.table + " x WHERE x." + column +" = " + value;
-			asset = (E) session.createQuery(hql).getSingleResult();
+			String hql = "FROM " + this.table + " x WHERE x." + column +" = '" + value +"'";
+			session.createQuery(hql).getSingleResult();
 			
-			tx.commit();			
+			tx.commit();
+		} catch ( NoResultException e ) {
+			return false;
 		} catch ( HibernateException e ) {
-			asset = null;
 			if ( tx != null ) {
 				tx.rollback();
 			}
@@ -196,7 +183,7 @@ public abstract class AssetManager<E> {
 			session.close();
 		}
 		
-		return asset;
+		return true;
 	}//count()
 	
 }
