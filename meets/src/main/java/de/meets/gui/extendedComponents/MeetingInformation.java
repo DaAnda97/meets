@@ -26,10 +26,10 @@ public class MeetingInformation extends Window {
 		Label date = new Label(meeting.getDate().toString());
 		date.setIcon(FontAwesome.CALENDAR);
 		
-		Label category = new Label(meeting.getCategory().toString());
+		Label category = new Label(meeting.getCategory().getTitle());
 		category.setIcon(FontAwesome.BOOKMARK);
 		
-		Label title = new Label(meeting.getTitle().toString());
+		Label title = new Label(meeting.getTitle());
 		
 		Label description = new Label(meeting.getDescription().toString());
 		
