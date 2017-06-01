@@ -5,12 +5,13 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Runo;
 
 import de.meets.gui.ViewName;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
-public class Header extends HorizontalLayout{
+public class Header extends VerticalLayout{
 	
 	/**
 	 * 
@@ -19,19 +20,29 @@ public class Header extends HorizontalLayout{
 
 	MeetsUI meetsUI;
 	
-	Button showUser = new Button("Mein Profil", FontAwesome.USER);
-	Button logout = new Button("Abmelden", FontAwesome.SIGN_OUT);
+	HorizontalLayout headerMenu;
+	Button showUser;
+	Button logout;
 	
 	public Header(MeetsUI meetsUI) {
 		this.meetsUI = meetsUI;
+		
+		this.showUser = new Button("Mein Profil", FontAwesome.USER);
+		this.logout = new Button("Abmelden", FontAwesome.SIGN_OUT);
 		
 		Button btnLogo = new Button(new ClassResource("/images/logo.png"));
 		btnLogo.setStyleName(Runo.BUTTON_LINK);
 		btnLogo.addClickListener(clickEvent -> navigate());
 		
+		this.headerMenu = new HorizontalLayout();
+		headerMenu.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+		headerMenu.setSizeFull();
+		headerMenu.setMargin(true);
+		headerMenu.setSpacing(true);
+		
 		this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		this.setSizeFull();
-		this.addComponent(btnLogo);
+		this.addComponents(btnLogo, headerMenu);
 		this.setMargin(true);
 		this.setSpacing(true);
 		
@@ -55,17 +66,17 @@ public class Header extends HorizontalLayout{
 	}
 	
 	public void addShowUser(){
-		this.addComponent(showUser);
+		this.headerMenu.addComponent(showUser);
 	}
 	public void removeShowUser(){
-		this.removeComponent(showUser);
+		this.headerMenu.removeComponent(showUser);
 	}
 	
 	public void addLogout(){
-		this.addComponent(logout);
+		this.headerMenu.addComponent(logout);
 	}
 	public void removeLogout(){
-		this.removeComponent(logout);
+		this.headerMenu.removeComponent(logout);
 	}
 
 }
