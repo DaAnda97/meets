@@ -94,7 +94,7 @@ public class Register extends MeetsView {
 		switchButton = new Button("Zum Login");
 		switchButton.setStyleName(Runo.BUTTON_LINK);
 		switchButton.addClickListener(listener -> getUI().getNavigator()
-				.navigateTo(Login.NAME));
+				.navigateTo(ViewName.LOGIN.toString()));
 
 		VerticalLayout verticalLayout = new VerticalLayout();
 		verticalLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);

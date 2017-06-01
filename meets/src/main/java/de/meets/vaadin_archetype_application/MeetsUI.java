@@ -13,6 +13,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.meets.assets.Member;
 import de.meets.gui.ViewName;
+import de.meets.gui.extendedComponents.CreateMeeting;
 import de.meets.gui.views.Footer;
 import de.meets.gui.views.Header;
 import de.meets.gui.views.Impressum;
@@ -73,8 +74,9 @@ public class MeetsUI extends UI{
         navigator.addView(ViewName.PROFILE.toString(), new ShowUser(ViewName.PROFILE, this));
         navigator.addView(ViewName.MEETS.toString(), new MeetingOverview(ViewName.MEETS, this));
         navigator.addView(ViewName.IMPRESSUM.toString(), new Impressum(ViewName.IMPRESSUM, this));
+        navigator.addView(ViewName.CREATE.toString(), new CreateMeeting(ViewName.CREATE, this));
         
-        navigator.navigateTo(Login.NAME);        
+        navigator.navigateTo(ViewName.LOGIN.toString());        
         
         this.setContent(mainLayout);
         getPage().setTitle("Meets"); 
@@ -99,7 +101,7 @@ public class MeetsUI extends UI{
 		this.registeredMember = null;
 		header.removeLogout();
 		header.removeShowUser();
-		navigator.navigateTo(Login.NAME);
+		navigator.navigateTo(ViewName.LOGIN.toString());
 	}
 	
 	public void showUser() {
