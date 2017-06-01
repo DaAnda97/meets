@@ -10,7 +10,7 @@ import de.meets.assets.Meeting;
 
 // Informationen zu einem Meet
 public class MeetingInformation extends Window {
-	private Meeting meeting;
+	
 	/**
 	 * 
 	 */
@@ -18,7 +18,6 @@ public class MeetingInformation extends Window {
 	
 	public MeetingInformation(Meeting meeting) {
 		super(meeting.getTitle());
-		this.meeting = meeting;
 		
 		VerticalLayout layout = new VerticalLayout();
 		layout.setSizeFull();

@@ -81,8 +81,6 @@ public class MeetsUI extends UI{
         this.setContent(mainLayout);
         getPage().setTitle("Meets"); 
         
-        DatabaseTest.databaseTest();
-        
     }	
 	
 	@SuppressWarnings("serial")
