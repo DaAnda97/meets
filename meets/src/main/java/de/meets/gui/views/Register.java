@@ -63,7 +63,6 @@ public class Register extends MeetsView {
 		email.setRequired(true);
 		//email.setInputPrompt("E-Mail-Adresse");
 		email.addValidator(new EmailValidator("Keine gültige E-Mailadresse"));
-		email.setInvalidAllowed(false);
 		
 		location = new TextField("Adresse");
 		location.setRequired(true);

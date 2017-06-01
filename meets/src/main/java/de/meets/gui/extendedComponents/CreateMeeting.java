@@ -13,11 +13,9 @@ public class CreateMeeting extends MeetsView {
 	
 	public CreateMeeting(ViewName viewName, MeetsUI meetsUI) {
 		super(viewName, meetsUI);
-		
-		
 	}
 
-
+	
 
 
 
