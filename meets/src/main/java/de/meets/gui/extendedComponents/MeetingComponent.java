@@ -4,6 +4,7 @@ import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
+import com.vaadin.ui.UI;
 
 import de.meets.assets.Meeting;
 
@@ -15,8 +16,7 @@ public class MeetingComponent extends CustomComponent{
 	private Label cathegory;
 	private Label location;
 	private Label members;
-	private Label x;
-
+	
 	public MeetingComponent(Meeting meeting) {
 		date = new Label(meeting.getDate().toLocaleString());
 		description = new Label(meeting.getDescription());
@@ -42,7 +42,10 @@ public class MeetingComponent extends CustomComponent{
 		layout.addComponent(location);
 		layout.addComponent(members);
 		
-		
+		layout.addLayoutClickListener(event -> {
+			MeetingInformation info = new MeetingInformation(meeting);
+			UI.getCurrent().addWindow(info);
+		});
 		
 		mainPanel.setContent(layout);
 		setCompositionRoot(mainPanel);
