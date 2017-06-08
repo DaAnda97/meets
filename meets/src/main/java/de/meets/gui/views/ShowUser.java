@@ -1,6 +1,5 @@
 package de.meets.gui.views;
 
-import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.Button;
@@ -11,8 +10,6 @@ import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import de.meets.asset_manager.LocationManager;
-import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Location;
 import de.meets.assets.Member;
 import de.meets.gui.MeetsView;
