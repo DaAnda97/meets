@@ -46,6 +46,8 @@ public class ShowUser extends MeetsView {
 	private Button confirmNewPassoword = new Button("Bestätigen");
 
 	private Button deliteUser = new Button("Benutzer löschen!");
+	
+	private String locationChanged; // To check, weather the user has changed the location
 
 
 	public ShowUser(ViewName viewName, MeetsUI meetsUI) {
@@ -105,12 +107,12 @@ public class ShowUser extends MeetsView {
 		newMember.setFirstName(firstName.getValue());
 		newMember.setLastName(lastName.getValue());
 
-		if (!location.getValue().trim().equals("")) {
+		if (!location.getValue().trim().equals("") & locationChanged != location.getValue().trim()) {
 			Location position;
 			try {
 				GeoData geoData = new GeoData();
 				position = geoData
-						.getCoordinatesFromAdress(location.getValue());
+						.getCoordinatesFromAdress(location.getValue().trim());
 			} catch (Exception e) {
 				location.setComponentError(new UserError(
 						"Deine Adresse konnte nicht gefinden werden."));
@@ -124,6 +126,8 @@ public class ShowUser extends MeetsView {
 
 			newMember.setPosition(position);
 
+		} else {
+			newMember.setPosition(getRegistratedMember().getPosition());
 		}
 		updateRegistratedMember(newMember);
 		message.setValue("Änderungen gespeichert!");
@@ -201,5 +205,6 @@ public class ShowUser extends MeetsView {
 		lastName.setValue(member.getLastName());
 		location.setInputPrompt(member.getPosition().getCity());
 		
+		locationChanged = member.getPosition().getCity();
 	}
 }

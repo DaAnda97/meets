@@ -8,7 +8,7 @@ public enum ViewName {
 	PROFILE,
 	MEETS,
 	MEET,
-	CREATE,
+	CREATE
 	
 	;
 	

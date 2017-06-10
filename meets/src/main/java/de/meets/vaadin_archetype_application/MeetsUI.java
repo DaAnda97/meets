@@ -13,7 +13,7 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.meets.assets.Member;
 import de.meets.gui.ViewName;
-import de.meets.gui.extendedComponents.CreateMeeting;
+import de.meets.gui.views.CreateMeeting;
 import de.meets.gui.views.Footer;
 import de.meets.gui.views.Header;
 import de.meets.gui.views.Impressum;
