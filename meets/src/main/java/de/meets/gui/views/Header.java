@@ -35,14 +35,17 @@ public class Header extends VerticalLayout{
 		btnLogo.addClickListener(clickEvent -> navigate());
 		
 		this.headerMenu = new HorizontalLayout();
-		headerMenu.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-		headerMenu.setSizeFull();
 		headerMenu.setMargin(true);
 		headerMenu.setSpacing(true);
+
+		HorizontalLayout rightAlignmentHeaderMenu = new HorizontalLayout();
+		rightAlignmentHeaderMenu.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
+		rightAlignmentHeaderMenu.setSizeFull();
+		rightAlignmentHeaderMenu.addComponent(headerMenu);
 		
 		this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		this.setSizeFull();
-		this.addComponents(btnLogo, headerMenu);
+		this.addComponents(btnLogo, rightAlignmentHeaderMenu);
 		this.setMargin(true);
 		this.setSpacing(true);
 		
