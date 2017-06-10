@@ -194,6 +194,7 @@ public class CreateMeeting extends MeetsView {
 			getCategoryManager().add(category);
 			System.out.println("Instert into DB: " + category);
 		}
+		category = getCategoryManager().get(tfCategory.getValue());
 
 		String hourAndMinute[] = tfTime.getValue().split(":");
 		Time time = new Time(Integer.parseInt(hourAndMinute[0]), Integer.parseInt(hourAndMinute[1]), 0);
@@ -210,6 +211,7 @@ public class CreateMeeting extends MeetsView {
 			getLocationManager().add(location);
 			System.out.println("Instert into DB: " + location);
 		}
+		location = getLocationManager().get(location.getCity());
 
 		int maxMembers = Integer.parseInt(tfMaxMembers.getValue());
 
@@ -232,6 +234,7 @@ public class CreateMeeting extends MeetsView {
 			getCategoryManager().add(category);
 			System.out.println("Instert into DB: " + category);
 		}
+		category = getCategoryManager().get(tfCategory.getValue());
 		passedMeeting.setCategory(category);
 
 		Location location;
@@ -250,6 +253,7 @@ public class CreateMeeting extends MeetsView {
 			getLocationManager().add(location);
 			System.out.println("Instert into DB: " + location);
 		}
+		location = getLocationManager().get(location.getCity());
 		passedMeeting.setLocation(location);
 		
 		
