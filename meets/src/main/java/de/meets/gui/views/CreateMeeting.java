@@ -17,7 +17,7 @@ import de.meets.vaadin_archetype_application.MeetsUI;
 // Informationen zu einem Meet
 public class CreateMeeting extends MeetsView {
 	private Meeting meeting;
-	
+
 	private TextField tfTitle = new TextField("Titel");
 	private TextField tfDescription = new TextField("Beschreibung");
 	private TextField tfCategory = new TextField("Kategorie");
@@ -25,43 +25,42 @@ public class CreateMeeting extends MeetsView {
 	private TextField tfTime = new TextField("Uhrzeit");
 	private TextField tfLocation = new TextField("Veranstaltungsort");
 	private TextField tfMaxMembers = new TextField("Höchstanzahl Teilnehmer");
-	
-	
+
 	public CreateMeeting(ViewName viewName, MeetsUI meetsUI) {
 		super(viewName, meetsUI);
-		
+
 		Panel componentPanel = new Panel();
 		VerticalLayout componentPanelLayout = new VerticalLayout();
-		
+
 		tfTitle.setIcon(FontAwesome.TICKET);
 		tfTitle.setRequired(true);
 		componentPanelLayout.addComponent(tfTitle);
-		
+
 		tfDescription.setIcon(FontAwesome.BOOK);
 		tfDescription.setRequired(true);
 		componentPanelLayout.addComponent(tfDescription);
-		
+
 		tfCategory.setIcon(FontAwesome.BOOKMARK);
 		tfCategory.setRequired(true);
 		componentPanelLayout.addComponent(tfCategory);
-		
+
 		tfDate.setRequired(true);
 		tfDate.setDateFormat("dd-MM-yyyy");
 		componentPanelLayout.addComponent(tfDate);
-		
+
 		tfTime.setIcon(FontAwesome.CLOCK_O);
 		tfTime.setRequired(true);
 		tfTime.addValidator(new TimeValidator("Keine korrekte Zeitangabe"));
 		componentPanelLayout.addComponent(tfTime);
-		
+
 		tfLocation.setIcon(FontAwesome.LOCATION_ARROW);
 		tfLocation.setRequired(true);
 		componentPanelLayout.addComponent(tfLocation);
-		
+
 		tfMaxMembers.setIcon(FontAwesome.USER_PLUS);
 		tfMaxMembers.setRequired(true);
 		componentPanelLayout.addComponent(tfMaxMembers);
-		
+
 		componentPanelLayout.setMargin(true);
 		componentPanelLayout.setSpacing(true);
 		componentPanelLayout.setSizeFull();
@@ -71,8 +70,12 @@ public class CreateMeeting extends MeetsView {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		if (event.getParameters() != null){
-			String param = event.getParameters().split(";")[0]; // get only the first parameter
+		if (event.getParameters() == null | event.getParameters().isEmpty()) {
+			meeting = new Meeting();
+		} else {
+			String param = event.getParameters().split("/")[0]; // only first
+																// param
+			System.out.println("############ MOIN I BIMS, DER PARAMETER " + event.getParameters());
 			try {
 				int meetingID = Integer.parseInt(param);
 				meeting = getMeetingManager().get(meetingID);
@@ -81,12 +84,9 @@ public class CreateMeeting extends MeetsView {
 				setCompositionRoot(errorMessage);
 				return;
 			}
-		} else {
-			meeting = new Meeting();
+
 		}
-		
-		
+
 	}
-	
-	
+
 }
