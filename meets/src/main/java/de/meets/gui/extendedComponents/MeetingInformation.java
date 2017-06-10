@@ -29,8 +29,10 @@ public class MeetingInformation extends Window {
 		category.setIcon(FontAwesome.BOOKMARK);
 		
 		Label title = new Label(meeting.getTitle());
+		title.setIcon(FontAwesome.TICKET);
 		
 		Label description = new Label(meeting.getDescription().toString());
+		description.setIcon(FontAwesome.BOOK);
 		
 		Label time = new Label(meeting.getTime().toString());
 		time.setIcon(FontAwesome.CLOCK_O);
