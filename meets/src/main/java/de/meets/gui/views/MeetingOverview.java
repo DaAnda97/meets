@@ -32,7 +32,7 @@ public class MeetingOverview extends MeetsView {
 		HorizontalLayout createLayout = new HorizontalLayout();
 		createLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		createLayout.setSizeFull();
-		Button bCreate = new Button("Create");
+		Button bCreate = new Button("Erstellen");
 		bCreate.addClickListener(e ->  {
 			getUI().getNavigator().navigateTo(ViewName.CREATE.toString());
 		});
@@ -41,7 +41,7 @@ public class MeetingOverview extends MeetsView {
 		HorizontalLayout sortLayout = new HorizontalLayout();
 		sortLayout.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
 		sortLayout.setSizeFull();
-		Button bSort = new Button("Create");
+		Button bSort = new Button("Sortieren");
 		bSort.addClickListener(e ->  {
 			//TODO
 		});
