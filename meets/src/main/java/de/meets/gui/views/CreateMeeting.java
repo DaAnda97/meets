@@ -24,6 +24,7 @@ import de.meets.assets.Meeting;
 import de.meets.assets.Member;
 import de.meets.gui.MeetsView;
 import de.meets.gui.ViewName;
+import de.meets.gui.extendedComponents.SucessPopup;
 import de.meets.services.GeoData;
 import de.meets.services.MaxValueValidator;
 import de.meets.services.TimeValidator;
@@ -31,6 +32,7 @@ import de.meets.vaadin_archetype_application.MeetsUI;
 
 // Informationen zu einem Meet
 public class CreateMeeting extends MeetsView {
+	
 	private TextField tfTitle = new TextField("Titel");
 	private TextArea tfDescription = new TextArea("Beschreibung");
 	private TextField tfCategory = new TextField("Kategorie");
@@ -56,7 +58,7 @@ public class CreateMeeting extends MeetsView {
 		inputFields.add(tfTitle);
 
 		for (AbstractField<Object> each : inputFields) {
-			each.setWidth(50, Unit.EM);
+			each.setWidth(30, Unit.EM);
 		}
 
 		// ---------------------- InputLayout --------------------------
@@ -109,18 +111,27 @@ public class CreateMeeting extends MeetsView {
 		saveLayout.addComponent(bSave);
 
 		HorizontalLayout cancelLayout = new HorizontalLayout();
-		cancelLayout.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
+		cancelLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		cancelLayout.setSizeFull();
 		Button bCancel = new Button("Abbrechen");
 		bCancel.addClickListener(e -> {
 			getUI().getNavigator().navigateTo(ViewName.MEETS.toString());
 		});
 		cancelLayout.addComponent(bCancel);
+		
+		HorizontalLayout deleteLayout = new HorizontalLayout();
+		deleteLayout.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
+		deleteLayout.setSizeFull();
+		Button bDelete = new Button("Löschen");
+		bDelete.addClickListener(e -> {
+			// TODO delete
+		});
+		deleteLayout.addComponent(bDelete);
 
 		HorizontalLayout buttonLayout = new HorizontalLayout();
 		buttonLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		buttonLayout.setWidth(25, Unit.PERCENTAGE);
-		buttonLayout.addComponents(saveLayout, cancelLayout);
+		buttonLayout.addComponents(saveLayout, cancelLayout, deleteLayout);
 
 		// -------------------------- MainLayout -------------------------------
 
@@ -135,6 +146,12 @@ public class CreateMeeting extends MeetsView {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		for (AbstractField<Object> each : inputFields) {
+			each.setValue("");
+		}
+		
+		tfTitle.focus();
+		
 		if (event.getParameters() == null | event.getParameters().isEmpty()) {
 			meetingWasPassed = false;
 		} else {
@@ -178,6 +195,7 @@ public class CreateMeeting extends MeetsView {
 		} else {
 			createNewMeeting();
 		}
+		
 	}
 
 	private void createNewMeeting() {
@@ -217,7 +235,8 @@ public class CreateMeeting extends MeetsView {
 
 		Meeting newMeeting = new Meeting(title, description, category, date, time, location, creater, maxMembers, createdLocation);
 		getMeetingManager().add(newMeeting);
-
+		
+		getUI().addWindow(new SucessPopup(newMeeting.getTitle(), "erstellt"));
 	}
 
 	private void updateMeeting() {
@@ -256,8 +275,8 @@ public class CreateMeeting extends MeetsView {
 		location = getLocationManager().get(location.getCity());
 		passedMeeting.setLocation(location);
 		
-		
 		getMeetingManager().update(passedMeeting);
+		getUI().addWindow(new SucessPopup(passedMeeting.getTitle(), "aktualisiert"));
 	}
 
 }

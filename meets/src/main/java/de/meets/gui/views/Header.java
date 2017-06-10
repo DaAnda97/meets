@@ -45,7 +45,7 @@ public class Header extends VerticalLayout{
 		
 		this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		this.setSizeFull();
-		this.addComponents(btnLogo, rightAlignmentHeaderMenu);
+		this.addComponents(rightAlignmentHeaderMenu, btnLogo);
 		this.setMargin(true);
 		this.setSpacing(true);
 		
