@@ -52,13 +52,12 @@ public class CreateMeeting extends MeetsView {
 		inputFields.add(tfCategory);
 		inputFields.add(tfDescription);
 		inputFields.add(tfLocation);
-		inputFields.add(tfDate);
 		inputFields.add(tfMaxMembers);
 		inputFields.add(tfTime);
 		inputFields.add(tfTitle);
 
 		for (AbstractField<Object> each : inputFields) {
-			each.setWidth(30, Unit.EM);
+			each.setWidth(25, Unit.EM);
 		}
 
 		// ---------------------- InputLayout --------------------------
@@ -81,15 +80,30 @@ public class CreateMeeting extends MeetsView {
 		tfCategory.setRequired(true);
 		inputLayout.addComponent(tfCategory);
 
+		// ---------------- Date and Time -------------------
+		HorizontalLayout dateLayout = new HorizontalLayout();
+		dateLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		dateLayout.setSizeFull();
 		tfDate.setIcon(FontAwesome.CALENDAR);
 		tfDate.setRequired(true);
 		tfDate.setDateFormat("dd-MM-yyyy");
-		inputLayout.addComponent(tfDate);
-
+		dateLayout.addComponent(tfDate);
+		
+		HorizontalLayout timeLayout = new HorizontalLayout();
+		timeLayout.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
+		timeLayout.setSizeFull();
 		tfTime.setIcon(FontAwesome.CLOCK_O);
+		tfTime.setWidth(5, Unit.EM);
 		tfTime.setRequired(true);
 		tfTime.addValidator(new TimeValidator("Keine korrekte Zeitangabe"));
-		inputLayout.addComponent(tfTime);
+		timeLayout.addComponent(tfTime);
+
+		HorizontalLayout dateAndTimeLayout = new HorizontalLayout();
+		dateAndTimeLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+		dateAndTimeLayout.setWidth(15, Unit.PERCENTAGE);
+		dateAndTimeLayout.addComponents(dateLayout, timeLayout);
+		// ---------------- End Date and Time ---------------
+		inputLayout.addComponent(dateAndTimeLayout);
 
 		tfLocation.setIcon(FontAwesome.LOCATION_ARROW);
 		tfLocation.setRequired(true);
@@ -146,9 +160,10 @@ public class CreateMeeting extends MeetsView {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		for (AbstractField<Object> each : inputFields) {
+		for (AbstractField<String> each : inputFields) {
 			each.setValue("");
 		}
+		tfDate.setValue(new Date());
 		
 		tfTitle.focus();
 		
@@ -182,7 +197,7 @@ public class CreateMeeting extends MeetsView {
 	private void save() {
 		// test, weather the inputs are valid
 		boolean notValid = false;
-		for (AbstractField<Object> each : inputFields) {
+		for (AbstractField<String> each : inputFields) {
 			if (each.isRequired() & each.getValue().equals("")) {
 				each.setComponentError(new UserError("Dieses Feld ist ein Pflichtfeld"));
 				notValid = true;
