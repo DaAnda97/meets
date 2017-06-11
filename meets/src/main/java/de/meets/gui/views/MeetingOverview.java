@@ -73,7 +73,7 @@ public class MeetingOverview extends MeetsView {
 		List<Meeting> meetings = getMeetings();
 
 		for (Meeting meeting : meetings) {
-			meetingsLayout.addComponent(new MeetingComponent(meeting));
+			meetingsLayout.addComponent(new MeetingComponent(meeting, getRegistratedMember()));
 		}
 	}
 

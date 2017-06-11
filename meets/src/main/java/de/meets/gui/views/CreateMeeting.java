@@ -181,15 +181,20 @@ public class CreateMeeting extends MeetsView {
 
 	private void save() {
 		// test, weather the inputs are valid
+		boolean notValid = false;
 		for (AbstractField<Object> each : inputFields) {
 			if (each.isRequired() & each.getValue().equals("")) {
 				each.setComponentError(new UserError("Dieses Feld ist ein Pflichtfeld"));
-				return;
+				notValid = true;
 			}
 			if (!each.isValid()) {
-				return;
+				notValid = true;
 			}
 		}
+		if (notValid){
+			return;
+		}
+		
 		if (meetingWasPassed) {
 			updateMeeting();
 		} else {
