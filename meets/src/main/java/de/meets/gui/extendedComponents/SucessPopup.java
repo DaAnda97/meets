@@ -11,7 +11,7 @@ import de.meets.gui.ViewName;
 
 public class SucessPopup extends Window {
 	
-	public SucessPopup(String title, String state) {
+	public SucessPopup(String title, int id, String state) {
 		super(title);
 		
 		Label lInformation = new Label("Dein Meeting " + title + " wurde erfolgreich " + state);
@@ -29,15 +29,17 @@ public class SucessPopup extends Window {
 		HorizontalLayout cancelLayout = new HorizontalLayout();
 		cancelLayout.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
 		cancelLayout.setSizeFull();
-		Button bCancel = new Button("Weiter Bearbeiten");
+		Button bCancel = new Button("Bearbeiten");
 		bCancel.addClickListener(e -> {
+			getUI().getNavigator().navigateTo(ViewName.CREATE.toString() + "/" + id);
 			close();
 		});
 		cancelLayout.addComponent(bCancel);
 
 		HorizontalLayout buttonLayout = new HorizontalLayout();
 		buttonLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-		buttonLayout.setWidth(75, Unit.PERCENTAGE);
+//		buttonLayout.setWidth(75, Unit.PERCENTAGE);
+		buttonLayout.setSpacing(true);
 		buttonLayout.addComponents(backLayout, cancelLayout);
 		
 		VerticalLayout layout = new VerticalLayout();
@@ -45,11 +47,11 @@ public class SucessPopup extends Window {
 		layout.addComponents(lInformation, buttonLayout);
 		layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		layout.setMargin(true);
+		layout.setSpacing(true);
 		this.setContent(layout);
 		
 		
 		center();
-		this.setWidth(25, Unit.PERCENTAGE);
 		this.setHeight(20, Unit.PERCENTAGE);
 	}
 	

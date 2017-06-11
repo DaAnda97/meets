@@ -283,7 +283,7 @@ public class CreateMeeting extends MeetsView {
 		
 		getMeetingManager().add(newMeeting);
 
-		getUI().addWindow(new SucessPopup(newMeeting.getTitle(), "erstellt"));
+		getUI().addWindow(new SucessPopup(newMeeting.getTitle(), newMeeting.getMeetingID(), "erstellt"));
 	}
 
 	private void updateMeeting() {
@@ -332,7 +332,7 @@ public class CreateMeeting extends MeetsView {
 		}
 		
 		getMeetingManager().update(passedMeeting);
-		getUI().addWindow(new SucessPopup(passedMeeting.getTitle(), "aktualisiert"));
+		getUI().addWindow(new SucessPopup(passedMeeting.getTitle(), passedMeeting.getMeetingID(), "aktualisiert"));
 	}
 
 }

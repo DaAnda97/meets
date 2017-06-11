@@ -24,10 +24,10 @@ public class SafeButton extends CustomComponent {
 
 	public SafeButton(String caption, String popupText, ClickListener yesListener) {
 		VerticalLayout root = new VerticalLayout();
+		root.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+		root.setSizeFull();
 		setCompositionRoot(root);
 
-		root.setSpacing(false);
-		root.setMargin(false);
 		infoLabel.setSizeFull();
 		if (popupText != null) {
 			infoLabel.setValue(popupText);

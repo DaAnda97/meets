@@ -74,13 +74,11 @@ public class MeetingOverview extends MeetsView {
 		mainLayout.addComponents(menuLayout, meetingsLayout);
 		setSizeFull();
 		setCompositionRoot(mainLayout);
+		
+		
 		List<Meeting> meetings = getMeetings();
 
 		for (Meeting meeting : meetings) {
-			VerticalLayout oneMeetingLayout = new VerticalLayout();
-
-			oneMeetingLayout.addComponent(new MeetingComponent(meeting, getRegistratedMember()));
-
 			HorizontalLayout joinLeaveLayout = new HorizontalLayout();
 			joinLeaveLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 			joinLeaveLayout.setSizeFull();
@@ -137,8 +135,14 @@ public class MeetingOverview extends MeetsView {
 				
 				enter(enterEvent);
 			}
-
-			meetingsLayout.addComponents(oneMeetingLayout, joinLeaveLayout);
+			
+			
+			VerticalLayout oneMeetingLayout = new VerticalLayout();
+			oneMeetingLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+			oneMeetingLayout.setSizeFull();
+			oneMeetingLayout.addComponents(new MeetingComponent(meeting, getRegistratedMember()), joinLeaveLayout);
+			
+			meetingsLayout.addComponents(oneMeetingLayout);
 		}
 	}
 
