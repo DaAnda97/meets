@@ -14,7 +14,7 @@ public class MaxValueValidator extends AbstractValidator<String> {
 
 		if (value != null && (!value.matches("\\d"))) {
 			int inputDecimal = Integer.parseInt(value);
-			if (inputDecimal < 0 && inputDecimal > 1e12){
+			if (inputDecimal < 1 && inputDecimal > 1e12){
 				//smaller then 0 or taller then 1 billion
 				return false;
 			}

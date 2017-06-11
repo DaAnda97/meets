@@ -273,6 +273,14 @@ public class CreateMeeting extends MeetsView {
 
 		Meeting newMeeting = new Meeting(title, description, category, date, time, location, creater, maxMembers,
 				createdLocation);
+		
+		try {
+			newMeeting.addMember(getRegistratedMember());
+		} catch (Exception e) {
+			Notification.show("Fehler", "Erhöhe die Anzahl an freien Plätzen!", Type.TRAY_NOTIFICATION);
+			return;
+		}
+		
 		getMeetingManager().add(newMeeting);
 
 		getUI().addWindow(new SucessPopup(newMeeting.getTitle(), "erstellt"));
@@ -313,7 +321,16 @@ public class CreateMeeting extends MeetsView {
 		}
 		location = getLocationManager().get(location.getCity());
 		passedMeeting.setLocation(location);
-
+		
+		try {
+			passedMeeting.addMember(getRegistratedMember());
+		} catch (Exception e) {
+			Notification.show("Fehler",
+					"Erhöhe die Anzahl an freien Plätzen!",
+					Type.TRAY_NOTIFICATION);
+			return;
+		}
+		
 		getMeetingManager().update(passedMeeting);
 		getUI().addWindow(new SucessPopup(passedMeeting.getTitle(), "aktualisiert"));
 	}

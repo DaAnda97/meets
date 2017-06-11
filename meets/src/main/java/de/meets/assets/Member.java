@@ -4,7 +4,19 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "Member")
@@ -162,14 +174,6 @@ public class Member {
 		this.position = position;
 	}
 
-	public Set<Meeting> getOwnedMeetings() {
-		return ownedMeetings;
-	}
-
-	public void setOwnedMeetings(Set<Meeting> ownedMeetings) {
-		this.ownedMeetings = ownedMeetings;
-	}
-
 	public Set<Meeting> getJoinedMeetings() {
 		return joinedMeetings;
 	}
@@ -177,6 +181,30 @@ public class Member {
 	public void setJoinedMeetings(Set<Meeting> joinedMeetings) {
 		this.joinedMeetings = joinedMeetings;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + memberID;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Member other = (Member) obj;
+		if (memberID != other.memberID)
+			return false;
+		return true;
+	}
+
+
 
 	
 }
