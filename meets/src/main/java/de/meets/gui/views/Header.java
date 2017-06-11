@@ -33,7 +33,11 @@ public class Header extends VerticalLayout{
 		Button bLogo = new Button(new ClassResource("/images/logo.png"));
 		bLogo.setStyleName(Runo.BUTTON_LINK);
 		bLogo.addClickListener(clickEvent -> {
-			getUI().getNavigator().navigateTo(ViewName.MEETS.toString());
+			if ( meetsUI.getRegistratedMember() == null ) {
+				getUI().getNavigator().navigateTo(ViewName.LOGIN.toString());
+			} else {
+				getUI().getNavigator().navigateTo(ViewName.OVERVIEW.toString());
+			}
 		});
 		logoLayout.addComponent(bLogo);
 
@@ -62,16 +66,6 @@ public class Header extends VerticalLayout{
 		this.setSpacing(true);
 		
 
-	}
-	
-	private void navigate() {
-		String view = ViewName.MEETS.toString();
-		if ( meetsUI.getRegistratedMember() == null ) {
-			view = ViewName.LOGIN.toString();
-		} else {
-
-		}
-		getUI().getNavigator().navigateTo(view);
 	}
 	
 	public void addShowUser(){

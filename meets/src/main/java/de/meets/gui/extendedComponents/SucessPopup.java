@@ -21,7 +21,7 @@ public class SucessPopup extends Window {
 		backLayout.setSizeFull();
 		Button bSave = new Button("Zur Übersicht");
 		bSave.addClickListener(e -> {
-			getUI().getNavigator().navigateTo(ViewName.MEETS.toString());
+			getUI().getNavigator().navigateTo(ViewName.OVERVIEW.toString());
 			close();
 		});
 		backLayout.addComponent(bSave);

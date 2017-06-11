@@ -115,7 +115,7 @@ public class CreateMeeting extends MeetsView {
 		cancelLayout.setSizeFull();
 		Button bCancel = new Button("Abbrechen");
 		bCancel.addClickListener(e -> {
-			getUI().getNavigator().navigateTo(ViewName.MEETS.toString());
+			getUI().getNavigator().navigateTo(ViewName.OVERVIEW.toString());
 		});
 		cancelLayout.addComponent(bCancel);
 		

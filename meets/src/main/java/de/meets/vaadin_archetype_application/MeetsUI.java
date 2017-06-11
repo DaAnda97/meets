@@ -71,7 +71,7 @@ public class MeetsUI extends UI{
         navigator.addView(ViewName.LOGIN.toString(), new Login(ViewName.LOGIN, this));
         navigator.addView(ViewName.REGISTER.toString(), new Register(ViewName.REGISTER, this));
         navigator.addView(ViewName.PROFILE.toString(), new ShowUser(ViewName.PROFILE, this));
-        navigator.addView(ViewName.MEETS.toString(), new MeetingOverview(ViewName.MEETS, this));
+        navigator.addView(ViewName.OVERVIEW.toString(), new MeetingOverview(ViewName.OVERVIEW, this));
         navigator.addView(ViewName.IMPRESSUM.toString(), new Impressum(ViewName.IMPRESSUM, this));
         navigator.addView(ViewName.CREATE.toString(), new CreateMeeting(ViewName.CREATE, this));
         
@@ -91,7 +91,7 @@ public class MeetsUI extends UI{
 		this.registeredMember = loginMember;
 		header.addShowUser();
 		header.addLogout();
-		navigator.navigateTo(ViewName.MEETS.toString());
+		navigator.navigateTo(ViewName.OVERVIEW.toString());
 	}
 	
 	public void logout(){
