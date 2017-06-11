@@ -50,6 +50,7 @@ public class SucessPopup extends Window {
 		
 		center();
 		this.setWidth(25, Unit.PERCENTAGE);
+		this.setHeight(20, Unit.PERCENTAGE);
 	}
 	
 }

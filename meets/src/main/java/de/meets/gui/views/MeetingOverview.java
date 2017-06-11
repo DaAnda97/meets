@@ -22,12 +22,13 @@ public class MeetingOverview extends MeetsView {
 	private static final long serialVersionUID = 7973265153857834807L;
 	private static final int MEETINGS_ON_PAGE = 5;
 
-	VerticalLayout mainLayout = new VerticalLayout();
-	VerticalLayout meetingsLayout = new VerticalLayout();
-
+	
 	public MeetingOverview(ViewName viewName, MeetsUI meetsUI) {
 		super(viewName, meetsUI);
+	}
 
+	@Override
+	public void enter(ViewChangeEvent event) {
 		//------------------------MENU------------------------
 		HorizontalLayout createLayout = new HorizontalLayout();
 		createLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
@@ -49,15 +50,17 @@ public class MeetingOverview extends MeetsView {
 		
 		HorizontalLayout menuLayout = new HorizontalLayout();
 		menuLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-		menuLayout.setSizeFull();
+		menuLayout.setWidth(80, Unit.PERCENTAGE);
 		menuLayout.addComponents(createLayout, sortLayout);
 		
 		//------------------------MAIN------------------------
+		VerticalLayout meetingsLayout = new VerticalLayout();
 		meetingsLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		meetingsLayout.setSizeFull();
 		meetingsLayout.setMargin(true);
 		meetingsLayout.setSpacing(true);
 		
+		VerticalLayout mainLayout = new VerticalLayout();
 		mainLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		mainLayout.setSizeFull();
 		mainLayout.setMargin(true);
@@ -65,21 +68,16 @@ public class MeetingOverview extends MeetsView {
 		mainLayout.addComponents(menuLayout, meetingsLayout);
 		setSizeFull();
 		setCompositionRoot(mainLayout);
-
-	}
-
-	@Override
-	public void enter(ViewChangeEvent event) {
 		List<Meeting> meetings = getMeetings();
 
 		for (Meeting meeting : meetings) {
-			meetingsLayout.addComponent(new MeetingComponent(meeting, getRegistratedMember()));
+			meetingsLayout.addComponent(new MeetingComponent(meeting, getRegistratedMember().getEmail()));
 		}
 	}
 
 	private List<Meeting> getMeetings() {
 		List<Meeting> meetings = new ArrayList<Meeting>();
-		Iterator<Meeting> it = getMeetingManager().get(0, 10);
+		Iterator<Meeting> it = getMeetingManager().get(0, MEETINGS_ON_PAGE);
 		while (it.hasNext()) {
 			Meeting meeting = (Meeting) it.next();
 			meetings.add(meeting);

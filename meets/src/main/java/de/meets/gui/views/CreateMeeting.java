@@ -173,7 +173,6 @@ public class CreateMeeting extends MeetsView {
 			meetingWasPassed = true;
 			String param = event.getParameters().split("/")[0]; // only first
 																// param
-			System.out.println("############ MOIN I BIMS, DER BARAMETER " + event.getParameters());
 			try {
 				int meetingID = Integer.parseInt(param);
 				passedMeeting = getMeetingManager().get(meetingID);
@@ -187,7 +186,8 @@ public class CreateMeeting extends MeetsView {
 			tfDescription.setValue(passedMeeting.getDescription());
 			tfCategory.setValue(passedMeeting.getTitle());
 			tfDate.setValue(passedMeeting.getDate());
-			tfTime.setValue(passedMeeting.getTime().toString());
+			String[] splitedTime = passedMeeting.getTime().toString().split(":");
+			tfTime.setValue(splitedTime[0] + ":" + splitedTime[1]);
 			tfLocation.setValue(passedMeeting.getLocation().getCity());
 			tfMaxMembers.setValue(passedMeeting.getMaxMembers() + "");
 

@@ -9,7 +9,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 import de.meets.assets.Meeting;
-import de.meets.assets.Member;
 
 public class MeetingComponent extends CustomComponent{
 
@@ -20,7 +19,7 @@ public class MeetingComponent extends CustomComponent{
 	private Label location;
 	private Label members;
 	
-	public MeetingComponent(Meeting meeting, Member registratedMember) {
+	public MeetingComponent(Meeting meeting, String mailRegistratedmember) {
 		date = new Label(meeting.getDate().toString());
 		description = new Label(meeting.getDescription());
 		cathegory = new Label("Kategorie: " + meeting.getCategory().getTitle());
@@ -51,9 +50,10 @@ public class MeetingComponent extends CustomComponent{
 		layout.setComponentAlignment(members, Alignment.MIDDLE_RIGHT);
 		
 		layout.addLayoutClickListener(event -> {
-			MeetingInformation info = new MeetingInformation(meeting, registratedMember);
+			MeetingInformation info = new MeetingInformation(meeting, mailRegistratedmember);
 			UI.getCurrent().addWindow(info);
 		});
+		
 		
 		VerticalLayout upperLayout = new VerticalLayout();
 		upperLayout.setSizeFull();
