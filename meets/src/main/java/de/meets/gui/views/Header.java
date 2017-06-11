@@ -27,12 +27,24 @@ public class Header extends VerticalLayout{
 	public Header(MeetsUI meetsUI) {
 		this.meetsUI = meetsUI;
 		
+		HorizontalLayout logoLayout = new HorizontalLayout();
+		logoLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+		logoLayout.setSizeFull();
+		Button bLogo = new Button(new ClassResource("/images/logo.png"));
+		bLogo.setStyleName(Runo.BUTTON_LINK);
+		bLogo.addClickListener(clickEvent -> {
+			getUI().getNavigator().navigateTo(ViewName.MEETS.toString());
+		});
+		logoLayout.addComponent(bLogo);
+
 		this.showUser = new Button("Mein Profil", FontAwesome.USER);
+		showUser.addClickListener(e -> {
+			meetsUI.showUser();
+		});
 		this.logout = new Button("Abmelden", FontAwesome.SIGN_OUT);
-		
-		Button btnLogo = new Button(new ClassResource("/images/logo.png"));
-		btnLogo.setStyleName(Runo.BUTTON_LINK);
-		btnLogo.addClickListener(clickEvent -> navigate());
+		logout.addClickListener(e -> {
+			meetsUI.logout();
+		});
 		
 		this.headerMenu = new HorizontalLayout();
 		headerMenu.setMargin(true);
@@ -45,17 +57,11 @@ public class Header extends VerticalLayout{
 		
 		this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		this.setSizeFull();
-		this.addComponents(rightAlignmentHeaderMenu, btnLogo);
+		this.addComponents(rightAlignmentHeaderMenu, logoLayout);
 		this.setMargin(true);
 		this.setSpacing(true);
 		
-		showUser.addClickListener(e -> {
-			meetsUI.showUser();
-		});
-		
-		logout.addClickListener(e -> {
-			meetsUI.logout();
-		});
+
 	}
 	
 	private void navigate() {
