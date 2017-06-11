@@ -117,8 +117,22 @@ public class MeetingOverview extends MeetsView {
 			} else {
 				Button bJoin = new Button();
 				bJoin.setCaption("Beitreten");
+				if (meeting.getMembers().size() >= meeting.getMaxMembers()){
+					bJoin.setEnabled(true);
+				} else {
+					bJoin.setEnabled(false);
+				}
 				bJoin.addClickListener(e -> {
-					// TODO
+					try {
+						meeting.addMember(getRegistratedMember());
+					} catch (Exception e1) {
+						Notification.show("Meeting voll.",
+								Type.TRAY_NOTIFICATION);
+						e1.printStackTrace();
+					}
+					getMeetingManager().update(meeting);
+					Notification.show("Du nimmst an diesem Meeting teil.",
+							Type.TRAY_NOTIFICATION);
 				});
 				joinLeaveLayout.addComponent(bJoin);
 			}
