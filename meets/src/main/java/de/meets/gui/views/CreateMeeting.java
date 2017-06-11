@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.UserError;
@@ -24,6 +25,7 @@ import de.meets.assets.Meeting;
 import de.meets.assets.Member;
 import de.meets.gui.MeetsView;
 import de.meets.gui.ViewName;
+import de.meets.gui.extendedComponents.SafeButton;
 import de.meets.gui.extendedComponents.SucessPopup;
 import de.meets.services.GeoData;
 import de.meets.services.MaxValueValidator;
@@ -32,7 +34,7 @@ import de.meets.vaadin_archetype_application.MeetsUI;
 
 // Informationen zu einem Meet
 public class CreateMeeting extends MeetsView {
-	
+
 	private TextField tfTitle = new TextField("Titel");
 	private TextArea tfDescription = new TextArea("Beschreibung");
 	private TextField tfCategory = new TextField("Kategorie");
@@ -88,7 +90,7 @@ public class CreateMeeting extends MeetsView {
 		tfDate.setRequired(true);
 		tfDate.setDateFormat("dd-MM-yyyy");
 		dateLayout.addComponent(tfDate);
-		
+
 		HorizontalLayout timeLayout = new HorizontalLayout();
 		timeLayout.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
 		timeLayout.setSizeFull();
@@ -132,13 +134,24 @@ public class CreateMeeting extends MeetsView {
 			getUI().getNavigator().navigateTo(ViewName.OVERVIEW.toString());
 		});
 		cancelLayout.addComponent(bCancel);
-		
+
 		HorizontalLayout deleteLayout = new HorizontalLayout();
 		deleteLayout.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
 		deleteLayout.setSizeFull();
 		Button bDelete = new Button("Löschen");
 		bDelete.addClickListener(e -> {
-			// TODO delete
+		    ClickListener yesListener = new ClickListener() {
+		        private static final long serialVersionUID = 1L;
+		        @Override
+		        public void buttonClick(ClickEvent event) {
+		          // TODO Auto-generated method stub
+		          Notification.show("Action completed", "All the records have beed deleted.", Type.TRAY_NOTIFICATION);
+		        }
+		      };
+		      // safe button, it shows a dialog before going ahead with the operation.
+		      SafeButton deleteButton = new SafeButton("Risky task!", VaadinIcons.MINUS_CIRCLE_O, "Are you sure?", "300px",
+		          yesListener);
+
 		});
 		deleteLayout.addComponent(bDelete);
 
@@ -164,9 +177,9 @@ public class CreateMeeting extends MeetsView {
 			each.setValue("");
 		}
 		tfDate.setValue(new Date());
-		
+
 		tfTitle.focus();
-		
+
 		if (event.getParameters() == null | event.getParameters().isEmpty()) {
 			meetingWasPassed = false;
 		} else {
@@ -206,16 +219,16 @@ public class CreateMeeting extends MeetsView {
 				notValid = true;
 			}
 		}
-		if (notValid){
+		if (notValid) {
 			return;
 		}
-		
+
 		if (meetingWasPassed) {
 			updateMeeting();
 		} else {
 			createNewMeeting();
 		}
-		
+
 	}
 
 	private void createNewMeeting() {
@@ -253,9 +266,10 @@ public class CreateMeeting extends MeetsView {
 
 		int maxMembers = Integer.parseInt(tfMaxMembers.getValue());
 
-		Meeting newMeeting = new Meeting(title, description, category, date, time, location, creater, maxMembers, createdLocation);
+		Meeting newMeeting = new Meeting(title, description, category, date, time, location, creater, maxMembers,
+				createdLocation);
 		getMeetingManager().add(newMeeting);
-		
+
 		getUI().addWindow(new SucessPopup(newMeeting.getTitle(), "erstellt"));
 	}
 
@@ -294,7 +308,7 @@ public class CreateMeeting extends MeetsView {
 		}
 		location = getLocationManager().get(location.getCity());
 		passedMeeting.setLocation(location);
-		
+
 		getMeetingManager().update(passedMeeting);
 		getUI().addWindow(new SucessPopup(passedMeeting.getTitle(), "aktualisiert"));
 	}

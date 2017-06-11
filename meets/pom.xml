@@ -20,7 +20,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<!-- If there are no local customisations, this can also be "fetch" or "cdn" -->
+		<!-- If there are no local customisations, this can also be "fetch" or 
+			"cdn" -->
 		<vaadin.widgetset.mode>local</vaadin.widgetset.mode>
 	</properties>
 
@@ -56,6 +57,13 @@
 			<artifactId>junit-jupiter-engine</artifactId>
 			<version>5.0.0-M1</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-icons -->
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-icons</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
 
 
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-simple -->
@@ -183,15 +191,15 @@
 			</plugin>
 
 			<plugin>
-			   <groupId>org.apache.tomcat.maven</groupId>
-			   <artifactId>tomcat7-maven-plugin</artifactId>
-			   <version>2.2</version>
-			   <configuration>
-			      <url>http://mathtap.de:8080/manager/text</url>
-			      <server>TomcatServer</server>
-			      <path>/meets</path>
-			      <update>true</update>
-			   </configuration>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://mathtap.de:8080/manager/text</url>
+					<server>TomcatServer</server>
+					<path>/meets</path>
+					<update>true</update>
+				</configuration>
 			</plugin>
 
 		</plugins>

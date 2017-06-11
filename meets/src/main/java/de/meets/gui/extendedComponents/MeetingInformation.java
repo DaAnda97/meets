@@ -67,8 +67,6 @@ public class MeetingInformation extends Window {
 			button1.setCaption("Bearbeiten");
 			button1.addClickListener(e -> {
 				getUI().getNavigator().navigateTo(ViewName.CREATE.toString() + "/" + meeting.getMeetingID());
-				
-				
 				close();
 			});
 		} else {
