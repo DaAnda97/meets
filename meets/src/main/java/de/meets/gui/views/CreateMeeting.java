@@ -5,16 +5,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.AbstractField;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.DateField;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
@@ -47,6 +50,7 @@ public class CreateMeeting extends MeetsView {
 
 	Meeting passedMeeting;
 	boolean meetingWasPassed;
+	HorizontalLayout deleteLayout;
 
 	public CreateMeeting(ViewName viewName, MeetsUI meetsUI) {
 		super(viewName, meetsUI);
@@ -126,8 +130,14 @@ public class CreateMeeting extends MeetsView {
 		});
 		saveLayout.addComponent(bSave);
 
+		deleteLayout = new HorizontalLayout();
+		deleteLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+		deleteLayout.setSizeFull();
+		// only add a delete Button, if a meeting was passed --> see enter()
+		// Method
+
 		HorizontalLayout cancelLayout = new HorizontalLayout();
-		cancelLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+		cancelLayout.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
 		cancelLayout.setSizeFull();
 		Button bCancel = new Button("Abbrechen");
 		bCancel.addClickListener(e -> {
@@ -135,30 +145,10 @@ public class CreateMeeting extends MeetsView {
 		});
 		cancelLayout.addComponent(bCancel);
 
-		HorizontalLayout deleteLayout = new HorizontalLayout();
-		deleteLayout.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
-		deleteLayout.setSizeFull();
-		Button bDelete = new Button("Löschen");
-		bDelete.addClickListener(e -> {
-		    ClickListener yesListener = new ClickListener() {
-		        private static final long serialVersionUID = 1L;
-		        @Override
-		        public void buttonClick(ClickEvent event) {
-		          // TODO Auto-generated method stub
-		          Notification.show("Action completed", "All the records have beed deleted.", Type.TRAY_NOTIFICATION);
-		        }
-		      };
-		      // safe button, it shows a dialog before going ahead with the operation.
-		      SafeButton deleteButton = new SafeButton("Risky task!", VaadinIcons.MINUS_CIRCLE_O, "Are you sure?", "300px",
-		          yesListener);
-
-		});
-		deleteLayout.addComponent(bDelete);
-
 		HorizontalLayout buttonLayout = new HorizontalLayout();
 		buttonLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		buttonLayout.setWidth(25, Unit.PERCENTAGE);
-		buttonLayout.addComponents(saveLayout, cancelLayout, deleteLayout);
+		buttonLayout.addComponents(saveLayout, deleteLayout, cancelLayout);
 
 		// -------------------------- MainLayout -------------------------------
 
@@ -204,6 +194,21 @@ public class CreateMeeting extends MeetsView {
 			tfLocation.setValue(passedMeeting.getLocation().getCity());
 			tfMaxMembers.setValue(passedMeeting.getMaxMembers() + "");
 
+			SafeButton bDelete = new SafeButton("Löschen",
+					"Bist du dir sicher, dass du dein Meeting " + passedMeeting.getTitle() + "löschen möchtest?",
+					new ClickListener() {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void buttonClick(ClickEvent event) {
+							getMeetingManager().delete(passedMeeting);
+							getUI().getNavigator().navigateTo(ViewName.OVERVIEW.toString());
+							Notification.show("Meeting gelöscht!",
+									"Dein Meeting " + passedMeeting.getTitle() + " wurde gelöscht!",
+									Type.TRAY_NOTIFICATION);
+						}
+					});
+			deleteLayout.addComponent(bDelete);
 		}
 	}
 

@@ -19,7 +19,7 @@ public class ReallyDeleteWindow extends Window {
 		deleteLayout.setSizeFull();
 		Button bDelete = new Button("Ja");
 		bDelete.addClickListener(e -> {
-			
+			// Extra instructions can be called in the subclass
 			close();
 		});
 		deleteLayout.addComponent(bDelete);

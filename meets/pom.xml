@@ -57,12 +57,6 @@
 			<artifactId>junit-jupiter-engine</artifactId>
 			<version>5.0.0-M1</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-icons -->
-		<dependency>
-			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-icons</artifactId>
-			<version>3.0.0</version>
-		</dependency>
 
 
 
