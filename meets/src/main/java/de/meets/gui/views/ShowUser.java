@@ -3,8 +3,12 @@ package de.meets.gui.views;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
@@ -14,6 +18,7 @@ import de.meets.assets.Location;
 import de.meets.assets.Member;
 import de.meets.gui.MeetsView;
 import de.meets.gui.ViewName;
+import de.meets.gui.extendedComponents.SafeButton;
 import de.meets.services.GeoData;
 import de.meets.services.SHAEncription;
 import de.meets.vaadin_archetype_application.MeetsUI;
@@ -45,7 +50,7 @@ public class ShowUser extends MeetsView {
 			"Bestätige neues Passwort");
 	private Button confirmNewPassoword = new Button("Bestätigen");
 
-	private Button deliteUser = new Button("Benutzer löschen!");
+	private SafeButton deliteUser;
 	
 	private String locationChanged; // To check, weather the user has changed the location
 
@@ -82,12 +87,22 @@ public class ShowUser extends MeetsView {
 				passwordNewConfirm, confirmNewPassoword);
 
 		// ------------------------ MAIN - PANEL ---------------------------
+		
+		deliteUser = new SafeButton("Löschen",
+				"Bist du dir sicher, dass du deinen Account unwiederruflich löschen möchtest?",
+				new ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-		deliteUser.addClickListener(e -> {
-			Member userToDelete = getRegistratedMember();
-			getMemberManager().delete(userToDelete);
-			this.logout();;
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						Member userToDelete = getRegistratedMember();
+						getMemberManager().delete(userToDelete);
+						logout();
+						Notification.show("Meeting gelöscht!",
+								"Dein Account wurde gelöscht!",
+								Type.TRAY_NOTIFICATION);
+					}
+				});
 
 		
 		Panel componentPanel = new Panel();
