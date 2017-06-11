@@ -34,7 +34,7 @@ public class MeetingOverview extends MeetsView {
 	}
 
 	@Override
-	public void enter(ViewChangeEvent event) {
+	public void enter(ViewChangeEvent enterEvent) {
 		// ------------------------MENU------------------------
 		HorizontalLayout createLayout = new HorizontalLayout();
 		createLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
@@ -109,15 +109,14 @@ public class MeetingOverview extends MeetsView {
 									Notification.show("Du nimmst nicht mehr an diesem Meeting teil.",
 											Type.TRAY_NOTIFICATION);
 								}
-								getUI().getNavigator().navigateTo(ViewName.OVERVIEW.toString());
-
+								enter(enterEvent);
 							}
 						});
 				joinLeaveLayout.addComponent(bLeave);
 			} else {
 				Button bJoin = new Button();
 				bJoin.setCaption("Beitreten");
-				if (meeting.getMembers().size() >= meeting.getMaxMembers()){
+				if (meeting.getMembers().size() < meeting.getMaxMembers()){
 					bJoin.setEnabled(true);
 				} else {
 					bJoin.setEnabled(false);
@@ -135,6 +134,8 @@ public class MeetingOverview extends MeetsView {
 							Type.TRAY_NOTIFICATION);
 				});
 				joinLeaveLayout.addComponent(bJoin);
+				
+				enter(enterEvent);
 			}
 
 			meetingsLayout.addComponents(oneMeetingLayout, joinLeaveLayout);

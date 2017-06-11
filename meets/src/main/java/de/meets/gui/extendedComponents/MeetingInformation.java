@@ -63,32 +63,16 @@ public class MeetingInformation extends Window {
 		HorizontalLayout button1Layout = new HorizontalLayout();
 		button1Layout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		button1Layout.setSizeFull();
-		Button button1 = new Button();
 		if (meeting.getCreator().getEmail().equals(registratedMember.getEmail())) {
+			Button button1 = new Button();
 			button1.setCaption("Bearbeiten");
 			button1.addClickListener(e -> {
 				getUI().getNavigator().navigateTo(ViewName.CREATE.toString() + "/" + meeting.getMeetingID());
 				close();
 			});
+			button1Layout.addComponent(button1);
 		} 
-//		else {
-//			button1.setCaption("Beitreten");
-//			if (meeting.getMembers().size() == meeting.getMaxMembers()) {
-//				button1.setEnabled(true);
-//			}
-//			button1.addClickListener(e -> {
-//				try {
-//					meeting.addMember(registratedMember);
-//					//TODO
-//				} catch (Exception e1) {
-//					Notification.show("Fehler", "Kein Platz mehr verfügbar!", Type.TRAY_NOTIFICATION);
-//					e1.printStackTrace();
-//				}
-//
-//				close();
-//			});
-//		}
-		button1Layout.addComponent(button1);
+
 
 		HorizontalLayout cancelLayout = new HorizontalLayout();
 		cancelLayout.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);

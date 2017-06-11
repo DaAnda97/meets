@@ -38,7 +38,6 @@ public class SafeButton extends CustomComponent {
 		popupVLayout.setSpacing(true);
 		popupVLayout.setMargin(true);
 		final Button button = new Button(caption);
-		button.setSizeFull();
 		button.addStyleName(ValoTheme.BUTTON_DANGER);
 		button.addClickListener(e -> {
 			if (window.getParent() == null) {
@@ -54,7 +53,7 @@ public class SafeButton extends CustomComponent {
 		window.center();
 		window.setResizable(false);
 		window.setContent(popupVLayout);
-		window.setCaption("Confirm");
+		window.setCaption("Bestätigen");
 		yesButton.addClickListener(e -> {
 			window.close();
 		});
