@@ -12,13 +12,13 @@ public class MaxValueValidatorTest {
 	
 	@Test
 	public void testValue1() {
-		boolean test1 = validator.isValidValue("20");
+		boolean test1 = validator.isValid("20");
 		assertEquals(test1, true);
 	}	
 	
 	@Test
 	public void testValue2() {
-		boolean test2 = validator.isValidValue("250000");
+		boolean test2 = validator.isValid("250000");
 		assertEquals(test2, true);
 	}
 }

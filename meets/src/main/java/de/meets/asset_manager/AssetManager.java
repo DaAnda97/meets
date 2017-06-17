@@ -77,8 +77,9 @@ public abstract class AssetManager<E> {
 			tx = session.beginTransaction();
 			
 			Query<E> query = session.createQuery("FROM " +this.table);
+			query.setFirstResult(begin);
 			query.setMaxResults(end);
-			
+
 			List<E> listCategories = query.getResultList();
 			assets = (Iterator<E>) listCategories.iterator();
 			
