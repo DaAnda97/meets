@@ -15,19 +15,19 @@ public class MeetingComponent extends CustomComponent{
 
 	private static final long serialVersionUID = 1L;
 	private Label date;
-	private Label description;
+	private Label title;
 	private Label cathegory;
 	private Label location;
 	private Label members;
 	
 	public MeetingComponent(Meeting meeting, Member registratedMember) {
 		date = new Label(meeting.getDate().toString());
-		description = new Label(meeting.getDescription());
+		title = new Label(meeting.getTitle());
 		cathegory = new Label("Kategorie: " + meeting.getCategory().getTitle());
 		location = new Label("Ort: " + meeting.getLocation().getCity());
 		members = new Label("Teilnehmer: " + meeting.getMaxMembers());
 		
-		description.addStyleName("meetsdesc");
+		title.addStyleName("meetsdesc");
 		
 		Panel mainPanel = new Panel();
 		GridLayout layout = new GridLayout(3, 3);
@@ -40,8 +40,8 @@ public class MeetingComponent extends CustomComponent{
 		layout.setComponentAlignment(cathegory, Alignment.MIDDLE_LEFT);
 		
 		layout.addComponent(new Label(""));
-		layout.addComponent(description);
-		layout.setComponentAlignment(description, Alignment.MIDDLE_CENTER);
+		layout.addComponent(title);
+		layout.setComponentAlignment(title, Alignment.MIDDLE_CENTER);
 		layout.addComponent(new Label(""));
 		
 		layout.addComponent(new Label(""));
