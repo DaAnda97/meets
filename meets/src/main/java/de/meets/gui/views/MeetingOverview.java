@@ -5,12 +5,15 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
+import com.vaadin.data.Property.ValueChangeEvent;
+import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.NativeSelect;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.VerticalLayout;
@@ -48,11 +51,34 @@ public class MeetingOverview extends MeetsView {
 		HorizontalLayout sortLayout = new HorizontalLayout();
 		sortLayout.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
 		sortLayout.setSizeFull();
-		Button bSort = new Button("Sortieren");
-		bSort.addClickListener(e -> {
-			// TODO
-		});
-		sortLayout.addComponent(bSort);
+		NativeSelect nativeSelcet = new NativeSelect("Sortieren:");
+		nativeSelcet.addItems("Alle","Meine Umgebung", "Meine Meetings");
+		// Handle selection event
+		nativeSelcet.addValueChangeListener(new ValueChangeListener() {
+
+	        /**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+	        public void valueChange(ValueChangeEvent event) {
+				try {
+					if (event.getProperty().getValue().equals("Alle")){
+						
+					} else if (event.getProperty().getValue().equals("Meine Umgebung")){
+						
+					} else if (event.getProperty().getValue().equals("Meine Meetings")){
+						
+					}
+				} catch (NullPointerException e) {
+					
+				}
+				 
+	        }
+
+	    });
+		sortLayout.addComponent(nativeSelcet);
 
 		HorizontalLayout menuLayout = new HorizontalLayout();
 		menuLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
@@ -74,8 +100,7 @@ public class MeetingOverview extends MeetsView {
 		mainLayout.addComponents(menuLayout, meetingsLayout);
 		setSizeFull();
 		setCompositionRoot(mainLayout);
-		
-		
+
 		List<Meeting> meetings = getMeetings();
 
 		for (Meeting meeting : meetings) {
@@ -114,7 +139,7 @@ public class MeetingOverview extends MeetsView {
 			} else {
 				Button bJoin = new Button();
 				bJoin.setCaption("Beitreten");
-				if (meeting.getMembers().size() < meeting.getMaxMembers()){
+				if (meeting.getMembers().size() < meeting.getMaxMembers()) {
 					bJoin.setEnabled(true);
 				} else {
 					bJoin.setEnabled(false);
@@ -123,25 +148,22 @@ public class MeetingOverview extends MeetsView {
 					try {
 						meeting.addMember(getRegistratedMember());
 					} catch (Exception e1) {
-						Notification.show("Meeting voll.",
-								Type.TRAY_NOTIFICATION);
+						Notification.show("Meeting voll.", Type.TRAY_NOTIFICATION);
 						e1.printStackTrace();
 					}
 					getMeetingManager().update(meeting);
-					Notification.show("Du nimmst an diesem Meeting teil.",
-							Type.TRAY_NOTIFICATION);
+					Notification.show("Du nimmst an diesem Meeting teil.", Type.TRAY_NOTIFICATION);
 				});
 				joinLeaveLayout.addComponent(bJoin);
-				
+
 				enter(enterEvent);
 			}
-			
-			
+
 			VerticalLayout oneMeetingLayout = new VerticalLayout();
 			oneMeetingLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 			oneMeetingLayout.setSizeFull();
 			oneMeetingLayout.addComponents(new MeetingComponent(meeting, getRegistratedMember()), joinLeaveLayout);
-			
+
 			meetingsLayout.addComponents(oneMeetingLayout);
 		}
 	}
