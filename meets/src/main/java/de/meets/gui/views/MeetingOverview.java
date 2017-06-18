@@ -18,6 +18,8 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.VerticalLayout;
 
+import de.meets.asset_manager.MeetingManager;
+import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Meeting;
 import de.meets.assets.Member;
 import de.meets.gui.MeetsView;
@@ -30,7 +32,9 @@ import de.meets.vaadin_archetype_application.MeetsUI;
 public class MeetingOverview extends MeetsView {
 
 	private static final long serialVersionUID = 7973265153857834807L;
-	private static final int MEETINGS_ON_PAGE = 5;
+	private static final int MEETINGS_ON_PAGE = 50;
+
+	private String selection = "Alle";
 
 	public MeetingOverview(ViewName viewName, MeetsUI meetsUI) {
 		super(viewName, meetsUI);
@@ -52,32 +56,27 @@ public class MeetingOverview extends MeetsView {
 		sortLayout.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
 		sortLayout.setSizeFull();
 		NativeSelect nativeSelcet = new NativeSelect("Sortieren:");
-		nativeSelcet.addItems("Alle","Meine Umgebung", "Meine Meetings");
-		// Handle selection event
+		nativeSelcet.addItems("Alle", "Meine Umgebung", "Meine Meetings");
+		nativeSelcet.setValue(selection);
 		nativeSelcet.addValueChangeListener(new ValueChangeListener() {
 
-	        /**
+			/**
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override
-	        public void valueChange(ValueChangeEvent event) {
+			public void valueChange(ValueChangeEvent event) {
 				try {
-					if (event.getProperty().getValue().equals("Alle")){
-						
-					} else if (event.getProperty().getValue().equals("Meine Umgebung")){
-						
-					} else if (event.getProperty().getValue().equals("Meine Meetings")){
-						
-					}
+					selection = event.getProperty().getValue().toString();
 				} catch (NullPointerException e) {
-					
+					// If someone presses the empty value
+					selection = "Alle";
 				}
-				 
-	        }
+				enter(enterEvent);
+			}
 
-	    });
+		});
 		sortLayout.addComponent(nativeSelcet);
 
 		HorizontalLayout menuLayout = new HorizontalLayout();
@@ -170,28 +169,23 @@ public class MeetingOverview extends MeetsView {
 
 	private List<Meeting> getMeetings() {
 		List<Meeting> meetings = new ArrayList<Meeting>();
-		Iterator<Meeting> it = getMeetingManager().get(0, MEETINGS_ON_PAGE);
+		MeetingManager meetingManager = getMeetingManager();
+
+		Iterator<Meeting> it;
+		if (selection.equals("Meine Umgebung")) {
+			it = meetingManager.get(0, MEETINGS_ON_PAGE, getRegistratedMember().getPosition());
+		} else if (selection.equals("Meine Meetings")) {
+			MemberManager memberManager = getMemberManager();
+			Member registratedMember = memberManager.get(getRegistratedMember().getMemberID());
+			it = registratedMember.getJoinedMeetings().iterator();
+		} else {
+			it = meetingManager.get(0, MEETINGS_ON_PAGE);
+		}
+
 		while (it.hasNext()) {
 			Meeting meeting = (Meeting) it.next();
 			meetings.add(meeting);
 		}
 		return meetings;
 	}
-
-	// private Meeting createTestMeeting(){
-	// Category category = new Category(1);
-	// Date date = new Date(2017, 6, 14);
-	// Time time = new Time(System.currentTimeMillis());
-	// Location location = new Location(1);
-	// Member member = super.getRegistratedMember();
-	// Meeting testMeeting = new Meeting("Test Meeting", "Descriotion of test
-	// meeting", category, date, time, location, member, 4, location);
-	// Meeting testMeeting2 = new Meeting("Weihnachtsmarkt", "In der
-	// Weihnachtsbäckerei", new Category(2), new Date(),
-	// new Time(System.currentTimeMillis()), new Location(1), new Member(2), 4,
-	// new Location(1));
-	//
-	// return testMeeting2;
-	// }
-
 }
