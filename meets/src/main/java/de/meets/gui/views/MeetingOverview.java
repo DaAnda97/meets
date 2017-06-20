@@ -1,9 +1,9 @@
 package de.meets.gui.views;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
@@ -124,7 +124,7 @@ public class MeetingOverview extends MeetsView {
 											"Dein Meeting " + meeting.getTitle() + " wurde gelöscht!",
 											Type.TRAY_NOTIFICATION);
 								} else {
-									HashSet<Member> members = (HashSet<Member>) meeting.getMembers();
+									Set<Member> members =  meeting.getMembers();
 									members.remove(getRegistratedMember());
 									meeting.setMembers(members);
 									getMeetingManager().update(meeting);

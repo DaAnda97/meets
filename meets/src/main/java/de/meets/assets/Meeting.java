@@ -187,8 +187,8 @@ public class Meeting {
 		return members;
 	}
 
-	public void setMembers(HashSet<Member> members) {
-		this.members = members;
+	public void setMembers(Set<Member> members2) {
+		this.members = members2;
 	}
 	
 	public void addMember(Member member) throws Exception{
