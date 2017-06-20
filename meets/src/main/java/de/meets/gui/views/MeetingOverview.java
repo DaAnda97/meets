@@ -152,10 +152,10 @@ public class MeetingOverview extends MeetsView {
 					}
 					getMeetingManager().update(meeting);
 					Notification.show("Du nimmst an diesem Meeting teil.", Type.TRAY_NOTIFICATION);
+					
+					enter(enterEvent);
 				});
 				joinLeaveLayout.addComponent(bJoin);
-
-				enter(enterEvent);
 			}
 
 			VerticalLayout oneMeetingLayout = new VerticalLayout();
