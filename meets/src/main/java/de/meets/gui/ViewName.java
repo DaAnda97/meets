@@ -6,8 +6,9 @@ public enum ViewName {
 	REGISTER,
 	IMPRESSUM,
 	PROFILE,
-	MEETS,
+	OVERVIEW,
 	MEET,
+	CREATE
 	
 	;
 	

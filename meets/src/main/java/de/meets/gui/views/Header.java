@@ -5,12 +5,13 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.Runo;
 
 import de.meets.gui.ViewName;
 import de.meets.vaadin_archetype_application.MeetsUI;
 
-public class Header extends HorizontalLayout{
+public class Header extends VerticalLayout{
 	
 	/**
 	 * 
@@ -19,43 +20,66 @@ public class Header extends HorizontalLayout{
 
 	MeetsUI meetsUI;
 	
-	Button showUser = new Button("Mein Profil", FontAwesome.USER);
-	Button logout = new Button("Abmelden", FontAwesome.SIGN_OUT);
+	HorizontalLayout headerMenu;
+	Button showUser;
+	Button logout;
 	
 	public Header(MeetsUI meetsUI) {
 		this.meetsUI = meetsUI;
 		
-		Button btnLogo = new Button(new ClassResource("/images/logo.png"));
-		btnLogo.setStyleName(Runo.BUTTON_LINK);
-		btnLogo.addClickListener(clickEvent -> getUI().getNavigator().navigateTo(ViewName.LOGIN.toString()));
-		
-		this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-		this.setSizeFull();
-		this.addComponent(btnLogo);
-		this.setMargin(true);
-		this.setSpacing(true);
-		
+		HorizontalLayout logoLayout = new HorizontalLayout();
+		logoLayout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+		logoLayout.setSizeFull();
+		Button bLogo = new Button(new ClassResource("/images/logo.png"));
+		bLogo.setStyleName(Runo.BUTTON_LINK);
+		bLogo.addClickListener(clickEvent -> {
+			if ( meetsUI.getRegistratedMember() == null ) {
+				getUI().getNavigator().navigateTo(ViewName.LOGIN.toString());
+			} else {
+				getUI().getNavigator().navigateTo(ViewName.OVERVIEW.toString());
+			}
+		});
+		logoLayout.addComponent(bLogo);
+
+		this.showUser = new Button("Mein Profil", FontAwesome.USER);
 		showUser.addClickListener(e -> {
 			meetsUI.showUser();
 		});
-		
+		this.logout = new Button("Abmelden", FontAwesome.SIGN_OUT);
 		logout.addClickListener(e -> {
 			meetsUI.logout();
 		});
+		
+		this.headerMenu = new HorizontalLayout();
+		headerMenu.setMargin(true);
+		headerMenu.setSpacing(true);
+
+		HorizontalLayout rightAlignmentHeaderMenu = new HorizontalLayout();
+		rightAlignmentHeaderMenu.setDefaultComponentAlignment(Alignment.MIDDLE_RIGHT);
+		rightAlignmentHeaderMenu.setSizeFull();
+		rightAlignmentHeaderMenu.addComponent(headerMenu);
+		
+		this.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
+		this.setSizeFull();
+		this.addComponents(rightAlignmentHeaderMenu, logoLayout);
+		this.setMargin(true);
+		this.setSpacing(true);
+		
+
 	}
 	
 	public void addShowUser(){
-		this.addComponent(showUser);
+		this.headerMenu.addComponent(showUser);
 	}
 	public void removeShowUser(){
-		this.removeComponent(showUser);
+		this.headerMenu.removeComponent(showUser);
 	}
 	
 	public void addLogout(){
-		this.addComponent(logout);
+		this.headerMenu.addComponent(logout);
 	}
 	public void removeLogout(){
-		this.removeComponent(logout);
+		this.headerMenu.removeComponent(logout);
 	}
 
 }

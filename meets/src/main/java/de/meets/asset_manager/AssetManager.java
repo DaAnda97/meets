@@ -1,8 +1,10 @@
 package de.meets.asset_manager;
 
 import java.util.Iterator;
+
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 
 import org.hibernate.HibernateException;
@@ -10,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.query.Query;
 
 import de.meets.hibernate.DatabaseConnector;
 
@@ -65,6 +68,35 @@ public abstract class AssetManager<E> {
 	
 	// READ all records of a asset
 	@SuppressWarnings("unchecked")
+	public Iterator<E> get( int begin, int end ) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		Iterator<E> assets = null;
+		
+		try {
+			tx = session.beginTransaction();
+			
+			Query<E> query = session.createQuery("FROM " +this.table);
+			query.setFirstResult(begin);
+			query.setMaxResults(end);
+
+			List<E> listCategories = query.getResultList();
+			assets = (Iterator<E>) listCategories.iterator();
+			
+			tx.commit();			
+		} catch ( HibernateException e ) {
+			if ( tx != null ) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return assets;
+	}
+	
+	// READ all records of a asset
+	@SuppressWarnings("unchecked")
 	public Iterator<E> getAll() {
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -72,7 +104,7 @@ public abstract class AssetManager<E> {
 		
 		try {
 			tx = session.beginTransaction();
-			List<?> listCategories = session.createQuery("FROM " +this.table).getResultList();
+			List<E> listCategories = session.createQuery("FROM " +this.table).getResultList();
 			assets = (Iterator<E>) listCategories.iterator();
 			tx.commit();			
 		} catch ( HibernateException e ) {
@@ -131,60 +163,28 @@ public abstract class AssetManager<E> {
 	
 	// EXISTS value of column?
 	protected boolean exists( String column, String value ) {
-		return exists( new String[]{column}, new String[]{value} );
-	}
-	
-	private boolean exists( String[] columns, String[] values ) {
-		long count = count(columns, values);
-		
-		if ( count == 0L ) {
-			// value NOT exists
-			return false;
-		} else {
-			// value exists
-			return true;
-		}
-	}
-	
-	// COUNT 
-	private long count( String[] columns, String[] values ) {
 		Session session = this.getFactory().openSession();
 		Transaction tx = null;
-		long count = 0;
 		
-		if ( columns != null && values != null && (columns.length == values.length) ) {
-			// VALID input
-			try {
-				tx = session.beginTransaction();
-				
-				String hql = "SELECT COUNT(*) FROM " +this.table +" x WHERE x." 
-						+columns[0] +"='" +values[0] +"'";
-				
-				if ( columns.length == 1 ) {
-					// no AND needed
-					count = (long) session.createQuery(hql).getSingleResult();
-				} else {
-					// AND needed
-					for (int i = 1; i < values.length; i++) {
-						hql += " AND " +columns[i] +"='" +values[i] +"'";
-					}
-					count = (long) session.createQuery(hql).getSingleResult();
-				}			
-				tx.commit();			
-			} catch ( HibernateException e ) {
-				if ( tx != null ) {
-					tx.rollback();
-				}
-				e.printStackTrace();
-			} finally {
-				session.close();
+		try {
+			tx = session.beginTransaction();
+			
+			String hql = "FROM " + this.table + " x WHERE x." + column +" = '" + value +"'";
+			session.createQuery(hql).getSingleResult();
+			
+			tx.commit();
+		} catch ( NoResultException e ) {
+			return false;
+		} catch ( HibernateException e ) {
+			if ( tx != null ) {
+				tx.rollback();
 			}
-		} else {
-			// INVALID input
-			System.err.println("Parameters must have the same array size!");
-		}//else	
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
 		
-		return count;
+		return true;
 	}//count()
 	
 }

@@ -13,11 +13,11 @@ import com.vaadin.ui.VerticalLayout;
 
 import de.meets.assets.Member;
 import de.meets.gui.ViewName;
+import de.meets.gui.views.CreateMeeting;
 import de.meets.gui.views.Footer;
 import de.meets.gui.views.Header;
 import de.meets.gui.views.Impressum;
 import de.meets.gui.views.Login;
-import de.meets.gui.views.MeetingInformation;
 import de.meets.gui.views.MeetingOverview;
 import de.meets.gui.views.Register;
 import de.meets.gui.views.ShowUser;
@@ -71,11 +71,11 @@ public class MeetsUI extends UI{
         navigator.addView(ViewName.LOGIN.toString(), new Login(ViewName.LOGIN, this));
         navigator.addView(ViewName.REGISTER.toString(), new Register(ViewName.REGISTER, this));
         navigator.addView(ViewName.PROFILE.toString(), new ShowUser(ViewName.PROFILE, this));
-        navigator.addView(ViewName.MEETS.toString(), new MeetingOverview(ViewName.MEETS, this));
-        navigator.addView(ViewName.MEET.toString(), new MeetingInformation(ViewName.MEET, this));
+        navigator.addView(ViewName.OVERVIEW.toString(), new MeetingOverview(ViewName.OVERVIEW, this));
         navigator.addView(ViewName.IMPRESSUM.toString(), new Impressum(ViewName.IMPRESSUM, this));
+        navigator.addView(ViewName.CREATE.toString(), new CreateMeeting(ViewName.CREATE, this));
         
-        navigator.navigateTo(Login.NAME);        
+        navigator.navigateTo(ViewName.LOGIN.toString());        
         
         this.setContent(mainLayout);
         getPage().setTitle("Meets"); 
@@ -91,14 +91,14 @@ public class MeetsUI extends UI{
 		this.registeredMember = loginMember;
 		header.addShowUser();
 		header.addLogout();
-		navigator.navigateTo(ViewName.MEETS.toString());
+		navigator.navigateTo(ViewName.OVERVIEW.toString());
 	}
 	
 	public void logout(){
 		this.registeredMember = null;
 		header.removeLogout();
 		header.removeShowUser();
-		navigator.navigateTo(Login.NAME);
+		navigator.navigateTo(ViewName.LOGIN.toString());
 	}
 	
 	public void showUser() {

@@ -6,14 +6,27 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "Meeting")
 public class Meeting {
 
 	// meeting table
-	public static final String MEETING_TABLE = "meeting";
+	public static final String MEETING_TABLE = "Meeting";
 	public static final String MEETING_ID = "meetingID";
 	public static final String MEETING_NAME = "title";
 	public static final String MEETING_DESCRIPTION = "description";
@@ -22,7 +35,7 @@ public class Meeting {
 	public static final String MEETING_TIME = "time";
 	public static final String MEETING_LOCATION = "location";
 	public static final String MEETING_OWNER = "creator";
-	public static final String MEETING_MAX_MEMBERS = "scope";
+	public static final String MEETING_MAX_MEMBERS = "max_members";
 	public static final String METADATA_CREATED_TIME = "createdTime";
 	public static final String METADATA_CREATED_LOCATION = "createdLocation";
 	
@@ -56,7 +69,7 @@ public class Meeting {
 	@JoinColumn(name = MEETING_OWNER, nullable = false)
 	private Member creator;
 	
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	@JoinTable(name = "Meet", 
 		joinColumns = { @JoinColumn(name = Meeting.MEETING_ID, nullable = false, updatable = false) }, 
 		inverseJoinColumns = { @JoinColumn(name = Member.MEMBER_ID, nullable = false, updatable = false) })
@@ -64,7 +77,7 @@ public class Meeting {
 	private Set<Member> members = new HashSet<Member>();
 	
 	@Column(name = MEETING_MAX_MEMBERS)
-	private int scope;
+	private int maxMembers;
 	
 	@Column(name = METADATA_CREATED_TIME, insertable = false, updatable = false,
 			columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -82,7 +95,7 @@ public class Meeting {
 	}
 
 	public Meeting(String title, String description, Category category,
-			Date date, Time time, Location location, Member creator, int scope,
+			Date date, Time time, Location location, Member creator, int maxMembers,
 			Location createdLocation) {
 		this.title = title;
 		this.description = description;
@@ -91,7 +104,7 @@ public class Meeting {
 		this.time = time;
 		this.location = location;
 		this.creator = creator;
-		this.scope = scope;
+		this.maxMembers = maxMembers;
 		this.createdLocation = createdLocation;
 	}
 
@@ -174,16 +187,24 @@ public class Meeting {
 		return members;
 	}
 
-	public void setMembers(HashSet<Member> members) {
-		this.members = members;
+	public void setMembers(Set<Member> members2) {
+		this.members = members2;
+	}
+	
+	public void addMember(Member member) throws Exception{
+		if (members.size() < maxMembers){
+			this.members.add(member);
+		} else {
+			throw new Exception("Kein Platz mehr frei.");
+		}
 	}
 
-	public int getScope() {
-		return scope;
+	public int getMaxMembers() {
+		return maxMembers;
 	}
 
-	public void setScope(int scope) {
-		this.scope = scope;
+	public void setMaxMembers(int maxMembers) {
+		this.maxMembers = maxMembers;
 	}
 
 	public Timestamp getCreatedTime() {

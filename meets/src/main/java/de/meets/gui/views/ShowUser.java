@@ -1,22 +1,24 @@
 package de.meets.gui.views;
 
-import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 
-import de.meets.asset_manager.LocationManager;
-import de.meets.asset_manager.MemberManager;
 import de.meets.assets.Location;
 import de.meets.assets.Member;
 import de.meets.gui.MeetsView;
 import de.meets.gui.ViewName;
+import de.meets.gui.extendedComponents.SafeButton;
 import de.meets.services.GeoData;
 import de.meets.services.SHAEncription;
 import de.meets.vaadin_archetype_application.MeetsUI;
@@ -48,7 +50,9 @@ public class ShowUser extends MeetsView {
 			"Bestätige neues Passwort");
 	private Button confirmNewPassoword = new Button("Bestätigen");
 
-	private Button deliteUser = new Button("Benutzer löschen!");
+	private SafeButton deliteUser;
+	
+	private String locationChanged; // To check, weather the user has changed the location
 
 
 	public ShowUser(ViewName viewName, MeetsUI meetsUI) {
@@ -83,12 +87,22 @@ public class ShowUser extends MeetsView {
 				passwordNewConfirm, confirmNewPassoword);
 
 		// ------------------------ MAIN - PANEL ---------------------------
+		
+		deliteUser = new SafeButton("Löschen",
+				"Bist du dir sicher, dass du deinen Account unwiederruflich löschen möchtest?",
+				new ClickListener() {
+					private static final long serialVersionUID = 1L;
 
-		deliteUser.addClickListener(e -> {
-			Member userToDelete = getRegistratedMember();
-			getMemberManager().delete(userToDelete);
-			this.logout();;
-		});
+					@Override
+					public void buttonClick(ClickEvent event) {
+						Member userToDelete = getRegistratedMember();
+						getMemberManager().delete(userToDelete);
+						logout();
+						Notification.show("Meeting gelöscht!",
+								"Dein Account wurde gelöscht!",
+								Type.TRAY_NOTIFICATION);
+					}
+				});
 
 		
 		Panel componentPanel = new Panel();
@@ -108,12 +122,12 @@ public class ShowUser extends MeetsView {
 		newMember.setFirstName(firstName.getValue());
 		newMember.setLastName(lastName.getValue());
 
-		if (!location.getValue().trim().equals("")) {
+		if (!location.getValue().trim().equals("") & locationChanged != location.getValue().trim()) {
 			Location position;
 			try {
 				GeoData geoData = new GeoData();
 				position = geoData
-						.getCoordinatesFromAdress(location.getValue());
+						.getCoordinatesFromAdress(location.getValue().trim());
 			} catch (Exception e) {
 				location.setComponentError(new UserError(
 						"Deine Adresse konnte nicht gefinden werden."));
@@ -127,6 +141,8 @@ public class ShowUser extends MeetsView {
 
 			newMember.setPosition(position);
 
+		} else {
+			newMember.setPosition(getRegistratedMember().getPosition());
 		}
 		updateRegistratedMember(newMember);
 		message.setValue("Änderungen gespeichert!");
@@ -204,5 +220,6 @@ public class ShowUser extends MeetsView {
 		lastName.setValue(member.getLastName());
 		location.setInputPrompt(member.getPosition().getCity());
 		
+		locationChanged = member.getPosition().getCity();
 	}
 }

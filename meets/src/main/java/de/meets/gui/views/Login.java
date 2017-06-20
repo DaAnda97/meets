@@ -1,7 +1,6 @@
 package de.meets.gui.views;
 
 import com.vaadin.data.validator.EmailValidator;
-
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.UserError;
@@ -25,8 +24,6 @@ public class Login extends MeetsView {
 	 * 
 	 */
 	private static final long serialVersionUID = -4225187475844096527L;
-	
-	public static final String NAME = "login";
 	
 	private TextField emailTextField;
 	private PasswordField passwordTextField;
