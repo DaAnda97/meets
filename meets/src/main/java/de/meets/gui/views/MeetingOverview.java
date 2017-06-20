@@ -120,6 +120,7 @@ public class MeetingOverview extends MeetsView {
 							public void buttonClick(ClickEvent event) {
 								if (isCreator) {
 									getMeetingManager().delete(meeting);
+									getMemberManager().update(getRegistratedMember());
 									Notification.show("Meeting gelöscht!",
 											"Dein Meeting " + meeting.getTitle() + " wurde gelöscht!",
 											Type.TRAY_NOTIFICATION);
@@ -128,6 +129,7 @@ public class MeetingOverview extends MeetsView {
 									members.remove(getRegistratedMember());
 									meeting.setMembers(members);
 									getMeetingManager().update(meeting);
+									getMemberManager().update(getRegistratedMember());
 									Notification.show("Du nimmst nicht mehr an diesem Meeting teil.",
 											Type.TRAY_NOTIFICATION);
 								}
@@ -146,11 +148,13 @@ public class MeetingOverview extends MeetsView {
 				bJoin.addClickListener(e -> {
 					try {
 						meeting.addMember(getRegistratedMember());
+						getMemberManager().update(getRegistratedMember());
 					} catch (Exception e1) {
 						Notification.show("Meeting voll.", Type.TRAY_NOTIFICATION);
 						e1.printStackTrace();
 					}
 					getMeetingManager().update(meeting);
+					getMemberManager().update(getRegistratedMember());
 					Notification.show("Du nimmst an diesem Meeting teil.", Type.TRAY_NOTIFICATION);
 					
 					enter(enterEvent);
